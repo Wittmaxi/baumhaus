@@ -1,2 +1,2 @@
 # baumhaus
-Chess Engine 
+This is a little chess engine
