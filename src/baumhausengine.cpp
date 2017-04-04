@@ -10,12 +10,12 @@ This code comes with no warranty at all; not even the warranty to work properly 
 
 */
 
-baumhausengine::baumhausengine()
+CBaumhausengine::CBaumhausengine()
 {
     //ctor
 }
 
-baumhausengine::~baumhausengine()
+CBaumhausengine::~CBaumhausengine()
 {
     //dtor
 }

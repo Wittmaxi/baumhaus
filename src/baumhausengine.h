@@ -13,18 +13,19 @@ This code comes with no warranty at all; not even the warranty to work properly 
 
 */
 
-class baumhausengine
+class CBaumhausengine
 {
     public:
-        baumhausengine();
-        virtual ~baumhausengine();
+        CBaumhausengine();
+        virtual ~CBaumhausengine();
 
     protected:
 
     private: //members
         int m_depth; //searching depth
+        CPos position; //the position: it can be loaded customly
     private: //methods
-        m_analyzePos(CPos _position);
+        void m_analyzePos(CPos _position); //analyses the position and returns a move (currently symbolysed as void). A move could be a class (CMove)
 };
 
 #endif // BAUMHAUSENGINE_H

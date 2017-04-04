@@ -14,7 +14,9 @@ This code comes with no warranty at all; not even the warranty to work properly 
 
 int main () {
 
-    baumhausengine *engine = new baumhausengine ();
+    CBaumhausengine *engine = new CBaumhausengine();
+
+    std::cout << "Baumhaus Engine started up... Waiting for Signals" << std::endl;
 
     //creates instances of the engine and so on.
 
