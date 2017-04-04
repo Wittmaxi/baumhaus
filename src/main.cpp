@@ -1,5 +1,5 @@
 #include "baumhausengine.h" //the actual engine
-#include "pipe.h" //the pipe between the engine and the UI
+#include "CPipe.h" //the pipe between the engine and the UI
 #include "iostream"
 
 int main () {

@@ -1,6 +1,7 @@
 #ifndef BAUMHAUSENGINE_H
 #define BAUMHAUSENGINE_H
 
+#include "CPos.h"
 
 class baumhausengine
 {
