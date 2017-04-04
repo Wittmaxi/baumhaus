@@ -2,6 +2,16 @@
 #include "CPipe.h" //the pipe between the engine and the UI
 #include "iostream"
 
+/*
+
+Baumhaus Engine 2017
+
+By publishing this engine, you agree to publish the code with it.
+
+This code comes with no warranty at all; not even the warranty to work properly and comercially
+
+*/
+
 int main () {
 
     //creates instances of the engine and so on.
