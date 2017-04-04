@@ -21,8 +21,10 @@ class baumhausengine
 
     protected:
 
-    private:
-        analyzePos(CPos _position);
+    private: //members
+        int m_depth; //searching depth
+    private: //methods
+        m_analyzePos(CPos _position);
 };
 
 #endif // BAUMHAUSENGINE_H

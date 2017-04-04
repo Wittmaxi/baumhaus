@@ -14,6 +14,8 @@ This code comes with no warranty at all; not even the warranty to work properly 
 
 int main () {
 
+    baumhausengine *engine = new baumhausengine ();
+
     //creates instances of the engine and so on.
 
 }
