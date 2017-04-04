@@ -1,5 +1,5 @@
-#ifndef CPIPE_H
-#define CPIPE_H
+#ifndef CPIECE_H
+#define CPIECE_H
 
 /*
 
@@ -12,18 +12,19 @@ This code comes with no warranty at all; not even the warranty to work properly 
 */
 
 
-// connects to xboard and evaluates the inputs
-
-
-class CPipe
+class CPiece
 {
     public:
-        CPipe();
-        virtual ~CPipe();
+        CPiece();
+        virtual ~CPiece();
+
+        type enum {
+
+        }
 
     protected:
 
     private:
 };
 
-#endif // CPIPE_H
+#endif // CPIECE_H

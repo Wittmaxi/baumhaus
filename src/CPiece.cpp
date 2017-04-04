@@ -1,5 +1,4 @@
-#ifndef CPIPE_H
-#define CPIPE_H
+#include "CPiece.h"
 
 /*
 
@@ -12,18 +11,12 @@ This code comes with no warranty at all; not even the warranty to work properly 
 */
 
 
-// connects to xboard and evaluates the inputs
-
-
-class CPipe
+CPiece::CPiece()
 {
-    public:
-        CPipe();
-        virtual ~CPipe();
+    //ctor
+}
 
-    protected:
-
-    private:
-};
-
-#endif // CPIPE_H
+CPiece::~CPiece()
+{
+    //dtor
+}
