@@ -2,6 +2,7 @@
 #define BAUMHAUSENGINE_H
 
 #include "CPos.h"
+#include "CSquare.h"
 #include <vector>
 
 /*

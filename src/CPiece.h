@@ -18,13 +18,10 @@ class CPiece
         CPiece();
         virtual ~CPiece();
 
-        type enum {
-
-        }
-
     protected:
 
     private:
+        string type; //contains the type of piece in a string (provisory)
 };
 
 #endif // CPIECE_H
