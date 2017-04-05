@@ -2,7 +2,6 @@
 #define BAUMHAUSENGINE_H
 
 #include "CPos.h"
-#include "CSquare.h"
 #include <vector>
 
 /*
@@ -28,7 +27,6 @@ class CBaumhausengine
     private: //members
         int m_depth; //searching depth
         CPos position; //the position: it can be loaded customly
-        std::vector <>
     private: //methods
         void m_analyzePos(CPos _position); //analyses the position and returns a move (currently symbolysed as void). A move could be a class (CMove)
 };

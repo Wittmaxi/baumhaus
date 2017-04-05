@@ -1,6 +1,9 @@
 #ifndef CPOS_H
 #define CPOS_H
 
+#include "CSquare.h"
+#include <vector>
+
 /*
 
 Baumhaus Engine 2017
@@ -18,6 +21,7 @@ class CPos
         virtual ~CPos();
 
     protected:
+        std::vector <CSquare> Squares;
 
     private:
 };

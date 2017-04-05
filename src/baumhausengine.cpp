@@ -11,7 +11,7 @@ This code comes with no warranty at all; not even the warranty to work properly 
 */
 
 CBaumhausengine::CBaumhausengine()
-{adjacent_difference
+{
     //ctor
 }
 

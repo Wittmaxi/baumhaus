@@ -1,6 +1,8 @@
 #ifndef CPIECE_H
 #define CPIECE_H
 
+#include <string>
+
 /*
 
 Baumhaus Engine 2017
@@ -21,7 +23,7 @@ class CPiece
     protected:
 
     private:
-        string type; //contains the type of piece in a string (provisory)
+        std::string type; //contains the type of piece in a string (provisory)
 };
 
 #endif // CPIECE_H
