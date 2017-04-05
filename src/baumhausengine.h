@@ -31,10 +31,14 @@ class CBaumhausengine
         int depth; //searching depth
         CPos *position; //the position: it can be loaded customly
         CPipe *pipe;
+        bool color; //false = black, true = white.
+
     private: //methods
         std::string readPipe(); //reads out the pipe and returns the result. If nothing was found, it returns "NULL"
         void analyzePos(CPos _position); //analyses the position and returns a move (currently symbolysed as void). A move could be a class (CMove)
         void updateSquares();
+        void setColor (bool colorI); //setter for the piece-color
+        bool getColor ();
 };
 
 #endif // BAUMHAUSENGINE_H

@@ -35,3 +35,11 @@ void CBaumhausengine::analyzePos(CPos position) {
 void CBaumhausengine::updateSquares() {
 
 }
+
+void CBaumhausengine::setColor(bool colorI) {
+    color = colorI;
+}
+
+bool CBaumhausengine::getColor() {
+    return color;
+}
