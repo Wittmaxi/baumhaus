@@ -1,5 +1,7 @@
 #include "baumhausengine.h"
 
+#include <string>
+
 /*
 
 Baumhaus Engine 2017
@@ -12,10 +14,16 @@ This code comes with no warranty at all; not even the warranty to work properly 
 
 CBaumhausengine::CBaumhausengine()
 {
+    position = new CPos;
+    pipe = new CPipe;
     //ctor
 }
 
 CBaumhausengine::~CBaumhausengine()
 {
     //dtor
+}
+
+std::string CBaumhausengine::readPipe() {
+    return pipe->getLastMessage();
 }

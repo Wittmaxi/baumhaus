@@ -1,5 +1,7 @@
 #include "CPipe.h"
 
+#include <string>
+
 /*
 
 Baumhaus Engine 2017
@@ -12,10 +14,15 @@ This code comes with no warranty at all; not even the warranty to work properly 
 
 CPipe::CPipe()
 {
+    messageStack.clear();
     //ctor
 }
 
 CPipe::~CPipe()
 {
     //dtor
+}
+
+std::string CPipe::getLastMessage() {
+    return messageStack[messageStack.size()]; //returns the last message logged
 }

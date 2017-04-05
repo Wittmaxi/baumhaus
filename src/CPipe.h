@@ -1,6 +1,9 @@
 #ifndef CPIPE_H
 #define CPIPE_H
 
+#include <string>
+#include <vector>
+
 /*
 
 Baumhaus Engine 2017
@@ -20,10 +23,12 @@ class CPipe
     public:
         CPipe();
         virtual ~CPipe();
+        std::string getLastMessage();
 
     protected:
 
     private:
+        std::vector <std::string> messageStack;
 };
 
 #endif // CPIPE_H
