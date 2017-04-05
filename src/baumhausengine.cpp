@@ -27,3 +27,11 @@ CBaumhausengine::~CBaumhausengine()
 std::string CBaumhausengine::readPipe() {
     return pipe->getLastMessage();
 }
+
+void CBaumhausengine::analyzePos(CPos position) {
+
+}
+
+void CBaumhausengine::updateSquares() {
+
+}
