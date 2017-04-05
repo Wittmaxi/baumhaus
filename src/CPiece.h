@@ -23,7 +23,11 @@ class CPiece
     protected:
 
     private:
+<<<<<<< HEAD
         std::string type; //contains the type of piece in a string (provisory)
+=======
+        string type; //contains the type of piece in a string (provisory)
+>>>>>>> master
 };
 
 #endif // CPIECE_H

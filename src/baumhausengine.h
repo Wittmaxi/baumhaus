@@ -2,8 +2,12 @@
 #define BAUMHAUSENGINE_H
 
 #include "CPos.h"
+<<<<<<< HEAD
 #include "CPipe.h" //the pipe to XBoard
 #include <string>
+=======
+#include "CSquare.h"
+>>>>>>> master
 #include <vector>
 
 /*
