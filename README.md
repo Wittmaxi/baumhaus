@@ -16,3 +16,13 @@ On Linux, you can simply browse to the src-folder of the compiler and run </br>
 ```g++ *.cpp -o baumhaus ``` </br>
 
 After that, add the created file (baumhaus) to your chess-UI
+
+### Algorythmics
+
+## Neural Network
+
+Neural Networks will only be used when the engine has grown bigger
+
+##Pattern recognition
+
+#Getting the Pattern
