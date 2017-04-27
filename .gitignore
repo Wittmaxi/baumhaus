@@ -1,0 +1,8 @@
+# ignore any intermediary compilation artifacts
+*.o
+
+# ignore any final outputs, such as .exe
+*.exe
+
+# ignore anything in the bin/
+bin/
