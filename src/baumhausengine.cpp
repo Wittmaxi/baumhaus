@@ -16,6 +16,7 @@ CBaumhausengine::CBaumhausengine()
 {
     position = new CPos;
     pipe = new CPipe;
+
     //ctor
 }
 
@@ -36,10 +37,16 @@ void CBaumhausengine::updateSquares() {
 
 }
 
-void CBaumhausengine::setColor(bool colorI) {
+void CBaumhausengine::setColor(bool colorI) { //the playing-color
     color = colorI;
 }
 
 bool CBaumhausengine::getColor() {
     return color;
+}
+
+void CBaumhausengine::startRoutine() {
+  while (!(gotPipeInput)) { //just simply spools to wait for a signal
+
+  }
 }

@@ -24,6 +24,7 @@ class CBaumhausengine
     public:
         CBaumhausengine();
         virtual ~CBaumhausengine();
+        void startRoutine();
 
     protected:
 
@@ -32,6 +33,7 @@ class CBaumhausengine
         CPos *position; //the position: it can be loaded customly
         CPipe *pipe;
         bool color; //false = black, true = white.
+        bool gotPipeInput; //if the computer has to stop thinking (is checked by a pipe)
 
     private: //methods
         std::string readPipe(); //reads out the pipe and returns the result. If nothing was found, it returns "NULL"
