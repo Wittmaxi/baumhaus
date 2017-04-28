@@ -21,7 +21,7 @@ class CPos
         virtual ~CPos();
 
     protected:
-        std::vector <CSquare> Squares;
+        CSquare [8] [8] squares;
 
     private:
 };
