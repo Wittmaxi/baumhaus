@@ -14,7 +14,7 @@ This code comes with no warranty at all; not even the warranty to work properly 
 */
 
 
-class CPiece
+class CPiece: public PPawn; PRook; PKnight; PBishop; PQueen; PKing;
 {
     public:
         CPiece();
