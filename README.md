@@ -33,7 +33,7 @@ Neural Networks will only be used when the engine has grown bigger
 
 ### Indentation and parenthesis
 
-EVERY STATEMENT SHOULD BE IN ONE LINE. 
+EVERY STATEMENT SHOULD BE IN IT'S OWN LINE OF CODE!!! 
 
 things like 
 ```
