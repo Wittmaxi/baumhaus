@@ -1,4 +1,4 @@
-### Baumhaus -- CHESS ENGINE  
+# Baumhaus -- CHESS ENGINE  
 
 Chess engine using neural networking and revolutionary Pattern recognition paired with a candidate Move Ideology
 </br>
@@ -17,7 +17,7 @@ g++ *.cpp -o baumhaus </br>
 
 After that, add the created file (baumhaus) to your chess-UI
 
-### Algorythmics
+# Algorythmics
 
 ## Neural Network
 
@@ -25,13 +25,13 @@ Neural Networks will only be used when the engine has grown bigger
 
 ## Pattern recognition
 
-# Getting the Pattern
+### Getting the Pattern
 
-### Git-Organisation
+# Git-Organisation
 
 ## Coding style.
 
-# Indentation and parenthesis
+### Indentation and parenthesis
 
 EVERY STATEMENT SHOULD BE IN ONE LINE. 
 
@@ -61,11 +61,11 @@ if (true)
 
 }
 
-# comments
+### comments
 You should comment as many lines as possible IN ADDITION to clear code!!!
 NEVER put in comment that lye.
 
-# variable-namings
+### variable-namings
 For coding this project, we use camelCase in function and variable names. This means, every word in the name begins with a capital except for the first word.
 
 EXAMPLES: 
@@ -76,12 +76,12 @@ jemsBond
 
 The variables should have meaningful names and shouldn't contain signs as they might be incompatible to some compilers.
 
-# system
+### system
 The engine has to be compatible with every XBoard compatible system. Therefore, no techniques should be used that might be in conflict with some Operating-Systems.
 
-# Commiting
+### Commiting
 There are many different branches. Commit to the branch that fits best your code. Also, don't push to master.
  
-# branching
+### branching
 
 Once in a week, the branches get merged into master.
