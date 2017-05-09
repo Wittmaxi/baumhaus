@@ -36,31 +36,31 @@ Neural Networks will only be used when the engine has grown bigger
 EVERY STATEMENT SHOULD BE IN ONE LINE. 
 
 things like 
-
+```
 cout << "HI" ; cout << "HI";
-
+```
 are not goot. 
 Rather use
-
+```
 cout << "HI";
 cout << "HI";
-
+```
 ALWAYS indent with four spaces. 
 
 The curly brackets should be placed after the statement
 e.g.:
-
+```
 if(true) {
 
 }
-
+```
 NOT
-
+```
 if (true) 
 {
 
 }
-
+```
 ### comments
 You should comment as many lines as possible IN ADDITION to clear code!!!
 NEVER put in comment that lye.
@@ -69,11 +69,11 @@ NEVER put in comment that lye.
 For coding this project, we use camelCase in function and variable names. This means, every word in the name begins with a capital except for the first word.
 
 EXAMPLES: 
-
+```
 mySimpleVariable
 helloWorld
 jemsBond
-
+```
 The variables should have meaningful names and shouldn't contain signs as they might be incompatible to some compilers.
 
 ### system
