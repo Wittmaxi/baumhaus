@@ -79,6 +79,8 @@ The variables should have meaningful names and shouldn't contain signs as they m
 ### system
 The engine has to be compatible with every XBoard compatible system. Therefore, no techniques should be used that might be in conflict with some Operating-Systems.
 
+## Github
+
 ### Commiting
 There are many different branches. Commit to the branch that fits best your code. Also, don't push to master.
  
