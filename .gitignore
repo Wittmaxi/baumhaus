@@ -6,3 +6,6 @@
 
 # ignore anything in the bin/
 bin/
+
+# for us VS users, ignore .vs/
+.vs/
