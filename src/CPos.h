@@ -21,7 +21,7 @@ class CPos
         virtual ~CPos();
 
     protected:
-        CSquare [8] [8] squares;
+        CSquare squares[8][8];
 
     private:
 };
