@@ -24,11 +24,15 @@ class CPipe
         CPipe();
         virtual ~CPipe();
         std::string getLastMessage();
-
+		void run();
+		
     protected:
+		void xboard();
+		void protover(std::string version);
+		void featureResponse(bool accepted);
 
     private:
-        std::vector <std::string> messageStack;
+		std::vector <std::string> messageStack;
 };
 
 #endif // CPIPE_H
