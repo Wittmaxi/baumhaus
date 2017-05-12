@@ -15,7 +15,9 @@ This code comes with no warranty at all; not even the warranty to work properly 
 
 bool evaluateArgs(int argc, char** argv);
 void showHelp();
-void optionError(char* option);
+void optionError(char* long_option);
+void optionError(char short_option);
+void noOptionError();
 
 using namespace std;
 
@@ -47,32 +49,48 @@ bool evaluateArgs(int argc, char** argv) {
 		}
 		if(argv[i][0] == '-') { // option detected
 			if(argv[i][1] == '-') { // long option, simple match
-				if(argv[i] == "--debug") {
+				if(strcmp(argv[i], "--debug") == 0) {
 					// TODO: globally apply this option
 				}
-				else if(argv[i] == "--help") {
+				else if(strcmp(argv[i], "--help") == 0) {
 					showHelp();
 					return false;
 				}
 				else {
 					optionError(argv[i]);
-					false;
+					return false;
 				}
 				continue;
 			}
 			// otherwise, we have some short options, which may be concatenated
-			if (strchr(argv[i], 'h')) {
-				showHelp();
+			int j = 1;
+			if(argv[i][j] == '\0') {
+				noOptionError();
 				return false;
 			}
-			else if (strchr(argv[i], 'd')) {
-				// TODO: globally apply this option
-			}
-			else {
-				optionError(argv[i]);
+
+			// iterate over remaining short flags
+			while(argv[i][j] != '\0') {
+				// if 'h' flag found just show help and terminate.
+				if (argv[i][j] == 'h') {
+					showHelp();
+					return false;
+				}
+				
+				if (argv[i][j] == 'd') {
+					// TODO: globally apply this option
+				}
+				else {
+					optionError(argv[i][j]);
+					return false;
+				}
+
+				++j; // very important
 			}
 		}
 	}
+
+	return true;
 }
 
 void showHelp() {
@@ -84,6 +102,14 @@ void showHelp() {
 	// add more lines as needed. Perhaps link to git repo.
 }
 
-void optionError(char* option) {
-	cout << "Error: Invalid option '" << (option[0] != '-' ? '-' : '\0') << option << "'" << endl;
+void optionError(char* long_option) {
+	cout << "Error: Invalid option '" << long_option << "'" << endl;
+}
+
+void optionError(char short_option) {
+	cout << "Error: Invalid option '-" << short_option << "'" << endl;
+}
+
+void noOptionError() {
+	cout << "Error: no option provided" << endl;
 }
