@@ -2,6 +2,7 @@
 #define CPOS_H
 
 #include "CSquare.h"
+#include "String"
 #include <vector>
 
 /*
@@ -19,6 +20,8 @@ class CPos
     public:
         CPos();
         virtual ~CPos();
+        std::string getSquareName();
+        CSquare *getSquareWithName();
 
     protected:
         CSquare squares[8][8];
