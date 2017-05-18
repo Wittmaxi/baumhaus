@@ -22,13 +22,14 @@ This code comes with no warranty at all; not even the warranty to work properly 
 class CBaumhausengine
 {
     public:
-        CBaumhausengine();
+        CBaumhausengine(bool debugMode);
         virtual ~CBaumhausengine();
         void startRoutine();
 
     protected:
 
     private: //members
+		bool debugMode;
         int depth; //searching depth
         CPos *position; //the position: it can be loaded customly
         CPipe *pipe;

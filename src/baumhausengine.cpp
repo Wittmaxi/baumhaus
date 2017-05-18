@@ -12,11 +12,12 @@ This code comes with no warranty at all; not even the warranty to work properly 
 
 */
 
-CBaumhausengine::CBaumhausengine()
+CBaumhausengine::CBaumhausengine(bool debugMode)
 {
     position = new CPos;
-    pipe = new CPipe;
-
+    pipe = new CPipe(debugMode);
+	this->debugMode = debugMode;
+	pipe->run();
     //ctor
 }
 
