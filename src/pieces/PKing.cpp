@@ -9,3 +9,7 @@ PKing::~PKing()
 {
     //dtor
 }
+
+void calculatePossibleSquares () {
+  
+}
