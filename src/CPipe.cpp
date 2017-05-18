@@ -21,7 +21,7 @@ CPipe::CPipe(bool debugMode)
 {
 	setbuf(stdin, NULL); // remove buffer to ensure commands are recieved immediataley.
     messageStack.clear();
-	this->debugMode = debugMode;
+	  this->debugMode = debugMode;
     //ctor
 }
 
@@ -31,7 +31,9 @@ CPipe::~CPipe()
 }
 
 std::string CPipe::getLastMessage() {
-    return messageStack[messageStack.size()]; //returns the last message logged
+	if (messageStack.size() == 1) {
+    	return messageStack[messageStack.size() -1]; //returns the last message logged
+	}
 }
 
 void CPipe::xboard() {
@@ -39,7 +41,7 @@ void CPipe::xboard() {
 }
 
 void CPipe::protover(string version) {
-	d("protocol version " + version); 
+	d("protocol version " + version);
 }
 
 void CPipe::featureResponse(bool accepted) {
@@ -94,7 +96,7 @@ void CPipe::pause() {
 }
 
 void CPipe::resume() {
-	// TODO: resume pondering or thinking. 
+	// TODO: resume pondering or thinking.
 }
 
 void CPipe::run() { // consnider allowing other input streams
@@ -102,7 +104,7 @@ void CPipe::run() { // consnider allowing other input streams
 	string cmd;
 
 	do {
-		// TODO: look into behavious of this line. It accepts ALL input, even non-textual. 
+		// TODO: look into behavious of this line. It accepts ALL input, even non-textual.
 		//		 (e.g. <up_arrow><down_arrow>quit evaluate to "quit", except it does not match the rule below)
 		cin >> skipws >> cmd;
 		if("xboard" == cmd) {

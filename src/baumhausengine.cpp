@@ -20,7 +20,7 @@ CBaumhausengine::CBaumhausengine(bool debugMode)
 {
     this->position = new CPos;
     this->pipe = new CPipe(debugMode);
-	this->debugMode = debugMode;
+	  this->debugMode = debugMode;
 	//this->pipeThread = new thread(this->pipe->run);
     //ctor
 }
@@ -57,7 +57,7 @@ void CBaumhausengine::startRoutine() {
 		message = pipe->getLastMessage();
 		if("quit" == message) {
 			break;
-		}	
+		}
 	}
 	cout << "Goodbye!" << endl;
 }

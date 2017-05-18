@@ -3,6 +3,7 @@
 
 #include "../CPos.h"
 #include "CPiece.h"
+#include "../CSquare"
 #include <vector>
 
 class PKing : CPiece
@@ -11,7 +12,7 @@ class PKing : CPiece
         PKing();
 		PKing(CPos* boardI); //gets a pointer to the used board.
         virtual ~PKing();
-        std::vector<int> getSquareOn();
+        CSquare *getSquareOn();
         void calculatePossibleSquares();
 
 
