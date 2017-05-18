@@ -108,7 +108,7 @@ class CPipe
 		// debug flag
 		bool debugMode;
 		// queue for commands to the engine. Some commands may be handled by the Pipe Directly, e.g. replying to the 'xboard' command, however others require input from the engine, e.g. '?'.
-		std::vector <std::string> messageStack;
+		std::vector<std::string> messageStack;
 
 		void d(const char* message);
 		void d(const std::string message);

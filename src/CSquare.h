@@ -1,7 +1,7 @@
 #ifndef CSQUARE_H
 #define CSQUARE_H
 
-#include "PKing.h"
+#include "pieces/CPiece.h"
 
 /*
 

@@ -1,8 +1,14 @@
 #include "PKing.h"
+#include "../CPos.h"
 
 PKing::PKing()
 {
     //ctor
+}
+
+PKing::PKing(CPos *boardI)
+{
+	//ctor
 }
 
 PKing::~PKing()
@@ -10,6 +16,6 @@ PKing::~PKing()
     //dtor
 }
 
-void calculatePossibleSquares () {
+void PKing::calculatePossibleSquares () {
   
 }

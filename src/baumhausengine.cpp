@@ -1,7 +1,7 @@
 #include "baumhausengine.h"
 
 #include <string>
-#include <thread>
+//#include <thread>
 #include <iostream>
 
 /*
@@ -21,13 +21,13 @@ CBaumhausengine::CBaumhausengine(bool debugMode)
     this->position = new CPos;
     this->pipe = new CPipe(debugMode);
 	this->debugMode = debugMode;
-	this->pipeThread = thread(this->pipe->run);
+	//this->pipeThread = new thread(this->pipe->run);
     //ctor
 }
 
 CBaumhausengine::~CBaumhausengine()
 {
-	this->pipeThread.join(); // wait for the pipeThread to terminate.
+	//this->pipeThread->join(); // wait for the pipeThread to terminate.
     //dtor
 }
 

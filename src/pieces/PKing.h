@@ -1,21 +1,23 @@
 #ifndef PKING_H
 #define PKING_H
 
-#include "CPos"
+#include "../CPos.h"
+#include "CPiece.h"
+#include <vector>
 
-class PKing
+class PKing : CPiece
 {
     public:
-        PKing(CPos *boardI); //gets a pointer to the used board.
+        PKing();
+		PKing(CPos* boardI); //gets a pointer to the used board.
         virtual ~PKing();
-        std::vector <int> getSquareOn();
+        std::vector<int> getSquareOn();
         void calculatePossibleSquares();
 
 
     protected:
 
     private:
-      CPos *board;
 
 };
 
