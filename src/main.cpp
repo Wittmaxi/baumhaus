@@ -21,19 +21,19 @@ void noOptionError();
 
 using namespace std;
 
+bool debugMode= false;
+
 int main (int argc, char** argv) {
 
 	if(!evaluateArgs(argc, argv)) {
 		return 0;
 	}
 
-    CBaumhausengine *engine = new CBaumhausengine();
-	CPipe *pipe = new CPipe();
-    cout << "Baumhaus Engine started up... Waiting for Signals" << endl;
-	
-	// wait for commands
-	pipe->run();
+    CBaumhausengine *engine = new CBaumhausengine(debugMode);
 
+    // we might have to remove this for XBoard, as XBoard uses stdout for output from the engine.
+	cout << "Baumhaus Engine started up... Waiting for Signals" << endl;
+	
     engine -> startRoutine();
 }
 
@@ -50,7 +50,7 @@ bool evaluateArgs(int argc, char** argv) {
 		if(argv[i][0] == '-') { // option detected
 			if(argv[i][1] == '-') { // long option, simple match
 				if(strcmp(argv[i], "--debug") == 0) {
-					// TODO: globally apply this option
+					debugMode = true;
 				}
 				else if(strcmp(argv[i], "--help") == 0) {
 					showHelp();
@@ -78,7 +78,7 @@ bool evaluateArgs(int argc, char** argv) {
 				}
 				
 				if (argv[i][j] == 'd') {
-					// TODO: globally apply this option
+					debugMode = true;
 				}
 				else {
 					optionError(argv[i][j]);

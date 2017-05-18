@@ -31,6 +31,8 @@ Neural Networks will only be used when the engine has grown bigger
 
 ## Coding style.
 
+These rules may not be the best, however they help keep a certain consistency in our project. Commits that dont follow these rules will be deleted.
+
 ### Indentation and parenthesis
 
 EVERY STATEMENT SHOULD BE IN IT'S OWN LINE OF CODE!!! 
@@ -45,7 +47,7 @@ Rather use
 cout << "HI";
 cout << "HI";
 ```
-ALWAYS indent with four spaces. 
+ALWAYS indent with a backspace.
 
 The curly brackets should be placed after the statement
 e.g.:
