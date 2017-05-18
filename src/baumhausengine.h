@@ -6,7 +6,7 @@
 #include <string>
 #include "CSquare.h"
 #include <vector>
-
+#include <thread>
 /*
 
 Baumhaus Engine 2017
@@ -29,7 +29,9 @@ class CBaumhausengine
     protected:
 
     private: //members
+		std::thread pipeThread;
 		bool debugMode;
+
         int depth; //searching depth
         CPos *position; //the position: it can be loaded customly
         CPipe *pipe;

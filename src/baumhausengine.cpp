@@ -1,6 +1,8 @@
 #include "baumhausengine.h"
 
 #include <string>
+#include <thread>
+#include <iostream>
 
 /*
 
@@ -12,17 +14,20 @@ This code comes with no warranty at all; not even the warranty to work properly 
 
 */
 
+using namespace std;
+
 CBaumhausengine::CBaumhausengine(bool debugMode)
 {
-    position = new CPos;
-    pipe = new CPipe(debugMode);
+    this->position = new CPos;
+    this->pipe = new CPipe(debugMode);
 	this->debugMode = debugMode;
-	pipe->run();
+	this->pipeThread = thread(this->pipe->run);
     //ctor
 }
 
 CBaumhausengine::~CBaumhausengine()
 {
+	this->pipeThread.join(); // wait for the pipeThread to terminate.
     //dtor
 }
 
@@ -47,7 +52,12 @@ bool CBaumhausengine::getColor() {
 }
 
 void CBaumhausengine::startRoutine() {
-  while (!(gotPipeInput)) { //just simply spools to wait for a signal
-
-  }
+	string message;
+	while (!(gotPipeInput)) { //just simply spools to wait for a signal
+		message = pipe->getLastMessage();
+		if("quit" == message) {
+			break;
+		}	
+	}
+	cout << "Goodbye!" << endl;
 }
