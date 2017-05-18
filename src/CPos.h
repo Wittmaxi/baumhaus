@@ -2,7 +2,7 @@
 #define CPOS_H
 
 #include "CSquare.h"
-#include "String"
+#include <string>
 #include <vector>
 
 /*
