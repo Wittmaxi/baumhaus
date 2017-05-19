@@ -9,7 +9,6 @@ class PKing : CPiece
 {
     public:
         PKing();
-		    PKing(); //gets a pointer to the used board.
         virtual ~PKing();
         std::vector<int> getSquareOn();
 

@@ -6,11 +6,6 @@ PKing::PKing()
     //ctor
 }
 
-PKing::PKing()
-{
-
-}
-
 PKing::~PKing()
 {
     //dtor
