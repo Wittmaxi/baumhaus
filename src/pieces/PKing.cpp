@@ -8,7 +8,7 @@ PKing::PKing()
 
 PKing::PKing(CPos *boardI)
 {
-	//ctor
+    board = boardI;
 }
 
 PKing::~PKing()
@@ -17,5 +17,5 @@ PKing::~PKing()
 }
 
 void PKing::calculatePossibleSquares () {
-  
+
 }
