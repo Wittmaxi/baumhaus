@@ -107,9 +107,12 @@ class CPipe
     private:
 		// debug flag
 		bool debugMode;
-		// queue for commands to the engine. Some commands may be handled by the Pipe Directly, e.g. replying to the 'xboard' command, however others require input from the engine, e.g. '?'.
-		std::vector<std::string> messageStack;
-
+		// queue for commands to the engine. 
+		// some commands may be handled by the Pipe Directly, e.g. replying to the 'xboard' command, however others require input from the engine, e.g. '?'.
+		// for a queue of size n, index 0 is the back of the queue, and index n-1 is the front. (simpler processing)
+		std::vector<std::string> messageQueue;
+		// push a message to the back of the queue.
+		void pushMessage(std::string message);
 		void d(const char* message);
 		void d(const std::string message);
 };

@@ -3,6 +3,7 @@
 #include <string>
 #include <iostream>
 #include <cstdio>
+#include <vector>
 /*
 
 Baumhaus Engine 2017
@@ -20,7 +21,7 @@ void d(const string str);
 CPipe::CPipe(bool debugMode)
 {
 	setbuf(stdin, NULL); // remove buffer to ensure commands are recieved immediataley.
-    messageStack.clear();
+    messageQueue.clear();
 	this->debugMode = debugMode;
     //ctor
 }
@@ -30,8 +31,22 @@ CPipe::~CPipe()
     //dtor
 }
 
-std::string CPipe::getLastMessage() {
-    return messageStack[messageStack.size()]; //returns the last message logged
+string CPipe::getLastMessage() {
+	// nothing to do if there are no messages
+	if(0 == messageQueue.size()) {
+		return "";
+	}
+	
+	// get the message
+	string message = messageQueue[messageQueue.size() - 1];
+	// remove the retrieved message from the queue
+	messageQueue.pop_back();
+
+	return message;
+}
+
+void CPipe::pushMessage(string message) {
+	//this->messageQueue.emplace(messageQueue.begin(), message);
 }
 
 void CPipe::xboard() {
