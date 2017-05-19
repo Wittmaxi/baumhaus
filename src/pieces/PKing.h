@@ -3,7 +3,7 @@
 
 #include "../CPos.h"
 #include "CPiece.h"
-#include "../CSquare"
+#include "../CSquare.h"
 #include <vector>
 
 class PKing : CPiece
