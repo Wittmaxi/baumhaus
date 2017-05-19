@@ -6,16 +6,12 @@ PKing::PKing()
     //ctor
 }
 
-PKing::PKing(CPos *boardI)
+PKing::PKing()
 {
-    board = boardI;
+
 }
 
 PKing::~PKing()
 {
     //dtor
-}
-
-void PKing::calculatePossibleSquares () {
-
 }
