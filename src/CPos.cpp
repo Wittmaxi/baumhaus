@@ -21,9 +21,9 @@ CPos::~CPos()
 }
 
 std::string CPos::getSquareName(int x, int y) {
-    case (x)
+
 }
 
-void feedFen (std::string fenI) {
+void CPos::feedFen (std::string fenI) {
     fen = fenI;
 }

@@ -25,7 +25,7 @@ class CPipe
         virtual ~CPipe();
         std::string getLastMessage();
 		void run();
-		
+
     protected:
 		/*
 		XBoard Commands
@@ -58,7 +58,7 @@ class CPipe
 		//void setTimeControl(std::string control);
 		//// set depth search limit
 		//void setDepth(int depth);
-		//// set nodes per second. if this is set the engine abandons the wall clock, an searches based on number of nodes. e.g. an NPS of 500 would mean iterating over 500 
+		//// set nodes per second. if this is set the engine abandons the wall clock, an searches based on number of nodes. e.g. an NPS of 500 would mean iterating over 500
 		//void setNodesPerSecond(int nodes);
 		//// set time for the engine
 		//void setTime(int centiseconds);
@@ -70,7 +70,7 @@ class CPipe
 		void moveNow();
 		// ping from xboard. reply with pong() after processing all previous commands.
 		void ping();
-		//// opponent has offered a draw. 
+		//// opponent has offered a draw.
 		//void draw();
 		//// result of the game from xboard. normally sent after a game has ended.
 		//void result(std::string result, std::string comment);
