@@ -8,14 +8,13 @@
 class PKing : CPiece
 {
     public:
-        PKing();
+        PKing(bool colorI);
         virtual ~PKing();
         std::vector<int> getSquareOn();
 
     protected:
 
     private:
-
 };
 
 #endif // PKING_H
