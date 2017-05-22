@@ -2,6 +2,7 @@
 #define CSQUARE_H
 
 #include "pieces/CPiece.h"
+#include <string>
 
 /*
 
@@ -19,6 +20,7 @@ class CSquare
     public:
         CSquare();
         virtual ~CSquare();
+        void setPiece(std::string fenName);
 
     protected:
         int protection; //how much the square is protected: example: -1 means, black has protected the square one more time as white. When a piece is on the square it doesn't count as protected
