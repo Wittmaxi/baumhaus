@@ -1,5 +1,9 @@
 #include "CSquare.h"
 
+//include all of the piece-files
+
+#include "pieces/PKing.h"
+
 /*
 
 Baumhaus Engine 2017
@@ -23,7 +27,8 @@ CSquare::~CSquare()
 void CSquare::setPiece (char fenName) { //ONLY!!! at startup or to reset the position/setting a FEN.
   switch (fenName) {
     //white pieces
-      case 'K': break; //king
+      case 'K':
+          contained = new CPiece(PKing(true));break; //king
       case 'N': break; //night
       case 'R': break; //rook
       case 'B': break; //bishop
@@ -41,7 +46,7 @@ void CSquare::setPiece (char fenName) { //ONLY!!! at startup or to reset the pos
 
 CPiece* CSquare::removePiece() { //gives back a pointer to the piece so the engine can put it on another CSquare
   return contained;
-  contained = null;
+  contained = NULL;
 }
 
 void CSquare::takePiece() {

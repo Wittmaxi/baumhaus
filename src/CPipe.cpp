@@ -13,7 +13,8 @@ This code comes with no warranty at all; not even the warranty to work properly 
 
 */
 
-using namespace std;
+using namespace std; 
+
 void d(const char* str);
 void d(const string str);
 
@@ -39,7 +40,7 @@ void CPipe::xboard() {
 }
 
 void CPipe::protover(string version) {
-	d("protocol version " + version); 
+	d("protocol version " + version);
 }
 
 void CPipe::featureResponse(bool accepted) {
@@ -94,7 +95,7 @@ void CPipe::pause() {
 }
 
 void CPipe::resume() {
-	// TODO: resume pondering or thinking. 
+	// TODO: resume pondering or thinking.
 }
 
 void CPipe::run() { // consnider allowing other input streams
@@ -102,7 +103,7 @@ void CPipe::run() { // consnider allowing other input streams
 	string cmd;
 
 	do {
-		// TODO: look into behavious of this line. It accepts ALL input, even non-textual. 
+		// TODO: look into behavious of this line. It accepts ALL input, even non-textual.
 		//		 (e.g. <up_arrow><down_arrow>quit evaluate to "quit", except it does not match the rule below)
 		cin >> skipws >> cmd;
 		if("xboard" == cmd) {
