@@ -27,6 +27,7 @@ class CPipe
         virtual ~CPipe();
         std::string getLastMessage();
 		void run();
+		static void* callRun(void* pipeInstance);
 
     protected:
 		/*

@@ -4,6 +4,8 @@
 #include <iostream>
 #include <cstdio>
 #include <vector>
+#include <pthread.h>
+
 /*
 
 Baumhaus Engine 2017
@@ -36,7 +38,7 @@ string CPipe::getLastMessage() {
 	if(0 == messageQueue.size()) {
 		return "";
 	}
-	
+
 	// get the message
 	string message = messageQueue[messageQueue.size() - 1];
 	// remove the retrieved message from the queue
@@ -46,7 +48,7 @@ string CPipe::getLastMessage() {
 }
 
 void CPipe::pushMessage(string message) {
-	//this->messageQueue.emplace(messageQueue.begin(), message);
+	this->messageQueue.insert(messageQueue.begin(), message);
 }
 
 void CPipe::xboard() {
@@ -184,8 +186,13 @@ void CPipe::run() { // consnider allowing other input streams
 		}
 		d("command: " + cmd);
 
-	} while(cmd != "quit");
-
+	} while("quit" != cmd);
+	this->pushMessage("quit");
+	d("Ended function 'run()'");
+}
+void* CPipe::callRun(void* pipeInstance) {
+	((CPipe *) pipeInstance)->run();
+	pthread_exit(NULL);
 }
 
 void CPipe::d(const char* message) {
