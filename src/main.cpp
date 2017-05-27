@@ -30,10 +30,7 @@ int main (int argc, char** argv) {
 	}
 
     CBaumhausengine *engine = new CBaumhausengine(debugMode);
-
-    // we might have to remove this for XBoard, as XBoard uses stdout for output from the engine.
-	cout << "Baumhaus Engine started up... Waiting for Signals" << endl;
-	
+		
     engine -> startRoutine();
 }
 

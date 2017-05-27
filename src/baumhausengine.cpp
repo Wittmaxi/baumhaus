@@ -1,7 +1,6 @@
 #include "baumhausengine.h"
 
 #include <string>
-#include <pthread.h>
 #include <iostream>
 
 /*
@@ -21,13 +20,13 @@ CBaumhausengine::CBaumhausengine(bool debugMode)
     this->position = new CPos;
     this->pipe = new CPipe(debugMode);
 	this->debugMode = debugMode;
-	pthread_create(&(this->pipeThread), NULL, CPipe::callRun, this->pipe);
     //ctor
 }
 
 CBaumhausengine::~CBaumhausengine()
 {
-	pthread_join(this->pipeThread, NULL); // wait for the pipeThread to terminate.
+	delete this->position;
+	delete this->pipe;
     //dtor
 }
 
@@ -52,6 +51,9 @@ bool CBaumhausengine::getColor() {
 }
 
 void CBaumhausengine::startRoutine() {
+
+	pipe->d("Baumhaus Engine started up... Waiting for Signals");
+
 	string message;
 	while (true) { //just simply spools to wait for a signal
 		message = pipe->getLastMessage();
@@ -60,5 +62,6 @@ void CBaumhausengine::startRoutine() {
 			break;
 		}	
 	}
-	cout << "Goodbye!" << endl;
+
+	pipe->d("Goodbye!");
 }

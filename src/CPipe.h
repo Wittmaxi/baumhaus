@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <pthread.h>
 
 #define basPosition = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -"
 
@@ -25,9 +26,16 @@ class CPipe
     public:
         CPipe(bool debugMode);
         virtual ~CPipe();
+		void pushMessage(std::string message);
         std::string getLastMessage();
-		void run();
-		static void* callRun(void* pipeInstance);
+
+		// debugging output
+		void d(const char* message);
+		void d(const std::string message);
+
+		// IO loops
+		void startInput();
+		void startOutput();
 
     protected:
 		/*
@@ -108,16 +116,20 @@ class CPipe
 
 
     private:
+		bool isRunning;
 		// debug flag
 		bool debugMode;
 		// queue for commands to the engine. 
 		// some commands may be handled by the Pipe Directly, e.g. replying to the 'xboard' command, however others require input from the engine, e.g. '?'.
 		// for a queue of size n, index 0 is the back of the queue, and index n-1 is the front. (simpler processing)
 		std::vector<std::string> messageQueue;
-		// push a message to the back of the queue.
-		void pushMessage(std::string message);
-		void d(const char* message);
-		void d(const std::string message);
+		// threads for IO operations
+		pthread_t inThread;
+		pthread_t outThread;
+		// beginning for input thread
+		static void* startInputThread(void* instance);
+		// beginning for output thread
+		static void* startOutputThread(void * instance);
 };
 
 #endif // CPIPE_H

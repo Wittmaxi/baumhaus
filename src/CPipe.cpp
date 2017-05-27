@@ -24,12 +24,20 @@ CPipe::CPipe(bool debugMode)
 {
 	setbuf(stdin, NULL); // remove buffer to ensure commands are recieved immediataley.
     messageQueue.clear();
+	this->isRunning = true;
 	this->debugMode = debugMode;
+	// begin the IO threads
+	pthread_create(&(this->inThread), NULL, CPipe::startInputThread, this);
+	pthread_create(&(this->outThread), NULL, CPipe::startOutputThread, this);
     //ctor
 }
 
 CPipe::~CPipe()
 {
+	this->isRunning = false;
+	// wait for both threads to finish operations.
+	pthread_join(this->inThread, NULL);
+	pthread_join(this->outThread, NULL);
     //dtor
 }
 
@@ -114,8 +122,29 @@ void CPipe::resume() {
 	// TODO: resume pondering or thinking. 
 }
 
-void CPipe::run() { // consnider allowing other input streams
+void* CPipe::startOutputThread(void* instance) {
+	CPipe* pipe = (CPipe*)instance;
+	pipe->d("Begin output monitoring");
+	pipe->startOutput();
+	pipe->d("End output monitoring");
+	pthread_exit(NULL);
+}
 
+void CPipe::startOutput() {
+	do {
+		
+	} while(isRunning);
+}
+
+void* CPipe::startInputThread(void* instance) {
+	CPipe* pipe = (CPipe*)instance;
+	pipe->d("Begin input monitoring");
+	pipe->startInput();
+	pipe->d("End input monitoring");
+	pthread_exit(NULL);
+}
+
+void CPipe::startInput() {
 	string cmd;
 
 	do {
@@ -186,13 +215,11 @@ void CPipe::run() { // consnider allowing other input streams
 		}
 		d("command: " + cmd);
 
-	} while("quit" != cmd);
+	} while(isRunning && "quit" != cmd);
+	
+	isRunning = false;
+	
 	this->pushMessage("quit");
-	d("Ended function 'run()'");
-}
-void* CPipe::callRun(void* pipeInstance) {
-	((CPipe *) pipeInstance)->run();
-	pthread_exit(NULL);
 }
 
 void CPipe::d(const char* message) {
