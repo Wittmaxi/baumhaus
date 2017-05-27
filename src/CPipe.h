@@ -6,7 +6,6 @@
 #include <pthread.h>
 
 #define basPosition = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -"
-
 /*
 
 Baumhaus Engine 2017
@@ -20,14 +19,17 @@ This code comes with no warranty at all; not even the warranty to work properly 
 
 // connects to xboard and evaluates the inputs
 
+extern const std::string NEWLINE;
 
 class CPipe
 {
     public:
         CPipe(bool debugMode);
         virtual ~CPipe();
-		void pushMessage(std::string message);
-        std::string getLastMessage();
+		void queueInputMessage(std::string message);
+        std::string dequeueInputMessage();
+		void queueOutputMessage(std::string message);
+		std::string dequeueOutputMessage();
 
 		// debugging output
 		void d(const char* message);
@@ -122,7 +124,8 @@ class CPipe
 		// queue for commands to the engine. 
 		// some commands may be handled by the Pipe Directly, e.g. replying to the 'xboard' command, however others require input from the engine, e.g. '?'.
 		// for a queue of size n, index 0 is the back of the queue, and index n-1 is the front. (simpler processing)
-		std::vector<std::string> messageQueue;
+		std::vector<std::string> inputMessageQueue;
+		std::vector<std::string> outputMessageQueue;
 		// threads for IO operations
 		pthread_t inThread;
 		pthread_t outThread;

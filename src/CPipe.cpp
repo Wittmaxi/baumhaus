@@ -16,6 +16,9 @@ This code comes with no warranty at all; not even the warranty to work properly 
 
 */
 
+
+const std::string NEWLINE = " ";
+
 using namespace std;
 void d(const char* str);
 void d(const string str);
@@ -23,7 +26,9 @@ void d(const string str);
 CPipe::CPipe(bool debugMode)
 {
 	setbuf(stdin, NULL); // remove buffer to ensure commands are recieved immediataley.
-    messageQueue.clear();
+	setbuf(stdout, NULL); // remove buffer to ensure commands are sent immediataley.
+	inputMessageQueue.clear();
+	outputMessageQueue.clear();
 	this->isRunning = true;
 	this->debugMode = debugMode;
 	// begin the IO threads
@@ -41,26 +46,45 @@ CPipe::~CPipe()
     //dtor
 }
 
-string CPipe::getLastMessage() {
+string CPipe::dequeueInputMessage() {
 	// nothing to do if there are no messages
-	if(0 == messageQueue.size()) {
+	if(0 == inputMessageQueue.size()) {
 		return "";
 	}
 
 	// get the message
-	string message = messageQueue[messageQueue.size() - 1];
+	string message = inputMessageQueue[inputMessageQueue.size() - 1];
 	// remove the retrieved message from the queue
-	messageQueue.pop_back();
+	inputMessageQueue.pop_back();
 
 	return message;
 }
 
-void CPipe::pushMessage(string message) {
-	this->messageQueue.insert(messageQueue.begin(), message);
+void CPipe::queueInputMessage(string message) {
+	this->inputMessageQueue.insert(inputMessageQueue.begin(), message);
+}
+
+string CPipe::dequeueOutputMessage() {
+	// nothing to do if there are no messages
+	if (0 == outputMessageQueue.size()) {
+		return "";
+	}
+
+	// get the message
+	string message = outputMessageQueue[outputMessageQueue.size() - 1];
+	// remove the retrieved message from the queue
+	outputMessageQueue.pop_back();
+
+	return message;
+}
+
+void CPipe::queueOutputMessage(string message) {
+	this->outputMessageQueue.insert(outputMessageQueue.begin(), message);
 }
 
 void CPipe::xboard() {
 	d("xboard");
+	queueOutputMessage(NEWLINE);
 }
 
 void CPipe::protover(string version) {
@@ -131,8 +155,11 @@ void* CPipe::startOutputThread(void* instance) {
 }
 
 void CPipe::startOutput() {
+	string cmd;
 	do {
-		
+		if("" != (cmd = dequeueOutputMessage())) {
+			cout << (debugMode ? "[OUTPUT] " : "" ) << cmd << endl;
+		}
 	} while(isRunning);
 }
 
@@ -219,7 +246,7 @@ void CPipe::startInput() {
 	
 	isRunning = false;
 	
-	this->pushMessage("quit");
+	this->queueInputMessage("quit");
 }
 
 void CPipe::d(const char* message) {

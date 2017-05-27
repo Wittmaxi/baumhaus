@@ -31,7 +31,7 @@ CBaumhausengine::~CBaumhausengine()
 }
 
 std::string CBaumhausengine::readPipe() {
-    return pipe->getLastMessage();
+    return pipe->dequeueInputMessage();
 }
 
 void CBaumhausengine::analyzePos(CPos position) {
@@ -56,7 +56,7 @@ void CBaumhausengine::startRoutine() {
 
 	string message;
 	while (true) { //just simply spools to wait for a signal
-		message = pipe->getLastMessage();
+		message = pipe->dequeueInputMessage();
 		
 		if("quit" == message) {
 			break;
