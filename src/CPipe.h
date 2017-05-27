@@ -19,7 +19,7 @@ This code comes with no warranty at all; not even the warranty to work properly 
 
 // connects to xboard and evaluates the inputs
 
-extern const std::string NEWLINE;
+extern const std::string NEWLINE_CMD;
 
 class CPipe
 {
@@ -48,7 +48,7 @@ class CPipe
 		// w/ version >= 2, xboard provides protocol version. we support version 2
 		void protover(std::string version);
 		// xboards's response to the engine's feature request
-		void featureResponse(bool accepted);
+		void featureResponse(bool accepted, std::string featureName);
 		// prepare a new game, enter force mode
 		void newGame();
 		// prepare this variant of chess

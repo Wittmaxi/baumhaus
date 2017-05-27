@@ -16,12 +16,9 @@ This code comes with no warranty at all; not even the warranty to work properly 
 
 */
 
-
-const std::string NEWLINE = " ";
-
 using namespace std;
-void d(const char* str);
-void d(const string str);
+
+const string NEWLINE_CMD = " ";
 
 CPipe::CPipe(bool debugMode)
 {
@@ -83,16 +80,20 @@ void CPipe::queueOutputMessage(string message) {
 }
 
 void CPipe::xboard() {
-	d("xboard");
-	queueOutputMessage(NEWLINE);
+	//d("xboard");
+	queueOutputMessage(NEWLINE_CMD);
 }
 
 void CPipe::protover(string version) {
-	d("protocol version " + version); 
+	//d("protocol version " + version); 
+	queueOutputMessage("feature done=0");
+	queueOutputMessage("feature ping=1");
+	queueOutputMessage("feature usermove=1");
+	queueOutputMessage("feature done=1");
 }
 
-void CPipe::featureResponse(bool accepted) {
-	d("feature response: " + accepted);
+void CPipe::featureResponse(bool accepted, string featureName) {
+	d("feature '" + featureName + "': " + (accepted ? "accepted" : "rejected"));
 }
 
 void CPipe::newGame() {
@@ -124,6 +125,9 @@ void CPipe::black() {
 
 void CPipe::userMove(string move) {
 	// TODO: validate and translate move before sending to engine.
+
+	// for fun adding this to see how UI responds
+	queueOutputMessage("move e7e5");
 }
 
 void CPipe::moveNow() {
@@ -158,7 +162,7 @@ void CPipe::startOutput() {
 	string cmd;
 	do {
 		if("" != (cmd = dequeueOutputMessage())) {
-			cout << (debugMode ? "[OUTPUT] " : "" ) << cmd << endl;
+			cout << (debugMode ? "[OUTPUT] " : "" ) << cmd << endl; 
 		}
 	} while(isRunning);
 }
@@ -187,10 +191,14 @@ void CPipe::startInput() {
 			protover(arg);
 		}
 		else if("accepted" == cmd) {
-			featureResponse(true);
+			string arg;
+			cin >> skipws >> arg;
+			featureResponse(true, arg);
 		}
 		else if("rejected" == cmd) {
-			featureResponse(false);
+			string arg;
+			cin >> skipws >> arg;
+			featureResponse(false, arg);
 		}
 		else if("new" == cmd) {
 			newGame();
@@ -240,7 +248,7 @@ void CPipe::startInput() {
 		else {
 			// TODO: perhaps log the appropriate error if the command was supposed to be a move
 		}
-		d("command: " + cmd);
+		//d("command: " + cmd);
 
 	} while(isRunning && "quit" != cmd);
 	
