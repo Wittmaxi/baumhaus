@@ -1,21 +1,13 @@
 #include "PKing.h"
 #include "../CPos.h"
 
-PKing::PKing()
+PKing::PKing(bool colorI /*true: white*/)
 {
     //ctor
-}
-
-PKing::PKing(CPos *boardI)
-{
-	//ctor
+    color = colorI;
 }
 
 PKing::~PKing()
 {
     //dtor
-}
-
-void PKing::calculatePossibleSquares () {
-  
 }

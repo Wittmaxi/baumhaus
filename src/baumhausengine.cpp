@@ -60,7 +60,7 @@ void CBaumhausengine::startRoutine() {
 		
 		if("quit" == message) {
 			break;
-		}	
+		}
 	}
 
 	pipe->d("Goodbye!");

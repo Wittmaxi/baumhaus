@@ -19,3 +19,11 @@ CPos::~CPos()
 {
     //dtor
 }
+
+std::string CPos::getSquareName(int x, int y) {
+
+}
+
+void CPos::feedFen (std::string fenI) {
+    fen = fenI;
+}

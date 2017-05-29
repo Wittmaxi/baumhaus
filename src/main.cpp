@@ -30,8 +30,8 @@ int main (int argc, char** argv) {
 	}
 
     CBaumhausengine *engine = new CBaumhausengine(debugMode);
-		
-    engine -> startRoutine();
+    
+	engine -> startRoutine();
 }
 
 bool evaluateArgs(int argc, char** argv) {
@@ -73,7 +73,7 @@ bool evaluateArgs(int argc, char** argv) {
 					showHelp();
 					return false;
 				}
-				
+
 				if (argv[i][j] == 'd') {
 					debugMode = true;
 				}
@@ -96,6 +96,7 @@ void showHelp() {
 	cout << "OPTIONS" << endl;
 	cout << "\t" << "-d, --debug" << "\t" << "Turn on debug console output. May interfere w/ XBoard responses." << endl;
 	cout << "\t" << "-h, --help" << "\t" << "Show this helpful information." << endl;
+	cout << "We are a small team maintaining the baumhaus engine. If you want to, help us on github. Contact: wittmaxi@outlook.de" << endl;
 	// add more lines as needed. Perhaps link to git repo.
 }
 

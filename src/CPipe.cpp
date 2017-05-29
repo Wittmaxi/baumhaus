@@ -147,7 +147,7 @@ void CPipe::pause() {
 }
 
 void CPipe::resume() {
-	// TODO: resume pondering or thinking. 
+	// TODO: resume pondering or thinking.
 }
 
 void* CPipe::startOutputThread(void* instance) {
@@ -179,7 +179,7 @@ void CPipe::startInput() {
 	string cmd;
 
 	do {
-		// TODO: look into behavious of this line. It accepts ALL input, even non-textual. 
+		// TODO: look into behavious of this line. It accepts ALL input, even non-textual.
 		//		 (e.g. <up_arrow><down_arrow>quit evaluate to "quit", except it does not match the rule below)
 		cin >> skipws >> cmd;
 		if("xboard" == cmd) {
