@@ -23,11 +23,13 @@ class CPos
         std::string getSquareName(int a, int b); //gets the two indexes of the board
         CSquare *getSquareWithName();
         void feedFen (std::string fenI);
+        CSquare *getSquarePointer(int x, int y);
 
     protected:
-        CSquare squares[8][8];
+        CSquare squares[8][8]; //FIRST x, THEN y.
         std::string fen;
     private:
+        void  parseFen(std::string fen);
 };
 
 #endif // CPOS_H

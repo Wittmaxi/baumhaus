@@ -27,3 +27,14 @@ std::string CPos::getSquareName(int x, int y) {
 void CPos::feedFen (std::string fenI) {
     fen = fenI;
 }
+
+void CPos::parseFen (std::string fen) {
+  //TODO parse the FEN to feed it into each square.
+  while (true) { //nothingly nothingness.
+
+  }
+}
+
+CSquare *CPos::getSquarePointer (int x, int y) {
+  return squares[x] [y];
+}

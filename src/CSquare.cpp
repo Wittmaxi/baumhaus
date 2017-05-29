@@ -27,8 +27,8 @@ CSquare::~CSquare()
 void CSquare::setPiece (char fenName) { //ONLY!!! at startup or to reset the position/setting a FEN.
   switch (fenName) {
     //white pieces
-      case 'K':
-          contained = new CPiece(PKing(true));break; //king
+      case 'K': //king
+          contained = new PKing(true); break;
       case 'N': break; //night
       case 'R': break; //rook
       case 'B': break; //bishop
@@ -55,4 +55,18 @@ void CSquare::takePiece() {
 
 void CSquare::setPiecePointer (CPiece* input) {
   contained = input;
+}
+
+
+//attack state
+void CSquare::addBlackAttacker () {
+    protection -= 1;
+}
+
+void CSquare::addWhiteAttacker() {
+   protection += 1;
+}
+
+int CSquare::returnAttackState() {
+  return protection;
 }

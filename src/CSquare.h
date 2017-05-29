@@ -24,6 +24,9 @@ class CSquare
         CPiece* removePiece();
         void takePiece();
         void setPiecePointer (CPiece* input);
+        void addBlackAttacker(); //increases the protection of the square (-1)
+        void addWhiteAttacker(); //increases the protection of the square (+1)
+        int returnAttackState(); //returns the protection state of a square
 
     protected:
         int protection; //how much the square is protected: example: -1 means, black has protected the square one more time as white. When a piece is on the square it doesn't count as protected

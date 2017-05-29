@@ -6,7 +6,7 @@
 #include "../CSquare.h"
 #include <vector>
 
-class PKing : CPiece
+class PKing : public CPiece
 {
     public:
         PKing(bool colorI);
