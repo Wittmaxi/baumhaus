@@ -3,6 +3,9 @@
 #include <string>
 #include <iostream>
 #include <cstdio>
+#include <vector>
+#include <pthread.h>
+
 /*
 
 Baumhaus Engine 2017
@@ -13,40 +16,84 @@ This code comes with no warranty at all; not even the warranty to work properly 
 
 */
 
-using namespace std; 
+using namespace std;
 
-void d(const char* str);
-void d(const string str);
+const string NEWLINE_CMD = " ";
 
 CPipe::CPipe(bool debugMode)
 {
 	setbuf(stdin, NULL); // remove buffer to ensure commands are recieved immediataley.
-    messageStack.clear();
-	  this->debugMode = debugMode;
+	setbuf(stdout, NULL); // remove buffer to ensure commands are sent immediataley.
+	inputMessageQueue.clear();
+	outputMessageQueue.clear();
+	this->isRunning = true;
+	this->debugMode = debugMode;
+	// begin the IO threads
+	pthread_create(&(this->inThread), NULL, CPipe::startInputThread, this);
+	pthread_create(&(this->outThread), NULL, CPipe::startOutputThread, this);
     //ctor
 }
 
 CPipe::~CPipe()
 {
+	this->isRunning = false;
+	// wait for both threads to finish operations.
+	pthread_join(this->inThread, NULL);
+	pthread_join(this->outThread, NULL);
     //dtor
 }
 
-std::string CPipe::getLastMessage() {
-	if (messageStack.size() == 1) {
-    	return messageStack[messageStack.size() -1]; //returns the last message logged
+string CPipe::dequeueInputMessage() {
+	// nothing to do if there are no messages
+	if(0 == inputMessageQueue.size()) {
+		return "";
 	}
+
+	// get the message
+	string message = inputMessageQueue[inputMessageQueue.size() - 1];
+	// remove the retrieved message from the queue
+	inputMessageQueue.pop_back();
+
+	return message;
+}
+
+void CPipe::queueInputMessage(string message) {
+	this->inputMessageQueue.insert(inputMessageQueue.begin(), message);
+}
+
+string CPipe::dequeueOutputMessage() {
+	// nothing to do if there are no messages
+	if (0 == outputMessageQueue.size()) {
+		return "";
+	}
+
+	// get the message
+	string message = outputMessageQueue[outputMessageQueue.size() - 1];
+	// remove the retrieved message from the queue
+	outputMessageQueue.pop_back();
+
+	return message;
+}
+
+void CPipe::queueOutputMessage(string message) {
+	this->outputMessageQueue.insert(outputMessageQueue.begin(), message);
 }
 
 void CPipe::xboard() {
-	d("xboard");
+	//d("xboard");
+	queueOutputMessage(NEWLINE_CMD);
 }
 
 void CPipe::protover(string version) {
-	d("protocol version " + version);
+	//d("protocol version " + version); 
+	queueOutputMessage("feature done=0");
+	queueOutputMessage("feature ping=1");
+	queueOutputMessage("feature usermove=1");
+	queueOutputMessage("feature done=1");
 }
 
-void CPipe::featureResponse(bool accepted) {
-	d("feature response: " + accepted);
+void CPipe::featureResponse(bool accepted, string featureName) {
+	d("feature '" + featureName + "': " + (accepted ? "accepted" : "rejected"));
 }
 
 void CPipe::newGame() {
@@ -78,6 +125,9 @@ void CPipe::black() {
 
 void CPipe::userMove(string move) {
 	// TODO: validate and translate move before sending to engine.
+
+	// for fun adding this to see how UI responds
+	queueOutputMessage("move e7e5");
 }
 
 void CPipe::moveNow() {
@@ -100,8 +150,32 @@ void CPipe::resume() {
 	// TODO: resume pondering or thinking.
 }
 
-void CPipe::run() { // consnider allowing other input streams
+void* CPipe::startOutputThread(void* instance) {
+	CPipe* pipe = (CPipe*)instance;
+	pipe->d("Begin output monitoring");
+	pipe->startOutput();
+	pipe->d("End output monitoring");
+	pthread_exit(NULL);
+}
 
+void CPipe::startOutput() {
+	string cmd;
+	do {
+		if("" != (cmd = dequeueOutputMessage())) {
+			cout << (debugMode ? "[OUTPUT] " : "" ) << cmd << endl; 
+		}
+	} while(isRunning);
+}
+
+void* CPipe::startInputThread(void* instance) {
+	CPipe* pipe = (CPipe*)instance;
+	pipe->d("Begin input monitoring");
+	pipe->startInput();
+	pipe->d("End input monitoring");
+	pthread_exit(NULL);
+}
+
+void CPipe::startInput() {
 	string cmd;
 
 	do {
@@ -117,10 +191,14 @@ void CPipe::run() { // consnider allowing other input streams
 			protover(arg);
 		}
 		else if("accepted" == cmd) {
-			featureResponse(true);
+			string arg;
+			cin >> skipws >> arg;
+			featureResponse(true, arg);
 		}
 		else if("rejected" == cmd) {
-			featureResponse(false);
+			string arg;
+			cin >> skipws >> arg;
+			featureResponse(false, arg);
 		}
 		else if("new" == cmd) {
 			newGame();
@@ -170,10 +248,13 @@ void CPipe::run() { // consnider allowing other input streams
 		else {
 			// TODO: perhaps log the appropriate error if the command was supposed to be a move
 		}
-		d("command: " + cmd);
+		//d("command: " + cmd);
 
-	} while(cmd != "quit");
-
+	} while(isRunning && "quit" != cmd);
+	
+	isRunning = false;
+	
+	this->queueInputMessage("quit");
 }
 
 void CPipe::d(const char* message) {
