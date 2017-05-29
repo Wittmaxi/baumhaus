@@ -82,7 +82,7 @@ class CPipe
 		// engine must submit a move immediately
 		void moveNow();
 		// ping from xboard. reply with pong() after processing all previous commands.
-		void ping();
+		void ping(std::string val);
 		//// opponent has offered a draw.
 		//void draw();
 		//// result of the game from xboard. normally sent after a game has ended.

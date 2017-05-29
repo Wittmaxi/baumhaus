@@ -42,6 +42,9 @@ class CBaumhausengine
         void updateSquares();
         void setColor (bool colorI); //setter for the piece-color
         bool getColor ();
+
+		// responses to some XBoard commands
+		void pong(std::string val);
 };
 
 #endif // BAUMHAUSENGINE_H

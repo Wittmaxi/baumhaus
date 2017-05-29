@@ -134,8 +134,9 @@ void CPipe::moveNow() {
 	// TODO: engine should return current best move, if any.
 }
 
-void CPipe::ping() {
-	// TODO: respond with a 'pong', but only after completeing all pending commands.
+void CPipe::ping(string val) {
+	queueInputMessage("ping");
+	queueInputMessage(val);
 }
 
 void CPipe::opponentName(string name) {
@@ -232,7 +233,9 @@ void CPipe::startInput() {
 			moveNow();
 		}
 		else if("ping" == cmd) {
-			ping();
+			string args;
+			cin >> skipws >> args;
+			ping(args);
 		}
 		else if("name" == cmd) {
 			string arg;

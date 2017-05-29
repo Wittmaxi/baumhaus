@@ -60,8 +60,14 @@ void CBaumhausengine::startRoutine() {
 		
 		if("quit" == message) {
 			break;
+		} else if("ping" == message) {
+			pong(pipe->dequeueInputMessage());
 		}
 	}
 
 	pipe->d("Goodbye!");
+}
+
+void CBaumhausengine::pong(string val) {
+	this->pipe->queueOutputMessage("pong " + val);
 }
