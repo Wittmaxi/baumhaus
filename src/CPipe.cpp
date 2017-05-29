@@ -13,7 +13,8 @@ This code comes with no warranty at all; not even the warranty to work properly 
 
 */
 
-using namespace std;
+using namespace std; 
+
 void d(const char* str);
 void d(const string str);
 
