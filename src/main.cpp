@@ -33,7 +33,7 @@ int main (int argc, char** argv) {
 
     // we might have to remove this for XBoard, as XBoard uses stdout for output from the engine.
 	cout << "Baumhaus Engine started up... Waiting for Signals" << endl;
-	
+
     engine -> startRoutine();
 }
 
@@ -76,7 +76,7 @@ bool evaluateArgs(int argc, char** argv) {
 					showHelp();
 					return false;
 				}
-				
+
 				if (argv[i][j] == 'd') {
 					debugMode = true;
 				}

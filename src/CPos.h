@@ -20,12 +20,13 @@ class CPos
     public:
         CPos();
         virtual ~CPos();
-        std::string getSquareName();
+        std::string getSquareName(int a, int b); //gets the two indexes of the board
         CSquare *getSquareWithName();
+        void feedFen (std::string fenI);
 
     protected:
         CSquare squares[8][8];
-
+        std::string fen;
     private:
 };
 

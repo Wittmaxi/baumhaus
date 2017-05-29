@@ -8,17 +8,13 @@
 class PKing : CPiece
 {
     public:
-        PKing();
-		PKing(CPos* boardI); //gets a pointer to the used board.
+        PKing(bool colorI);
         virtual ~PKing();
         std::vector<int> getSquareOn();
-        void calculatePossibleSquares();
-
 
     protected:
 
     private:
-
 };
 
 #endif // PKING_H
