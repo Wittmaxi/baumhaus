@@ -3,7 +3,9 @@
 
 #include <string>
 #include <vector>
+#include <pthread.h>
 
+#define basPosition = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -"
 /*
 
 Baumhaus Engine 2017
@@ -17,14 +19,25 @@ This code comes with no warranty at all; not even the warranty to work properly 
 
 // connects to xboard and evaluates the inputs
 
+extern const std::string NEWLINE_CMD;
 
 class CPipe
 {
     public:
         CPipe(bool debugMode);
         virtual ~CPipe();
-        std::string getLastMessage();
-		void run();
+		void queueInputMessage(std::string message);
+        std::string dequeueInputMessage();
+		void queueOutputMessage(std::string message);
+		std::string dequeueOutputMessage();
+
+		// debugging output
+		void d(const char* message);
+		void d(const std::string message);
+
+		// IO loops
+		void startInput();
+		void startOutput();
 
     protected:
 		/*
@@ -35,7 +48,7 @@ class CPipe
 		// w/ version >= 2, xboard provides protocol version. we support version 2
 		void protover(std::string version);
 		// xboards's response to the engine's feature request
-		void featureResponse(bool accepted);
+		void featureResponse(bool accepted, std::string featureName);
 		// prepare a new game, enter force mode
 		void newGame();
 		// prepare this variant of chess
@@ -105,13 +118,21 @@ class CPipe
 
 
     private:
+		bool isRunning;
 		// debug flag
 		bool debugMode;
-		// queue for commands to the engine. Some commands may be handled by the Pipe Directly, e.g. replying to the 'xboard' command, however others require input from the engine, e.g. '?'.
-		std::vector<std::string> messageStack;
-
-		void d(const char* message);
-		void d(const std::string message);
+		// queue for commands to the engine. 
+		// some commands may be handled by the Pipe Directly, e.g. replying to the 'xboard' command, however others require input from the engine, e.g. '?'.
+		// for a queue of size n, index 0 is the back of the queue, and index n-1 is the front. (simpler processing)
+		std::vector<std::string> inputMessageQueue;
+		std::vector<std::string> outputMessageQueue;
+		// threads for IO operations
+		pthread_t inThread;
+		pthread_t outThread;
+		// beginning for input thread
+		static void* startInputThread(void* instance);
+		// beginning for output thread
+		static void* startOutputThread(void * instance);
 };
 
 #endif // CPIPE_H
