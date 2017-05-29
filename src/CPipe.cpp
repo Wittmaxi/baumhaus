@@ -22,7 +22,7 @@ CPipe::CPipe(bool debugMode)
 {
 	setbuf(stdin, NULL); // remove buffer to ensure commands are recieved immediataley.
     messageStack.clear();
-	this->debugMode = debugMode;
+	  this->debugMode = debugMode;
     //ctor
 }
 
@@ -32,7 +32,9 @@ CPipe::~CPipe()
 }
 
 std::string CPipe::getLastMessage() {
-    return messageStack[messageStack.size()]; //returns the last message logged
+	if (messageStack.size() == 1) {
+    	return messageStack[messageStack.size() -1]; //returns the last message logged
+	}
 }
 
 void CPipe::xboard() {
