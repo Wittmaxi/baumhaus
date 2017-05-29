@@ -26,7 +26,7 @@ class CPos
         CSquare *getSquarePointer(int x, int y);
 
     protected:
-        CSquare squares[8][8]; //FIRST x, THEN y.
+        CSquare *squares[8][8]; //FIRST x, THEN y.
         std::string fen;
     private:
         void  parseFen(std::string fen);
