@@ -85,7 +85,7 @@ void CPipe::xboard() {
 }
 
 void CPipe::protover(string version) {
-	//d("protocol version " + version); 
+	//d("protocol version " + version);
 	queueOutputMessage("feature done=0");
 	queueOutputMessage("feature ping=1");
 	queueOutputMessage("feature usermove=1");
@@ -162,7 +162,7 @@ void CPipe::startOutput() {
 	string cmd;
 	do {
 		if("" != (cmd = dequeueOutputMessage())) {
-			cout << (debugMode ? "[OUTPUT] " : "" ) << cmd << endl; 
+			cout << (debugMode ? "[OUTPUT] " : "" ) << cmd << endl;
 		}
 	} while(isRunning);
 }
@@ -251,9 +251,9 @@ void CPipe::startInput() {
 		//d("command: " + cmd);
 
 	} while(isRunning && "quit" != cmd);
-	
+
 	isRunning = false;
-	
+
 	this->queueInputMessage("quit");
 }
 
