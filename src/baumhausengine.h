@@ -28,7 +28,8 @@ class CBaumhausengine
     protected:
 
     private: //members
-		bool debugMode;
+
+		    bool debugMode;
 
         int depth; //searching depth
         CPos *position; //the position: it can be loaded customly
