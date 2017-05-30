@@ -5,7 +5,7 @@
 #include <vector>
 #include <pthread.h>
 
-#define basPosition = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -"
+#define basePosition = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -"
 /*
 
 Baumhaus Engine 2017
@@ -121,7 +121,7 @@ class CPipe
 		bool isRunning;
 		// debug flag
 		bool debugMode;
-		// queue for commands to the engine. 
+		// queue for commands to the engine.
 		// some commands may be handled by the Pipe Directly, e.g. replying to the 'xboard' command, however others require input from the engine, e.g. '?'.
 		// for a queue of size n, index 0 is the back of the queue, and index n-1 is the front. (simpler processing)
 		std::vector<std::string> inputMessageQueue;
