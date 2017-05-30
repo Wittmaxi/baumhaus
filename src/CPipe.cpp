@@ -85,7 +85,7 @@ void CPipe::xboard() {
 }
 
 void CPipe::protover(string version) {
-	//d("protocol version " + version); 
+	//d("protocol version " + version);
 	queueOutputMessage("feature done=0");
 	queueOutputMessage("feature ping=1");
 	queueOutputMessage("feature usermove=1");
@@ -135,8 +135,7 @@ void CPipe::moveNow() {
 }
 
 void CPipe::ping(string val) {
-	queueInputMessage("ping");
-	queueInputMessage(val);
+	queueInputMessage("ping " + val);
 }
 
 void CPipe::opponentName(string name) {
@@ -163,7 +162,7 @@ void CPipe::startOutput() {
 	string cmd;
 	do {
 		if("" != (cmd = dequeueOutputMessage())) {
-			cout << (debugMode ? "[OUTPUT] " : "" ) << cmd << endl; 
+			cout << (debugMode ? "[OUTPUT] " : "" ) << cmd << endl;
 		}
 	} while(isRunning);
 }
@@ -183,6 +182,9 @@ void CPipe::startInput() {
 		// TODO: look into behavious of this line. It accepts ALL input, even non-textual.
 		//		 (e.g. <up_arrow><down_arrow>quit evaluate to "quit", except it does not match the rule below)
 		cin >> skipws >> cmd;
+
+		cout << endl << "DEBUG   " << cmd.substr(0, 4) << endl;
+
 		if("xboard" == cmd) {
 			xboard();
 		}
@@ -232,15 +234,16 @@ void CPipe::startInput() {
 		else if("?" == cmd) {
 			moveNow();
 		}
-		else if("ping" == cmd) {
+		else if("ping" == cmd.substr(0, 4)) {
 			string args;
+			cout << "stage passed" << endl;
 			cin >> skipws >> args;
 			ping(args);
 		}
 		else if("name" == cmd) {
 			string arg;
 			cin >> skipws >> arg;
-			opponentName(arg);
+			opponentName(arg.substr(5, 2));
 		}
 		else if("pause" == cmd) {
 			pause();
@@ -254,9 +257,9 @@ void CPipe::startInput() {
 		//d("command: " + cmd);
 
 	} while(isRunning && "quit" != cmd);
-	
+
 	isRunning = false;
-	
+
 	this->queueInputMessage("quit");
 }
 

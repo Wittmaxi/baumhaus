@@ -52,16 +52,16 @@ bool CBaumhausengine::getColor() {
 
 void CBaumhausengine::startRoutine() {
 
-	pipe->d("Baumhaus Engine started up... Waiting for Signals");
+	cout << "Baumhaus Engine started up... Waiting for Signals";
 
-	string message;
+
 	while (true) { //just simply spools to wait for a signal
+    string message;
 		message = pipe->dequeueInputMessage();
-		
+      pipe->d(message.substr(0, 4));
 		if("quit" == message) {
 			break;
-		} else if("ping" == message) {
-			pong(pipe->dequeueInputMessage());
+		} else if(message == "ping") {
 		}
 	}
 
