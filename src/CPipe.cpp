@@ -58,6 +58,7 @@ string CPipe::dequeueInputMessage() {
 }
 
 void CPipe::queueInputMessage(string message) {
+	cout << "stage three passed " << endl;
 	this->inputMessageQueue.insert(inputMessageQueue.begin(), message);
 }
 
@@ -135,7 +136,7 @@ void CPipe::moveNow() {
 }
 
 void CPipe::ping(string val) {
-	queueInputMessage("ping " + val);
+	queueOutputMessage("pong " + val);
 }
 
 void CPipe::opponentName(string name) {
@@ -182,8 +183,6 @@ void CPipe::startInput() {
 		// TODO: look into behavious of this line. It accepts ALL input, even non-textual.
 		//		 (e.g. <up_arrow><down_arrow>quit evaluate to "quit", except it does not match the rule below)
 		cin >> skipws >> cmd;
-
-		cout << endl << "DEBUG   " << cmd.substr(0, 4) << endl;
 
 		if("xboard" == cmd) {
 			xboard();
@@ -236,7 +235,6 @@ void CPipe::startInput() {
 		}
 		else if("ping" == cmd.substr(0, 4)) {
 			string args;
-			cout << "stage passed" << endl;
 			cin >> skipws >> args;
 			ping(args);
 		}
