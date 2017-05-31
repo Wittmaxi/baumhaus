@@ -17,9 +17,7 @@ This code comes with no warranty at all; not even the warranty to work properly 
 
 */
 
-using namespace std;
-
-const string NEWLINE_CMD = " ";
+const std::string NEWLINE_CMD = " ";
 
 CPipe::CPipe(bool debugMode)
 {
@@ -44,7 +42,7 @@ CPipe::~CPipe()
     //dtor
 }
 
-string CPipe::dequeueInputMessage(bool waitForMessage) {
+std::string CPipe::dequeueInputMessage(bool waitForMessage) {
 	// nothing to do if there are no messages
 	if(!waitForMessage && 0 == inputMessageQueue.size()) {
 		return "";
@@ -54,7 +52,7 @@ string CPipe::dequeueInputMessage(bool waitForMessage) {
 
 	inputMutex.lock();
 	// get the message
-	string message = inputMessageQueue[inputMessageQueue.size() - 1];
+	std::string message = inputMessageQueue[inputMessageQueue.size() - 1];
 	// remove the retrieved message from the queue
 	inputMessageQueue.pop_back();
 	inputMutex.unlock();
@@ -62,13 +60,13 @@ string CPipe::dequeueInputMessage(bool waitForMessage) {
 	return message;
 }
 
-void CPipe::queueInputMessage(string message) {
+void CPipe::queueInputMessage(std::string message) {
 	inputMutex.lock();
 	this->inputMessageQueue.insert(inputMessageQueue.begin(), message);
 	inputMutex.unlock();
 }
 
-string CPipe::dequeueOutputMessage(bool waitForMessage) {
+std::string CPipe::dequeueOutputMessage(bool waitForMessage) {
 	// nothing to do if there are no messages
 	if (!waitForMessage && 0 == outputMessageQueue.size()) {
 		return "";
@@ -78,7 +76,7 @@ string CPipe::dequeueOutputMessage(bool waitForMessage) {
 
 	outputMutex.lock();
 	// get the message
-	string message = outputMessageQueue[outputMessageQueue.size() - 1];
+	std::string message = outputMessageQueue[outputMessageQueue.size() - 1];
 	// remove the retrieved message from the queue
 	outputMessageQueue.pop_back();
 	outputMutex.unlock();
@@ -86,7 +84,7 @@ string CPipe::dequeueOutputMessage(bool waitForMessage) {
 	return message;
 }
 
-void CPipe::queueOutputMessage(string message) {
+void CPipe::queueOutputMessage(std::string message) {
 	outputMutex.lock();
 	this->outputMessageQueue.insert(outputMessageQueue.begin(), message);
 	outputMutex.unlock();
@@ -97,7 +95,7 @@ void CPipe::xboard() {
 	queueOutputMessage(NEWLINE_CMD);
 }
 
-void CPipe::protover(string version) {
+void CPipe::protover(std::string version) {
 	//d("protocol version " + version); 
 	queueOutputMessage("feature done=0");
 	queueOutputMessage("feature ping=1");
@@ -105,7 +103,7 @@ void CPipe::protover(string version) {
 	queueOutputMessage("feature done=1");
 }
 
-void CPipe::featureResponse(bool accepted, string featureName) {
+void CPipe::featureResponse(bool accepted, std::string featureName) {
 	d("feature '" + featureName + "': " + (accepted ? "accepted" : "rejected"));
 }
 
@@ -113,7 +111,7 @@ void CPipe::newGame() {
 	d("new game.");
 }
 
-void CPipe::variant(string variant) {
+void CPipe::variant(std::string variant) {
 	d("variant: " + variant);
 }
 void CPipe::random() {
@@ -136,7 +134,7 @@ void CPipe::black() {
 	d("opponent: black | engine: white");
 }
 
-void CPipe::userMove(string move) {
+void CPipe::userMove(std::string move) {
 	// TODO: validate and translate move before sending to engine.
 
 	// for fun adding this to see how UI responds
@@ -147,12 +145,12 @@ void CPipe::moveNow() {
 	// TODO: engine should return current best move, if any.
 }
 
-void CPipe::ping(string val) {
+void CPipe::ping(std::string val) {
 	queueInputMessage("ping");
 	queueInputMessage(val);
 }
 
-void CPipe::opponentName(string name) {
+void CPipe::opponentName(std::string name) {
 	d("Hi " + name + "!");
 }
 
@@ -173,10 +171,10 @@ void* CPipe::startOutputThread(void* instance) {
 }
 
 void CPipe::startOutput() {
-	string cmd;
+	std::string cmd;
 	do {
 		if("" != (cmd = dequeueOutputMessage(false))) {
-			cout << (debugMode ? "[OUTPUT] " : "" ) << cmd << endl; 
+			std::cout << (debugMode ? "[OUTPUT] " : "" ) << cmd << std::endl;
 		}
 	} while(isRunning);
 }
@@ -190,36 +188,36 @@ void* CPipe::startInputThread(void* instance) {
 }
 
 void CPipe::startInput() {
-	string cmd;
+	std::string cmd;
 
 	do {
 		// TODO: look into behavious of this line. It accepts ALL input, even non-textual.
 		//		 (e.g. <up_arrow><down_arrow>quit evaluate to "quit", except it does not match the rule below)
-		cin >> skipws >> cmd;
+		std::cin >> std::skipws >> cmd;
 		if("xboard" == cmd) {
 			xboard();
 		}
 		else if("protover" == cmd) {
-			string arg;
-			cin >> skipws >> arg;
+			std::string arg;
+			std::cin >> std::skipws >> arg;
 			protover(arg);
 		}
 		else if("accepted" == cmd) {
-			string arg;
-			cin >> skipws >> arg;
+			std::string arg;
+			std::cin >> std::skipws >> arg;
 			featureResponse(true, arg);
 		}
 		else if("rejected" == cmd) {
-			string arg;
-			cin >> skipws >> arg;
+			std::string arg;
+			std::cin >> std::skipws >> arg;
 			featureResponse(false, arg);
 		}
 		else if("new" == cmd) {
 			newGame();
 		}
 		else if("variant" == cmd) {
-			string arg;
-			cin >> skipws >> arg;
+			std::string arg;
+			std::cin >> std::skipws >> arg;
 			variant(arg);
 		}
 		else if("random" == cmd) {
@@ -238,21 +236,21 @@ void CPipe::startInput() {
 			black();
 		}
 		else if("usermove" == cmd) {
-			string arg;
-			cin >> skipws >> arg;
+			std::string arg;
+			std::cin >> std::skipws >> arg;
 			userMove(arg);
 		}
 		else if("?" == cmd) {
 			moveNow();
 		}
 		else if("ping" == cmd) {
-			string args;
-			cin >> skipws >> args;
+			std::string args;
+			std::cin >> std::skipws >> args;
 			ping(args);
 		}
 		else if("name" == cmd) {
-			string arg;
-			cin >> skipws >> arg;
+			std::string arg;
+			std::cin >> std::skipws >> arg;
 			opponentName(arg);
 		}
 		else if("pause" == cmd) {
@@ -276,10 +274,10 @@ void CPipe::startInput() {
 void CPipe::d(const char* message) {
 	// TODO: use globally defined param to determine whether to print.
 	if(this->debugMode) {
-		cout << "[DEBUG] " << message << endl;
+		std::cout << "[DEBUG] " << message << std::endl;
 	}
 }
 
-void CPipe::d(const string message) {
+void CPipe::d(const std::string message) {
 	d(message.c_str());
 }
