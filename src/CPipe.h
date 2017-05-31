@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <pthread.h>
+#include <mutex>
 
 #define basPosition = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -"
 /*
@@ -27,9 +28,9 @@ class CPipe
         CPipe(bool debugMode);
         virtual ~CPipe();
 		void queueInputMessage(std::string message);
-        std::string dequeueInputMessage();
+        std::string dequeueInputMessage(bool waitForMessage);
 		void queueOutputMessage(std::string message);
-		std::string dequeueOutputMessage();
+		std::string dequeueOutputMessage(bool waitForMessage);
 
 		// debugging output
 		void d(const char* message);
@@ -133,6 +134,9 @@ class CPipe
 		static void* startInputThread(void* instance);
 		// beginning for output thread
 		static void* startOutputThread(void * instance);
+		// mutex's to make sure we don't have any funny threading issues
+		std::mutex inputMutex;
+		std::mutex outputMutex;
 };
 
 #endif // CPIPE_H

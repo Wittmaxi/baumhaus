@@ -5,6 +5,7 @@
 #include <cstdio>
 #include <vector>
 #include <pthread.h>
+#include <mutex>
 
 /*
 
@@ -43,40 +44,52 @@ CPipe::~CPipe()
     //dtor
 }
 
-string CPipe::dequeueInputMessage() {
+string CPipe::dequeueInputMessage(bool waitForMessage) {
 	// nothing to do if there are no messages
-	if(0 == inputMessageQueue.size()) {
+	if(!waitForMessage && 0 == inputMessageQueue.size()) {
 		return "";
 	}
 
+	while(0 == inputMessageQueue.size()); // block until message has appeared.
+
+	inputMutex.lock();
 	// get the message
 	string message = inputMessageQueue[inputMessageQueue.size() - 1];
 	// remove the retrieved message from the queue
 	inputMessageQueue.pop_back();
+	inputMutex.unlock();
 
 	return message;
 }
 
 void CPipe::queueInputMessage(string message) {
+	inputMutex.lock();
 	this->inputMessageQueue.insert(inputMessageQueue.begin(), message);
+	inputMutex.unlock();
 }
 
-string CPipe::dequeueOutputMessage() {
+string CPipe::dequeueOutputMessage(bool waitForMessage) {
 	// nothing to do if there are no messages
-	if (0 == outputMessageQueue.size()) {
+	if (!waitForMessage && 0 == outputMessageQueue.size()) {
 		return "";
 	}
 
+	while(0 == outputMessageQueue.size());
+
+	outputMutex.lock();
 	// get the message
 	string message = outputMessageQueue[outputMessageQueue.size() - 1];
 	// remove the retrieved message from the queue
 	outputMessageQueue.pop_back();
+	outputMutex.unlock();
 
 	return message;
 }
 
 void CPipe::queueOutputMessage(string message) {
+	outputMutex.lock();
 	this->outputMessageQueue.insert(outputMessageQueue.begin(), message);
+	outputMutex.unlock();
 }
 
 void CPipe::xboard() {
@@ -162,7 +175,7 @@ void* CPipe::startOutputThread(void* instance) {
 void CPipe::startOutput() {
 	string cmd;
 	do {
-		if("" != (cmd = dequeueOutputMessage())) {
+		if("" != (cmd = dequeueOutputMessage(false))) {
 			cout << (debugMode ? "[OUTPUT] " : "" ) << cmd << endl; 
 		}
 	} while(isRunning);

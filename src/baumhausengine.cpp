@@ -30,10 +30,6 @@ CBaumhausengine::~CBaumhausengine()
     //dtor
 }
 
-std::string CBaumhausengine::readPipe() {
-    return pipe->dequeueInputMessage();
-}
-
 void CBaumhausengine::analyzePos(CPos position) {
 
 }
@@ -56,12 +52,12 @@ void CBaumhausengine::startRoutine() {
 
 	string message;
 	while (true) { //just simply spools to wait for a signal
-		message = pipe->dequeueInputMessage();
+		message = pipe->dequeueInputMessage(false);
 		
 		if("quit" == message) {
 			break;
 		} else if("ping" == message) {
-			pong(pipe->dequeueInputMessage());
+			pong(pipe->dequeueInputMessage(true));
 		}
 	}
 
