@@ -13,7 +13,6 @@ This code comes with no warranty at all; not even the warranty to work properly 
 
 */
 
-using namespace std;
 
 CBaumhausengine::CBaumhausengine(bool debugMode)
 {
@@ -48,11 +47,11 @@ bool CBaumhausengine::getColor() {
 
 void CBaumhausengine::startRoutine() {
 
-	cout << "Baumhaus Engine started up... Waiting for Signals";
+	std::cout << "Baumhaus Engine started up... Waiting for Signals";
 
 
 	while (true) { //just simply spools to wait for a signal
-		string message = pipe->dequeueInputMessage(false);
+		std::string message = pipe->dequeueInputMessage(false);
 
 		if("quit" == message) {
 			break;
@@ -64,6 +63,6 @@ void CBaumhausengine::startRoutine() {
 	pipe->d("Goodbye!");
 }
 
-void CBaumhausengine::pong(string val) {
+void CBaumhausengine::pong(std::string val) {
 	this->pipe->queueOutputMessage("pong " + val);
 }
