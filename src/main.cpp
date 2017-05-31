@@ -19,7 +19,7 @@ void optionError(char* long_option);
 void optionError(char short_option);
 void noOptionError();
 
-using namespace std;
+//using namespace std;
 
 bool debugMode= false;
 
@@ -91,23 +91,23 @@ bool evaluateArgs(int argc, char** argv) {
 }
 
 void showHelp() {
-	cout << "Usage: baumhaus [OPTIONS]" << endl;
-	cout << "Baumhaus is a chess engine designed to run with xboard protocols." << endl << endl;
-	cout << "OPTIONS" << endl;
-	cout << "\t" << "-d, --debug" << "\t" << "Turn on debug console output. May interfere w/ XBoard responses." << endl;
-	cout << "\t" << "-h, --help" << "\t" << "Show this helpful information." << endl;
-	cout << "We are a small team maintaining the baumhaus engine. If you want to, help us on github. Contact: wittmaxi@outlook.de" << endl;
+	std::cout << "Usage: baumhaus [OPTIONS]" << std::endl;
+	std::cout << "Baumhaus is a chess engine designed to run with xboard protocols." << std::endl << std::endl;
+	std::cout << "OPTIONS" << std::endl;
+	std::cout << "\t" << "-d, --debug" << "\t" << "Turn on debug console output. May interfere w/ XBoard responses." << std::endl;
+	std::cout << "\t" << "-h, --help" << "\t" << "Show this helpful information." << std::endl;
+	std::cout << "We are a small team maintaining the baumhaus engine. If you want to, help us on github. Contact: wittmaxi@outlook.de" << std::endl;
 	// add more lines as needed. Perhaps link to git repo.
 }
 
 void optionError(char* long_option) {
-	cout << "Error: Invalid option '" << long_option << "'" << endl;
+	std::cout << "Error: Invalid option '" << long_option << "'" << std::endl;
 }
 
 void optionError(char short_option) {
-	cout << "Error: Invalid option '-" << short_option << "'" << endl;
+	std::cout << "Error: Invalid option '-" << short_option << "'" << std::endl;
 }
 
 void noOptionError() {
-	cout << "Error: no option provided" << endl;
+	std::cout << "Error: no option provided" << std::endl;
 }
