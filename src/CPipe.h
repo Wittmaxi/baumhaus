@@ -21,8 +21,7 @@ This code comes with no warranty at all; not even the warranty to work properly 
 
 extern const std::string NEWLINE_CMD;
 
-class CPipe
-{
+class CPipe {
     public:
         CPipe(bool debugMode);
         virtual ~CPipe();
@@ -109,7 +108,7 @@ class CPipe
 		//void rating(std::string engineRating, std::string opponentRating);
 		//// ics hostname for playing on chess servers
 		//void ics(string hostname);
-		//// the opponent is a computer. possibly modify behavior?
+		//// the opponent is a computer. possibly modify behavior? --> We should possibly set the brute-force width to 10 instead of 6. LOL
 		//void computer();
 		// pause the game
 		void pause();
