@@ -27,10 +27,10 @@ class CPipe
     public:
         CPipe(bool debugMode);
         virtual ~CPipe();
-		void queueInputMessage(std::string message);
+		    void queueInputMessage(std::string message);
         std::string dequeueInputMessage(bool waitForMessage);
-		void queueOutputMessage(std::string message);
-		std::string dequeueOutputMessage(bool waitForMessage);
+		    void queueOutputMessage(std::string message);
+		    std::string dequeueOutputMessage(bool waitForMessage);
 
 		// debugging output
 		void d(const char* message);
@@ -122,7 +122,7 @@ class CPipe
 		bool isRunning;
 		// debug flag
 		bool debugMode;
-		// queue for commands to the engine. 
+		// queue for commands to the engine.
 		// some commands may be handled by the Pipe Directly, e.g. replying to the 'xboard' command, however others require input from the engine, e.g. '?'.
 		// for a queue of size n, index 0 is the back of the queue, and index n-1 is the front. (simpler processing)
 		std::vector<std::string> inputMessageQueue;
