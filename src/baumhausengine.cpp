@@ -52,8 +52,8 @@ void CBaumhausengine::startRoutine() {
 
 
 	while (true) { //just simply spools to wait for a signal
-		message = pipe->dequeueInputMessage(false);
-		
+		string message = pipe->dequeueInputMessage(false);
+
 		if("quit" == message) {
 			break;
 		} else if("ping" == message) {
