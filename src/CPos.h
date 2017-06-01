@@ -24,6 +24,8 @@ class CPos
         CSquare *getSquareWithName();
         void feedFen (std::string fenI);
         CSquare *getSquarePointer(int x, int y);
+        std::vector<vector <string>> getPossibleMoves(bool color); //color: true = white
+
 
     protected:
         std::vector<std::vector<CSquare>> squares;
