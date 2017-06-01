@@ -36,15 +36,31 @@ class CBaumhausengine
         bool color; //false = black, true = white.
         bool gotPipeInput; //if the computer has to stop thinking (is checked by a pipe)
 
+		// engine's time in centiseconds
+		int mTime;
+		// opponent's time in centiseconds
+		int oTime;
+		// random flag. true = use random
+		bool random;
+		// tracks which player is on turn. false = balck, true = white
+		bool colorOnTurn;
+
+
     private: //methods
-        std::string readPipe(); //reads out the pipe and returns the result. If nothing was found, it returns "NULL"
-        void analyzePos(CPos _position); //analyses the position and returns a move (currently symbolysed as void). A move could be a class (CMove)
+		// initialize the engine for a new game
+		void init();
+
+        void analyzePos(); //analyses the position and returns a move (currently symbolysed as void). A move could be a class (CMove)
+		void ponderPos(); // ponders. this occurs if/when it's the opponent's turn
         void updateSquares();
         void setColor (bool colorI); //setter for the piece-color
         bool getColor ();
 
-		// responses to some XBoard commands
+		/* responses to some XBoard commands */
+		// pong the UI
 		void pong(std::string val);
+		// make move and update internal board. Both user moves and engines moves should pass thorugh here.
+		void makeMove(std::string move);
 };
 
 #endif // BAUMHAUSENGINE_H

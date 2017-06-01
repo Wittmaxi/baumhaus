@@ -28,7 +28,17 @@ CBaumhausengine::~CBaumhausengine()
     //dtor
 }
 
-void CBaumhausengine::analyzePos(CPos position) {
+void CBaumhausengine::init() {
+	this->random = false; // by default random is off
+	this->colorOnTurn = true; // white starts the match
+	this->color = false; // engine will play black
+}
+
+void CBaumhausengine::analyzePos() {
+
+}
+
+void CBaumhausengine::ponderPos() {
 
 }
 
@@ -54,8 +64,28 @@ void CBaumhausengine::startRoutine() {
 		
 		if("quit" == message) {
 			break;
-		} else if("ping" == message) {
+		} 
+		else if ("new" == message) {
+			init();
+		}
+		else if("ping" == message) {
 			pong(pipe->dequeueInputMessage(true));
+		}
+		else if ("usermove" == message) {
+			std::string move = pipe->dequeueInputMessage(true);
+			// validate move
+			// TODO
+			
+			// if validation checks out. make the move.
+			makeMove(move);
+		}
+
+		// we've handled the message (assimung there was one), we can continue pondering/thinking
+		if(this->color == this->colorOnTurn) { // engine's turn
+			analyzePos();
+		}
+		else {
+			ponderPos();
 		}
 	}
 
@@ -64,4 +94,11 @@ void CBaumhausengine::startRoutine() {
 
 void CBaumhausengine::pong(std::string val) {
 	this->pipe->queueOutputMessage("pong " + val);
+}
+
+void CBaumhausengine::makeMove(std::string move) {
+	// update position to reflect move
+
+	// other color's turn
+	this->colorOnTurn = !this->colorOnTurn;
 }

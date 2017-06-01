@@ -66,18 +66,18 @@ class CPipe
 		void white();
 		// [LEGACY] opponent is black, engine is white, stop clocks
 		void black();
-		//// ???
-		//void setLevel(int movesPerSecond, int base, int increment);
+		// ???
+		void setLevel(int movesPerTimeConrol, std::string base, int increment);
 		// set time controls for game
 		//void setTimeControl(std::string control);
 		//// set depth search limit
 		//void setDepth(int depth);
 		//// set nodes per second. if this is set the engine abandons the wall clock, an searches based on number of nodes. e.g. an NPS of 500 would mean iterating over 500
 		//void setNodesPerSecond(int nodes);
-		//// set time for the engine
-		//void setTime(int centiseconds);
-		//// set time for opponent
-		//void setOpponentTime(int centiseconds);
+		// set time for the engine
+		void setTime(int centiseconds);
+		// set time for opponent
+		void setOpponentTime(int centiseconds);
 		// move by the user. move expressed in coordinate algebraic notation.
 		void userMove(std::string move);
 		// engine must submit a move immediately
@@ -98,10 +98,10 @@ class CPipe
 		//void undo();
 		//// user retracts previous move. undo two moves, one for each player. continue playing same color
 		//void remove();
-		//// toggle pondering.
-		//void togglePondering(bool ponder);
-		//// toggle pondering output.
-		//void togglePonderingOutput(bool showOutput);
+		// toggle pondering.
+		void togglePondering(bool ponder);
+		// toggle pondering output.
+		void togglePonderingOutput(bool showOutput);
 		//// enter analyze mode
 		//void analyze();
 		// the xboard sends the opponent's name
