@@ -40,5 +40,5 @@ CSquare *CPos::getSquarePointer (int x, int y) {
 }
 
 std::vector <vector <string>> getPossibleMoves (bool color) {
-  
+
 }
