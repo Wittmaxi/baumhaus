@@ -112,15 +112,13 @@ void CPipe::newGame() {
 	d("new game.");
 	// TODO NOW
 	// enter 'force' mode
-	// set white on move
-	// engine to play black
 	// associate clock's: black -> engine : white -> opponent
 	// stop clocks
 	// reset time controls
 	// reset depth limits
 	// use wall clock
 	// send "new command to engine, so it stops pondering.
-	// set random off
+	queueInputMessage("new");
 }
 
 void CPipe::variant(std::string variant) {
@@ -182,11 +180,11 @@ void CPipe::setOpponentTime(int centiseconds) {
 void CPipe::userMove(std::string move) {
 	// TODO: validate and translate move before sending to engine.
 
-	queueInputMessage("move");
+	queueInputMessage("usermove");
 	queueInputMessage(move);
 
 	// for fun adding this to see how UI responds
-	queueOutputMessage("move e7e5");
+	//queueOutputMessage("move e7e5");
 }
 
 void CPipe::moveNow() {

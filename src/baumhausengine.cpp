@@ -32,10 +32,18 @@ void CBaumhausengine::init() {
 	this->random = false; // by default random is off
 	this->colorOnTurn = true; // white starts the match
 	this->color = false; // engine will play black
+	pipe->d("End - init()");
 }
 
 void CBaumhausengine::analyzePos() {
+	// TODO Main thinking logic would probably be here.
 
+	// . . .
+
+	// we should have candidate move now.
+	std::string tempMove = "e7e5";
+	makeMove(tempMove);
+	pipe->queueOutputMessage("move " + tempMove);
 }
 
 void CBaumhausengine::ponderPos() {
@@ -71,6 +79,9 @@ void CBaumhausengine::startRoutine() {
 		else if("ping" == message) {
 			pong(pipe->dequeueInputMessage(true));
 		}
+		else if("random" == message) {
+			this->random = !this->random;
+		}
 		else if ("usermove" == message) {
 			std::string move = pipe->dequeueInputMessage(true);
 			// validate move
@@ -101,4 +112,5 @@ void CBaumhausengine::makeMove(std::string move) {
 
 	// other color's turn
 	this->colorOnTurn = !this->colorOnTurn;
+	pipe->d("color on turn: " + std::to_string(colorOnTurn));
 }
