@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <pthread.h>
+#include <mutex>
 
 #define basePosition = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -"
 /*
@@ -25,10 +26,8 @@ class CPipe {
     public:
         CPipe(bool debugMode);
         virtual ~CPipe();
-	 void queueInputMessage(std::string message);
-        std::string dequeueInputMessage();
+        std::string dequeueInputMessage(bool waitForMessage);
 		void queueOutputMessage(std::string message);
-		std::string dequeueOutputMessage();
 
 		// debugging output
 		void d(const char* message);
@@ -39,6 +38,8 @@ class CPipe {
 		void startOutput();
 
     protected:
+		void queueInputMessage(std::string message);
+		std::string dequeueOutputMessage(bool waitForMessage);
 		/*
 		XBoard Commands
 		*/
@@ -64,24 +65,24 @@ class CPipe {
 		void white();
 		// [LEGACY] opponent is black, engine is white, stop clocks
 		void black();
-		//// ???
-		//void setLevel(int movesPerSecond, int base, int increment);
+		// ???
+		void setLevel(int movesPerTimeConrol, std::string base, int increment);
 		// set time controls for game
 		//void setTimeControl(std::string control);
 		//// set depth search limit
 		//void setDepth(int depth);
 		//// set nodes per second. if this is set the engine abandons the wall clock, an searches based on number of nodes. e.g. an NPS of 500 would mean iterating over 500
 		//void setNodesPerSecond(int nodes);
-		//// set time for the engine
-		//void setTime(int centiseconds);
-		//// set time for opponent
-		//void setOpponentTime(int centiseconds);
+		// set time for the engine
+		void setTime(int centiseconds);
+		// set time for opponent
+		void setOpponentTime(int centiseconds);
 		// move by the user. move expressed in coordinate algebraic notation.
 		void userMove(std::string move);
 		// engine must submit a move immediately
 		void moveNow();
 		// ping from xboard. reply with pong() after processing all previous commands.
-		void ping();
+		void ping(std::string val);
 		//// opponent has offered a draw.
 		//void draw();
 		//// result of the game from xboard. normally sent after a game has ended.
@@ -96,10 +97,10 @@ class CPipe {
 		//void undo();
 		//// user retracts previous move. undo two moves, one for each player. continue playing same color
 		//void remove();
-		//// toggle pondering.
-		//void togglePondering(bool ponder);
-		//// toggle pondering output.
-		//void togglePonderingOutput(bool showOutput);
+		// toggle pondering.
+		void togglePondering(bool ponder);
+		// toggle pondering output.
+		void togglePonderingOutput(bool showOutput);
 		//// enter analyze mode
 		//void analyze();
 		// the xboard sends the opponent's name
@@ -132,6 +133,9 @@ class CPipe {
 		static void* startInputThread(void* instance);
 		// beginning for output thread
 		static void* startOutputThread(void * instance);
+		// mutex's to make sure we don't have any funny threading issues
+		std::mutex inputMutex;
+		std::mutex outputMutex;
 };
 
 #endif // CPIPE_H
