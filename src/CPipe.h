@@ -40,6 +40,7 @@ class CPipe {
     protected:
 		void queueInputMessage(std::string message);
 		std::string dequeueOutputMessage(bool waitForMessage);
+		std::string readNext(bool readToEnd = false);
 		/*
 		XBoard Commands
 		*/
@@ -66,7 +67,7 @@ class CPipe {
 		// [LEGACY] opponent is black, engine is white, stop clocks
 		void black();
 		// ???
-		void setLevel(int movesPerTimeConrol, std::string base, int increment);
+		void setLevel(std::string movesPerTimeConrol, std::string base, std::string increment);
 		// set time controls for game
 		//void setTimeControl(std::string control);
 		//// set depth search limit

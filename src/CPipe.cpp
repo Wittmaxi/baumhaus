@@ -145,8 +145,7 @@ void CPipe::black() {
 	d("opponent: black | engine: white");
 }
 
-void CPipe::setLevel(int movesPerTimeControl, std::string base, int increment) {
-	std::string mpsStr = std::to_string(movesPerTimeControl);
+void CPipe::setLevel(std::string movesPerTimeControl, std::string base, std::string increment) {
 	int delimiterPos = base.find(':');
 	// split min and sec parts
 	std::string minStr = delimiterPos == std::string::npos ? base : base.substr(0, delimiterPos);
@@ -156,15 +155,16 @@ void CPipe::setLevel(int movesPerTimeControl, std::string base, int increment) {
 	// base time. convert to centiseconds immediately
 	std::string centStr = std::to_string(totalSeconds*100);
 	// increment time. convert to centiseconds immediately
-	std::string incStr = std::to_string(increment * 100);
-	d("level setting - mps: " + mpsStr + " moves");
+	int incInt = std::stoi(increment);
+	std::string incStr = std::to_string(incInt * 100);
+	d("level setting - mps: " + movesPerTimeControl + " moves");
 	d("level setting - base: " + minStr + "m " + secStr + "s - " + centStr);
 	d("level setting - inc: " + incStr);
 
 	// determine total times in centiseconds;
 
 	queueInputMessage("level");
-	queueInputMessage(mpsStr);
+	queueInputMessage(movesPerTimeControl);
 	queueInputMessage(centStr);
 	queueInputMessage(incStr);
 }
@@ -256,17 +256,17 @@ void CPipe::startInput() {
 		}
 		else if ("protover" == cmd) {
 			std::string arg;
-			std::cin >> std::skipws >> arg;
+			arg = readNext(true);
 			protover(arg);
 		}
 		else if ("accepted" == cmd) {
 			std::string arg;
-			std::cin >> std::skipws >> arg;
+			arg = readNext(true);
 			featureResponse(true, arg);
 		}
 		else if ("rejected" == cmd) {
 			std::string arg;
-			std::cin >> std::skipws >> arg;
+			arg = readNext(true);
 			featureResponse(false, arg);
 		}
 		else if ("new" == cmd) {
@@ -274,7 +274,7 @@ void CPipe::startInput() {
 		}
 		else if ("variant" == cmd) {
 			std::string arg;
-			std::cin >> std::skipws >> arg;
+			arg = readNext(true);
 			variant(arg);
 		}
 		else if ("random" == cmd) {
@@ -293,23 +293,24 @@ void CPipe::startInput() {
 			black();
 		}
 		else if ("level" == cmd) {
-			int arg1, arg3;
-			std::string arg2;
-			std::cin >> std::skipws >> arg1 >> std::skipws >> arg2 >> std::skipws >> arg3;
+			std::string arg1, arg2, arg3;
+			arg1 = readNext();
+			arg2 = readNext();
+			arg3 = readNext(true);
 			setLevel(arg1, arg2, arg3);
 		}
 		else if ("usermove" == cmd) {
 			std::string arg;
-			std::cin >> std::skipws >> arg;
+			arg = readNext(true);
 			userMove(arg);
 		}
 		else if ("?" == cmd) {
 			moveNow();
 		}
 		else if ("ping" == cmd) {
-			std::string args;
-			std::cin >> std::skipws >> args;
-			ping(args);
+			std::string arg;
+			arg = readNext(true);
+			ping(arg);
 		}
 		else if ("hard" == cmd) {
 			togglePondering(true);
@@ -325,7 +326,7 @@ void CPipe::startInput() {
 		}
 		else if ("name" == cmd) {
 			std::string arg;
-			std::cin >> std::skipws >> arg; // TODO probably read until end of line.
+			arg = readNext(true);
 			opponentName(arg);
 		}
 		else if ("pause" == cmd) {
@@ -355,4 +356,19 @@ void CPipe::d(const char* message) {
 
 void CPipe::d(const std::string message) {
 	d(message.c_str());
+}
+
+std::string CPipe::readNext(bool readToEnd) {
+	std::string str;
+
+	// skip any whitespace at the beginning of the input
+	std::cin >> std::skipws;
+
+	if(readToEnd) {
+		std::getline(std::cin, str);
+	} else {
+		std::cin >> str; 
+	}
+
+	return str;
 }
