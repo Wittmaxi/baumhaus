@@ -1,8 +1,10 @@
 
-compileFlags=-std=c++11 -pthread
+CC=g++
+CFLAGS=-std=c++11 -pthread
+TARGET=bin/baumhaus
 
 baumhausmake: bindir
-	g++  $(compileFlags) src/*.cpp src/pieces/*.cpp -o bin/baumhaus
+	$(CC)  $(CFLAGS) src/*.cpp src/pieces/*.cpp -o $(TARGET)
 
 bindir:
 	mkdir -p bin
