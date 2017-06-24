@@ -6,3 +6,6 @@ baumhausmake: bindir
 
 bindir:
 	mkdir -p bin
+
+clean:
+	rm -Rf bin/*
