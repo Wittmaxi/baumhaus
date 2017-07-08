@@ -11,11 +11,23 @@ To use the engine, an XBoard compatible Chess-UI (Arena is a good free choice) i
 
 ## Compilation
 
-On Linux, you can simply browse to the src-folder of the compiler and run </br>
+###LINUX
 
-g++ *.cpp -o baumhaus </br>
+On Linux, you can simply browse to the main folder of baumhaus and run </br>
+
+$>make </br>
+
+The program will be found in the <bin> folder. 
 
 After that, add the created file (baumhaus) to your chess-UI
+
+###WINDOWS
+
+--Todo
+
+###MAC
+
+--Todo
 
 # Algorythmics
 
