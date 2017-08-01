@@ -9,3 +9,10 @@ bin/
 
 # for us VS users, ignore .vs/
 .vs/
+.vscode/
+.settings/
+
+# OSX users
+**/.DS_Store
+.cproject
+.project
