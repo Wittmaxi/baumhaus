@@ -33,6 +33,7 @@ class CSquare
     protected:
         int protection; //how much the square is protected: example: -1 means, black has protected the square one more time as white. When a piece is on the square it doesn't count as protected
         bool hasPiece; //if a piece is placed on the square.
+        int x, y; 
         CPiece *contained; //stores the contained piece.
 
     private:

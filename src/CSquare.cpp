@@ -86,6 +86,6 @@ CPiece *CSquare::getPiecePointer() {
   if (contained == NULL) {
     std::cout<<"ERROR: A piece was queried, but there is no piece on the current square. This message is only meant to be seen for debug purposes." << std::endl;
   } else {
-
+      return (contained);
   }
 }

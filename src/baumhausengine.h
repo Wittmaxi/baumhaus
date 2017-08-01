@@ -43,16 +43,16 @@ class CBaumhausengine
 		int oTime;
 		// random flag. true = use random
 		bool random;
-		// tracks which player is on turn. false = balck, true = white
+		// tracks which player is on turn. false = black, true = white
 		bool colorOnTurn;
 
 
     private: //methods
-		// initialize the engine for a new game
-		void init();
+		    // initialize the engine for a new game
+		    void init();
 
         void analyzePos(); //analyses the position and returns a move (currently symbolysed as void). A move could be a class (CMove)
-		void ponderPos(); // ponders. this occurs if/when it's the opponent's turn
+		    void ponderPos(); // ponders. this occurs if/when it's the opponent's turn
         void updateSquares();
         void setColor (bool colorI); //setter for the piece-color
         bool getColor ();

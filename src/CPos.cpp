@@ -1,4 +1,7 @@
 #include "CPos.h"
+#include <iostream>
+#include "pieces/CPiece.h"
+
 
 /*
 
@@ -20,8 +23,9 @@ CPos::~CPos()
     //dtor
 }
 
-std::string CPos::getSquareName(int x, int y) {
-
+std::string CPos::getSquareName(int x, int y) { //gets the algebraic notation name of the square
+  const std::vector <char> fileNames  = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'};
+  return (fileNames[x], std::to_string(y));
 }
 
 void CPos::feedFen (std::string fenI) {
@@ -45,12 +49,27 @@ std::vector <std::vector <std::string>> CPos::getPossibleMoves (bool color) {
 
 void CPos::loopPieces(){
   CSquare *currentSquare;
+  CPiece *currentPiece;
   for (int x=1; x++; x=64) {
-    for (int y=1; y++; y=64) {
-      currentSquare = getSquarePointer(x, y);
-      if (currentSquare->containsPiece()) {
-
-      }
+    for (int y=1; y++; y=64) { //loops through the entire board
+        currentSquare = getSquarePointer(x, y);
+        if (currentSquare->containsPiece()) { //if the square contains a piece
+            currentPiece = currentSquare->getPiecePointer();
+            if (toPlay == true) { //white to play
+              if (currentPiece->getColor() == true) { //if the piece is white and white is to play
+                  //currentPiece -> getMoves();
+              }
+            } else //black to play
+              {
+                if (currentPiece -> getColor() == false) { //if the piece is black and black is to play
+                    //currentPiece -> getMoves();
+                }
+              }
+        }
     }
   }
+}
+
+void CPos::appendMoves(std::vector <std::string> newMoves) { //appends moves of a single piece to the entire list of Moves.
+    moves.insert(moves.end(), newMoves.begin(), newMoves.end());
 }
