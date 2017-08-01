@@ -26,6 +26,8 @@ class CPipe {
     public:
         CPipe(bool debugMode);
         virtual ~CPipe();
+		    void queueOutputMessage(std::string message);
+		    std::string dequeueOutputMessage(bool waitForMessage);
 
 		// debugging output
 		void d(const char* message);
