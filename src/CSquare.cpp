@@ -1,4 +1,5 @@
 #include "CSquare.h"
+#include "CPipe.h"
 
 //include all of the piece-files
 
@@ -24,7 +25,7 @@ CSquare::~CSquare()
     //dtor
 }
 
-void CSquare::setPiece (char fenName) { //ONLY!!! at startup or to reset the position/setting a FEN.
+void CSquare::setPiece (char fenName) { //ONLY!!! at startup or to reset the position/setting a FEN. If there is no piece, fenName = "V"
   switch (fenName) {
     //white pieces
       case 'K': //king
@@ -41,6 +42,8 @@ void CSquare::setPiece (char fenName) { //ONLY!!! at startup or to reset the pos
       case 'b': break; //bishop
       case 'p': break; //pawn
       case 'q': break; //queen
+
+      case 'V': contained= NULL; break;
   }
 }
 
@@ -69,4 +72,20 @@ void CSquare::addWhiteAttacker() {
 
 int CSquare::returnAttackState() {
   return protection;
+}
+
+bool CSquare::containsPiece() {
+  if (contained == NULL) {
+    return (false);
+  } else {
+    return (true);
+  }
+}
+
+CPiece *CSquare::getPiecePointer() {
+  if (contained == NULL) {
+    std::cout<<"ERROR: A piece was queried, but there is no piece on the current square. This message is only meant to be seen for debug purposes." << std::endl;
+  } else {
+
+  }
 }

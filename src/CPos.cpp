@@ -42,3 +42,15 @@ CSquare *CPos::getSquarePointer (int x, int y) {
 std::vector <std::vector <std::string>> CPos::getPossibleMoves (bool color) {
 
 }
+
+void CPos::loopPieces(){
+  CSquare *currentSquare;
+  for (int x=1; x++; x=64) {
+    for (int y=1; y++; y=64) {
+      currentSquare = getSquarePointer(x, y);
+      if (currentSquare->containsPiece()) {
+
+      }
+    }
+  }
+}
