@@ -28,8 +28,6 @@ class CPipe {
         virtual ~CPipe();
 		    void queueInputMessage(std::string message);
         std::string dequeueInputMessage(bool waitForMessage);
-		    void queueOutputMessage(std::string message);
-		    std::string dequeueOutputMessage(bool waitForMessage);
 
 		// debugging output
 		void d(const char* message);
