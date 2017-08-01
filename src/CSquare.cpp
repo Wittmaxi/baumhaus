@@ -1,6 +1,6 @@
 #include "CSquare.h"
 #include "CPipe.h"
-
+#include "iostream"
 //include all of the piece-files
 
 #include "pieces/PKing.h"
