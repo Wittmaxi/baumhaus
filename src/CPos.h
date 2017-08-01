@@ -29,9 +29,11 @@ class CPos
 
     protected:
         std::vector<std::vector<CSquare>> squares;
+        std::vector<std::string> moves;
         std::string fen;
     private:
-        void  parseFen(std::string fen);
+        void parseFen(std::string fen);
+        void loopPieces(); //goes through every piece to gets its moves.
 };
 
 #endif // CPOS_H
