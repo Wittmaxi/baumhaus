@@ -7,7 +7,10 @@ class CPiece {
 		virtual void setCoordinates (int cordXI, int cordYI){
 				cordX = cordXI;
 				cordY = cordYI;
-		};
+		}
+		bool getColor() {
+			return (color);
+		}
 	protected:
 		int cordX; //the coordinates of the piece.
 		int cordY;
