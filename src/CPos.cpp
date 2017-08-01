@@ -36,5 +36,9 @@ void CPos::parseFen (std::string fen) {
 }
 
 CSquare *CPos::getSquarePointer (int x, int y) {
-  return squares[x] [y];
+  return &squares[x][y];
+}
+
+std::vector <std::vector <std::string>> getPossibleMoves (bool color) {
+
 }

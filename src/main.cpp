@@ -19,8 +19,6 @@ void optionError(char* long_option);
 void optionError(char short_option);
 void noOptionError();
 
-//using namespace std;
-
 bool debugMode= false;
 
 int main (int argc, char** argv) {

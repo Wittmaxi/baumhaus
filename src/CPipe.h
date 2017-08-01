@@ -6,7 +6,7 @@
 #include <pthread.h>
 #include <mutex>
 
-#define basPosition = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -"
+#define basePosition = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -"
 /*
 
 Baumhaus Engine 2017
@@ -22,8 +22,7 @@ This code comes with no warranty at all; not even the warranty to work properly 
 
 extern const std::string NEWLINE_CMD;
 
-class CPipe
-{
+class CPipe {
     public:
         CPipe(bool debugMode);
         virtual ~CPipe();
@@ -41,6 +40,9 @@ class CPipe
 		void startOutput();
 
     protected:
+		void queueInputMessage(std::string message);
+		std::string dequeueOutputMessage(bool waitForMessage);
+		std::string readNext(bool readToEnd = false);
 		/*
 		XBoard Commands
 		*/
@@ -66,18 +68,18 @@ class CPipe
 		void white();
 		// [LEGACY] opponent is black, engine is white, stop clocks
 		void black();
-		//// ???
-		//void setLevel(int movesPerSecond, int base, int increment);
+		// ???
+		void setLevel(std::string movesPerTimeConrol, std::string base, std::string increment);
 		// set time controls for game
 		//void setTimeControl(std::string control);
 		//// set depth search limit
 		//void setDepth(int depth);
 		//// set nodes per second. if this is set the engine abandons the wall clock, an searches based on number of nodes. e.g. an NPS of 500 would mean iterating over 500
 		//void setNodesPerSecond(int nodes);
-		//// set time for the engine
-		//void setTime(int centiseconds);
-		//// set time for opponent
-		//void setOpponentTime(int centiseconds);
+		// set time for the engine
+		void setTime(int centiseconds);
+		// set time for opponent
+		void setOpponentTime(int centiseconds);
 		// move by the user. move expressed in coordinate algebraic notation.
 		void userMove(std::string move);
 		// engine must submit a move immediately
@@ -98,10 +100,10 @@ class CPipe
 		//void undo();
 		//// user retracts previous move. undo two moves, one for each player. continue playing same color
 		//void remove();
-		//// toggle pondering.
-		//void togglePondering(bool ponder);
-		//// toggle pondering output.
-		//void togglePonderingOutput(bool showOutput);
+		// toggle pondering.
+		void togglePondering(bool ponder);
+		// toggle pondering output.
+		void togglePonderingOutput(bool showOutput);
 		//// enter analyze mode
 		//void analyze();
 		// the xboard sends the opponent's name
@@ -110,7 +112,7 @@ class CPipe
 		//void rating(std::string engineRating, std::string opponentRating);
 		//// ics hostname for playing on chess servers
 		//void ics(string hostname);
-		//// the opponent is a computer. possibly modify behavior?
+		//// the opponent is a computer. possibly modify behavior? --> We should possibly set the brute-force width to 10 instead of 6. LOL
 		//void computer();
 		// pause the game
 		void pause();
