@@ -62,6 +62,22 @@ class CBaumhausengine
 		void pong(std::string val);
 		// make move and update internal board. Both user moves and engines moves should pass thorugh here.
 		void makeMove(std::string move);
+
+
+        /// needed to asses the position
+
+        //void assessPosition(cPos *position);
+
+        /// run by assessPosision(). All these functions also create candidate moves that will be evaluated by a NN and then calculated through.
+
+        //void findOpenLines(cPos *position);
+        //void findHoles(cPos *posision);
+        //void findBadPieces(cPos *position);
+        //void findUnsafeKing(cPos *position);
+        //void findAttackingOpportunity(cPos *position);
+        //void findWeakPawns(cPos *position);
+        //void findHangingPieces(cPos *position);
+        //void findStrongPoints(cPos *position);
 };
 
 #endif // BAUMHAUSENGINE_H
