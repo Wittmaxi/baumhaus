@@ -28,6 +28,9 @@ class CPipe {
         virtual ~CPipe();
 		    void queueOutputMessage(std::string message);
 		    std::string dequeueOutputMessage(bool waitForMessage);
+        void queueInputMessage(std::string message);
+    		std::string dequeueInputMessage(bool waitForMessage); //changed to InputMessage, in case its needed. @awais, delete if its just duplicate
+
 
 		// debugging output
 		void d(const char* message);
@@ -38,8 +41,6 @@ class CPipe {
 		void startOutput();
 
     protected:
-		void queueInputMessage(std::string message);
-		std::string dequeueOutputMessage(bool waitForMessage);
 		std::string readNext(bool readToEnd = false);
 		/*
 		XBoard Commands
