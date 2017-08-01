@@ -32,6 +32,8 @@ class CPos
         std::string fen;
     private:
         void  parseFen(std::string fen);
+        std::vector<std::string> split(const char *str, char c);
+        bool isNumeric(const char c);
 };
 
 #endif // CPOS_H

@@ -96,7 +96,7 @@ void CPipe::xboard() {
 }
 
 void CPipe::protover(std::string version) {
-	//d("protocol version " + version); 
+	//d("protocol version " + version);
 	queueOutputMessage("feature done=0");
 	queueOutputMessage("feature ping=1");
 	queueOutputMessage("feature usermove=1");
@@ -152,7 +152,7 @@ void CPipe::setLevel(int movesPerTimeControl, std::string base, int increment) {
 	std::string minStr = delimiterPos == std::string::npos ? base : base.substr(0, delimiterPos);
 	std::string secStr = delimiterPos == std::string::npos ? "0" : base.substr(delimiterPos + 1);
 	// convert min and sec to centiseconds immediately
-	int totalSeconds = std::stoi(minStr) * 60 + std::stoi(secStr); 
+	int totalSeconds = std::stoi(minStr) * 60 + std::stoi(secStr);
 	// base time. convert to centiseconds immediately
 	std::string centStr = std::to_string(totalSeconds*100);
 	// increment time. convert to centiseconds immediately

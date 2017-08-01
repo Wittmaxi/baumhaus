@@ -28,7 +28,7 @@ int main (int argc, char** argv) {
 	}
 
     CBaumhausengine *engine = new CBaumhausengine(debugMode);
-    
+
 	engine -> startRoutine();
 }
 

@@ -1,0 +1,24 @@
+#include "utility.hpp"
+using namespace std;
+//namespace utility {
+  /* Splits given string by given character and returns the vector of strings. */
+  std::vector<std::string> split(const char *str, char c = ' '){
+    std::vector<std::string> result;
+
+    do{
+       const char *begin = str;
+       while(*str != c && *str)
+           str++;
+
+       result.push_back(std::string(begin, str));
+
+   } while (0 != *str++);
+
+   return result;
+  }
+
+  /* Checks whether given character is a Numeric value of not */
+  bool isNumeric(const char c){
+    return (c > 47 && c < 58);
+  }
+//}

@@ -1,0 +1,6 @@
+#include <vector>
+namespace utility
+{
+   std::vector<std::string> split(const char *str, char c = ' ');
+   bool isNumeric(const char c);
+}
