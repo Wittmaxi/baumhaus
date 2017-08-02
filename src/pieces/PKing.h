@@ -5,6 +5,7 @@
 #include "CPiece.h"
 #include "../CSquare.h"
 #include <vector>
+#include <string>
 
 class PKing : public CPiece
 {
@@ -12,6 +13,7 @@ class PKing : public CPiece
         PKing(bool colorI);
         virtual ~PKing();
         std::vector<int> getSquareOn();
+        std::vector<std::string> getMoves();
 
     protected:
 

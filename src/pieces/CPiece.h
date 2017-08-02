@@ -1,6 +1,9 @@
 #ifndef CPIECE_H
 #define CPIECE_H
 
+#include "PKing.h"
+#include <string>
+#include <vector>
 // pure virtual class. canot be instantiated.
 class CPiece {
 	public:

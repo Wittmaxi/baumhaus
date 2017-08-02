@@ -11,3 +11,7 @@ PKing::~PKing()
 {
     //dtor
 }
+
+std::vector<std::string> PKing::getMoves() {
+
+}

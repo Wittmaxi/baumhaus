@@ -28,8 +28,7 @@ CSquare::~CSquare()
 void CSquare::setPiece (char fenName) { //ONLY!!! at startup or to reset the position/setting a FEN. If there is no piece, fenName = "V"
   switch (fenName) {
     //white pieces
-      case 'K': //king
-          contained = new PKing(true); break;
+      case 'K': break;//king
       case 'N': break; //night
       case 'R': break; //rook
       case 'B': break; //bishop
@@ -43,7 +42,6 @@ void CSquare::setPiece (char fenName) { //ONLY!!! at startup or to reset the pos
       case 'p': break; //pawn
       case 'q': break; //queen
 
-      case 'V': contained= NULL; break;
   }
 }
 
