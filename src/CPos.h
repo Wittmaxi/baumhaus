@@ -37,6 +37,7 @@ class CPos
         void parseFen(std::string fen);
         void loopPieces(); //goes through every piece to gets its moves.
         void appendMoves(std::vector <std::string> newMoves);
+        void setPiece (char fenName, CSquare *currentSquarePointer);
 };
 
 #endif // CPOS_H

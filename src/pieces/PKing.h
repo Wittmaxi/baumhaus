@@ -7,10 +7,10 @@
 #include <vector>
 #include <string>
 
-class PKing : public CPiece
+class PKing: public CPiece
 {
     public:
-        PKing(bool colorI);
+        PKing(bool colorI, CPos *currentPosition);
         virtual ~PKing();
         std::vector<int> getSquareOn();
         std::vector<std::string> getMoves();
@@ -18,6 +18,7 @@ class PKing : public CPiece
     protected:
 
     private:
+      CPos *pos;
 };
 
 #endif // PKING_H

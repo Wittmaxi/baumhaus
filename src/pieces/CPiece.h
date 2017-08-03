@@ -1,7 +1,6 @@
 #ifndef CPIECE_H
 #define CPIECE_H
 
-#include "PKing.h"
 #include <string>
 #include <vector>
 // pure virtual class. canot be instantiated.
@@ -13,6 +12,9 @@ class CPiece {
 		}
 		bool getColor() {
 			return (color);
+		}
+		std::vector<std::string> getMoves() {
+			
 		}
 	protected:
 		int cordX; //the coordinates of the piece.

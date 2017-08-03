@@ -1,7 +1,7 @@
 #include "CPos.h"
 #include <iostream>
 #include "pieces/CPiece.h"
-
+#include "pieces/PKing.h"
 
 /*
 
@@ -21,6 +21,26 @@ CPos::CPos()
 CPos::~CPos()
 {
     //dtor
+}
+
+void CPos::setPiece (char fenName, CSquare *currentSquarePointer) { //ONLY!!! at startup or to reset the position/setting a FEN. If there is no piece, fenName = "V"
+  switch (fenName) {
+    //white pieces
+      case 'K': currentSquarePointer -> setPiecePointer(new PKing(true, this));break;//king
+      case 'N': break; //night
+      case 'R': break; //rook
+      case 'B': break; //bishop
+      case 'P': break; //pawn
+      case 'Q': break; //queen
+    //black pieces
+      case 'k': break; //king
+      case 'r': break; //rook
+      case 'n': break; //night
+      case 'b': break; //bishop
+      case 'p': break; //pawn
+      case 'q': break; //queen
+
+  }
 }
 
 std::string CPos::getSquareName(int x, int y) { //gets the algebraic notation name of the square
@@ -57,7 +77,7 @@ void CPos::loopPieces(){
             currentPiece = currentSquare->getPiecePointer();
             if (toPlay == true) { //white to play
               if (currentPiece->getColor() == true) { //if the piece is white and white is to play
-                  //currentPiece -> getMoves();
+                  currentPiece -> getMoves();
               }
             } else //black to play
               {
