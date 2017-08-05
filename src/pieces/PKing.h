@@ -14,7 +14,7 @@ class PKing: public CPiece
         virtual ~PKing();
         std::vector<int> getSquareOn();
         virtual std::vector<std::string> getMoves();
-
+        bool squareAvailable (int cordX,int cordY);
     protected:
 
     private:

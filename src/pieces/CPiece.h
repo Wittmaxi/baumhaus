@@ -14,7 +14,6 @@ class CPiece {
 		int cordX; //the coordinates of the piece.
 		int cordY;
 		bool color; //the figurine color. True means white. LOL.
-		bool isOutOfBoard (int cordX, int cordY);
 };
 
 #endif // CPIECE_H
