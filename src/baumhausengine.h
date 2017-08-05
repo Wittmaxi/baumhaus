@@ -36,6 +36,7 @@ class CBaumhausengine
         CPipe *pipe;
         bool color; //false = black, true = white.
         bool gotPipeInput; //if the computer has to stop thinking (is checked by a pipe)
+        std::vector<std::string> movesList;
 
 		// engine's time in centiseconds
 		int mTime;

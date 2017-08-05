@@ -40,6 +40,7 @@ std::vector<std::string> PKing::getMoves() {
   if (!(squareAvailable (cordX -1, cordY-1))) {
     tempMoves.push_back (CPos::getSquareName(cordX, cordY) + CPos::getSquareName(cordX-1, cordY-1));
   }
+  return tempMoves;
 }
 
 bool PKing::squareAvailable (int cordX,int cordY) {

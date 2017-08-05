@@ -29,7 +29,7 @@ class CPos
 
 
     protected:
-        std::vector<std::vector<CSquare>> squares;
+        std::vector<std::vector<CSquare*>> squares;
         std::vector<std::string> moves;
         std::string fen;
         bool toPlay; //which player is to play

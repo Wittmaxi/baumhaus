@@ -15,7 +15,12 @@ This code comes with no warranty at all; not even the warranty to work properly 
 
 CPos::CPos()
 {
-    //ctor
+  for (int x=1; x++; x=8) {
+    for (int y=1; y++; y=8) { //loops through the entire board
+      squares.push_back (new CSquare());
+    }
+  }
+
 }
 
 CPos::~CPos()
@@ -24,6 +29,9 @@ CPos::~CPos()
 }
 
 void CPos::setPiece (char fenName, CSquare *currentSquarePointer) { //ONLY!!! at startup or to reset the position/setting a FEN. If there is no piece, fenName = "V"
+  std::cout << "LOL1";
+  currentSquarePointer -> setPiecePointer(new PKing(true, this));
+  std::cout << "LOL2";
   switch (fenName) {
     //white pieces
       case 'K': currentSquarePointer -> setPiecePointer(new PKing(true, this));break;//king
@@ -33,7 +41,7 @@ void CPos::setPiece (char fenName, CSquare *currentSquarePointer) { //ONLY!!! at
       case 'P': break; //pawn
       case 'Q': break; //queen
     //black pieces
-      case 'k': break; //king
+      case 'k': currentSquarePointer -> setPiecePointer(new PKing(false, this)); break; //king
       case 'r': break; //rook
       case 'n': break; //night
       case 'b': break; //bishop
@@ -50,39 +58,48 @@ std::string CPos::getSquareName(int x, int y) { //gets the algebraic notation na
 
 void CPos::feedFen (std::string fenI) {
     fen = fenI;
+    std::cout<< "barrier 0.5 passed!" << std::endl;
+    parseFen(fenI);
 }
 
 void CPos::parseFen (std::string fen) {
   //TODO parse the FEN to feed it into each square.
+
+  std::cout<< "barrier 1 passed";
+  setPiece ('k', getSquarePointer(5, 8));
+  std::cout<< "barrier 2 passed";
   while (true) { //nothingly nothingness.
 
   }
 }
 
 CSquare *CPos::getSquarePointer (int x, int y) {
-  return &squares[x][y];
+  std::cout << "LOL0";
+  return squares[x-1][y-1];
+  std::cout<<"Lol0.1";
 }
 
 std::vector <std::string> CPos::getPossibleMoves (bool color) {
-
+  loopPieces();
+  return moves;
 }
 
 void CPos::loopPieces(){
   CSquare *currentSquare;
   CPiece *currentPiece;
-  for (int x=1; x++; x=64) {
-    for (int y=1; y++; y=64) { //loops through the entire board
+  for (int x=1; x++; x=8) {
+    for (int y=1; y++; y=8) { //loops through the entire board
         currentSquare = getSquarePointer(x, y);
         if (currentSquare->containsPiece()) { //if the square contains a piece
             currentPiece = currentSquare->getPiecePointer();
             if (toPlay == true) { //white to play
               if (currentPiece->getColor() == true) { //if the piece is white and white is to play
-                  currentPiece -> getMoves();
+                  appendMoves(currentPiece -> getMoves());
               }
             } else //black to play
               {
                 if (currentPiece -> getColor() == false) { //if the piece is black and black is to play
-                    //currentPiece -> getMoves();
+                    appendMoves(currentPiece -> getMoves());
                 }
               }
         }
