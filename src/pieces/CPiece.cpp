@@ -16,6 +16,6 @@ bool CPiece::isOutOfBoard (int cordX,int cordY) {
   }
 }
 
-std::vector<std::string> getMoves() {
+std::vector<std::string> CPiece::getMoves() {
 
 }

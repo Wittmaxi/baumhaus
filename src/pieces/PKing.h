@@ -13,7 +13,7 @@ class PKing: public CPiece
         PKing(bool colorI, CPos *currentPosition);
         virtual ~PKing();
         std::vector<int> getSquareOn();
-        std::vector<std::string> getMoves();
+        virtual std::vector<std::string> getMoves();
 
     protected:
 
