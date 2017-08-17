@@ -13,6 +13,9 @@ This code comes with no warranty at all; not even the warranty to work properly 
 
 */
 
+bool firstTime = false;
+
+
 CBaumhausengine::CBaumhausengine(bool debugMode)
 {
     this->position = new CPos();
@@ -37,19 +40,15 @@ void CBaumhausengine::init() {
 	pipe->d("End - init()");
 }
 
-bool firstTime = false;
 
 void CBaumhausengine::analyzePos() {
-	// TODO Main thinking logic would probably be here.
-  std::cout<< "barrier 0 passed!" << std::endl;
-  position->getPossibleMoves(false);
-  std::cout<< "barrier one passed!" << std::endl;
-	// . . .
+	// TODO Main thinking logic would probably be here..
   std::string tempMove;
 	// we should have candidate move now.
   movesList.clear();
   movesList.insert(movesList.end(), position->getPossibleMoves(false).begin(), position->getPossibleMoves(false).end());
   if (firstTime == true) {
+    std::cout << "firstTime passed" << std::endl;
   	tempMove = "e7e5";
     firstTime = false;
   } else {
