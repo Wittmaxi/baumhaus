@@ -29,6 +29,7 @@ class CBaumhausengine
 
     private: //members
 
+        pthread_t routineThread;
 		    bool debugMode;
 
         int depth; //searching depth

@@ -15,7 +15,7 @@ This code comes with no warranty at all; not even the warranty to work properly 
 
 CBaumhausengine::CBaumhausengine(bool debugMode)
 {
-    this->position = new CPos;
+    this->position = new CPos();
     this->pipe = new CPipe(debugMode);
 	  this->debugMode = debugMode;
     this->init(); //might be not used... If so remove it. Initially used for debug
@@ -33,21 +33,25 @@ void CBaumhausengine::init() {
 	this->random = false; // by default random is off
 	this->colorOnTurn = true; // white starts the match
 	this->color = false; // engine will play black
-  position->feedFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -");
+  position->feedFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -"); //not the true starting position, but a starting position that is used 4 debug
 	pipe->d("End - init()");
 }
 
+bool firstTime = false;
+
 void CBaumhausengine::analyzePos() {
 	// TODO Main thinking logic would probably be here.
-std::cout<< "barrier 0 passed!" << std::endl;
-position->getPossibleMoves(false);
-std::cout<< "barrier one passed!" << std::endl;
+  std::cout<< "barrier 0 passed!" << std::endl;
+  position->getPossibleMoves(false);
+  std::cout<< "barrier one passed!" << std::endl;
 	// . . .
   std::string tempMove;
 	// we should have candidate move now.
+  movesList.clear();
   movesList.insert(movesList.end(), position->getPossibleMoves(false).begin(), position->getPossibleMoves(false).end());
-  if (movesList.empty ()) {
+  if (firstTime == true) {
   	tempMove = "e7e5";
+    firstTime = false;
   } else {
     tempMove == movesList [0];
   }
@@ -77,36 +81,37 @@ void CBaumhausengine::startRoutine() {
 
 	std::string message;
 	while (true) { //just simply spools to wait for a signal
-		std::string message = pipe->dequeueInputMessage(false);
+    		std::string message = pipe->dequeueInputMessage(false);
+        if (message != "") {std::cout << message << " <<<< The gotten Message" << std::endl;}
 
-		if("quit" == message) {
-			break;
-		}
-		else if ("new" == message) {
-			init();
-		}
-		else if("ping" == message) {
-			pong(pipe->dequeueInputMessage(true));
-		}
-		else if("random" == message) {
-			this->random = !this->random;
-		}
-		else if ("usermove" == message) {
-			std::string move = pipe->dequeueInputMessage(true);
-			// validate move
-			// TODO
+    		if("quit" == message) {
+    			break;
+    		}
+    		else if ("new" == message) {
+    			init();
+    		}
+    		else if("ping" == message.substr(0, 4)) {
+    			pong(pipe->dequeueInputMessage(true));
+    		}
+    		else if("random" == message) {
+    			this->random = !this->random;
+    		}
+    		else if ("usermove" == message) { //quick and dirty way. needs to be made better
+          std::cout << "Got usermove request" << std::endl;
+          analyzePos();
+    			//std::string move = pipe->dequeueInputMessage(true);
+    			// validate move
+    			// TODO
 
-			// if validation checks out. make the move.
-			makeMove(move);
-		}
-
-		// we've handled the message (assimung there was one), we can continue pondering/thinking
-		if(this->color == this->colorOnTurn) { // engine's turn
-			analyzePos();
-		}
-		else {
-			ponderPos();
-		}
+          // we've handled the message (assimung there was one), we can continue pondering/thinking
+          /*if(this->color == this->colorOnTurn) { // engine's turn
+                this->analyzePos();
+          } else {
+                this->ponderPos();
+          }*/
+    			// if validation checks out. make the move.
+    			//makeMove(move);
+  		  }
 	}
 
 	pipe->d("Goodbye!");
@@ -114,6 +119,7 @@ void CBaumhausengine::startRoutine() {
 
 void CBaumhausengine::pong(std::string val) {
 	this->pipe->queueOutputMessage("pong " + val);
+  std::cout << "Got Pong request" << std::endl;
 }
 
 void CBaumhausengine::makeMove(std::string move) {

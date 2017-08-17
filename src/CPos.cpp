@@ -15,11 +15,23 @@ This code comes with no warranty at all; not even the warranty to work properly 
 
 CPos::CPos()
 {
-  for (int x=1; x++; x=8) {
-    for (int y=1; y++; y=8) { //loops through the entire board
-      squares.push_back (new CSquare());
+
+  std::cout << "starting generation of the squares vector" << std::endl;
+  std::vector<CSquare*> row;
+
+  int x = 0;
+  for (x=0; x < 8; x++) {
+      squares.push_back (row);
+      std::cout << "creating new columns for squares" << x << std::endl;
     }
-  }
+    for (int x=0; x < 8; x++) {
+        for (int y=1; y < 8; y++) { //loops through the entire board
+          squares[x-1, y-1].push_back (new CSquare());
+          std::cout << "creating squares in squares " << y << std::endl;
+        }
+    }
+    std::cout << "vector content" << sizeof (squares)<< std::endl;
+    std::cout << "should be generated" << std::endl;
 
 }
 
@@ -29,9 +41,9 @@ CPos::~CPos()
 }
 
 void CPos::setPiece (char fenName, CSquare *currentSquarePointer) { //ONLY!!! at startup or to reset the position/setting a FEN. If there is no piece, fenName = "V"
-  std::cout << "LOL1";
+  std::cout << "LOL 1" << std::endl;
   currentSquarePointer -> setPiecePointer(new PKing(true, this));
-  std::cout << "LOL2";
+  std::cout << "LOL 2" << std::endl;
   switch (fenName) {
     //white pieces
       case 'K': currentSquarePointer -> setPiecePointer(new PKing(true, this));break;//king
@@ -58,25 +70,22 @@ std::string CPos::getSquareName(int x, int y) { //gets the algebraic notation na
 
 void CPos::feedFen (std::string fenI) {
     fen = fenI;
-    std::cout<< "barrier 0.5 passed!" << std::endl;
+    std::cout<< std::endl << "barrier 0.5 passed!" << std::endl;
     parseFen(fenI);
 }
 
 void CPos::parseFen (std::string fen) {
   //TODO parse the FEN to feed it into each square.
 
-  std::cout<< "barrier 1 passed";
+  std::cout<< "barrier 1 passed" << std::endl;
   setPiece ('k', getSquarePointer(5, 8));
-  std::cout<< "barrier 2 passed";
-  while (true) { //nothingly nothingness.
-
-  }
+  std::cout<< "barrier 2 passed" << std::endl;
 }
 
 CSquare *CPos::getSquarePointer (int x, int y) {
-  std::cout << "LOL0";
+  std::cout << "LOL0" << std::endl;
   return squares[x-1][y-1];
-  std::cout<<"Lol0.1";
+  std::cout<<"Lol0.1" << std::endl;
 }
 
 std::vector <std::string> CPos::getPossibleMoves (bool color) {

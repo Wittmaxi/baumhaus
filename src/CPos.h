@@ -18,26 +18,26 @@ This code comes with no warranty at all; not even the warranty to work properly 
 
 class CPos
 {
-    public:
-        CPos();
-        virtual ~CPos();
-        static std::string getSquareName(int a, int b); //gets the two indexes of the board
-        CSquare *getSquareWithName();
-        void feedFen (std::string fenI);
-        CSquare *getSquarePointer(int x, int y);
-        std::vector<std::string> getPossibleMoves(bool color); //color: true = white
+		public:
+				CPos();
+				virtual ~CPos();
+				static std::string getSquareName(int a, int b); //gets the two indexes of the board
+				CSquare *getSquareWithName();
+				void feedFen (std::string fenI);
+				CSquare *getSquarePointer(int x, int y);
+				std::vector<std::string> getPossibleMoves(bool color); //color: true = white
 
 
-    protected:
-        std::vector<std::vector<CSquare*>> squares;
-        std::vector<std::string> moves;
-        std::string fen;
-        bool toPlay; //which player is to play
-    private:
-        void parseFen(std::string fen);
-        void loopPieces(); //goes through every piece to gets its moves.
-        void appendMoves(std::vector <std::string> newMoves);
-        void setPiece (char fenName, CSquare *currentSquarePointer);
+		protected:
+				std::vector<std::vector<CSquare*>> squares;
+				std::vector<std::string> moves;
+				std::string fen;
+				bool toPlay; //which player is to play
+		private:
+				void parseFen(std::string fen);
+				void loopPieces(); //goes through every piece to gets its moves.
+				void appendMoves(std::vector <std::string> newMoves);
+				void setPiece (char fenName, CSquare *currentSquarePointer);
 };
 
 #endif // CPOS_H
