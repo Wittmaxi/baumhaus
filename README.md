@@ -11,7 +11,7 @@ To use the engine, an XBoard compatible Chess-UI (Arena is a good free choice) i
 
 ## Compilation
 
-###LINUX
+### LINUX
 
 On Linux, you can simply browse to the main folder of baumhaus and run </br>
 
@@ -21,11 +21,11 @@ The program will be found in the <bin> folder.
 
 After that, add the created file (baumhaus) to your chess-UI
 
-###WINDOWS
+### WINDOWS
 
 --Todo
 
-###MAC
+### MAC
 
 --Todo
 
