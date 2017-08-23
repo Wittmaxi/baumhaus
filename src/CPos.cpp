@@ -18,15 +18,14 @@ CPos::CPos()
 
   std::cout << "starting generation of the squares vector" << std::endl;
   std::vector<CSquare*> row;
-
-  int x = 0;
-  for (x=0; x < 8; x++) {
+  int x = 1;
+  for (x=1; x <= 8; x++) {
       squares.push_back (row);
       std::cout << "creating new columns for squares" << x << std::endl;
     }
-    for (int x=0; x < 8; x++) {
-        for (int y=1; y < 8; y++) { //loops through the entire board
-          squares[x-1, y-1].push_back (new CSquare());
+    for (int x=1; x <= 8; x++) {
+        for (int y=1; y <= 8; y++) { //loops through the entire board
+          squares[x-1, y-1].push_back (new CSquare(x, y));
           std::cout << "creating squares in squares " << y << std::endl;
         }
     }
@@ -42,9 +41,9 @@ CPos::~CPos()
 
 void CPos::setPiece (char fenName, CSquare *currentSquarePointer) { //ONLY!!! at startup or to reset the position/setting a FEN. If there is no piece, fenName = "V"
   std::cout << "LOL 1" << std::endl;
-  currentSquarePointer -> setPiecePointer(new PKing(true, this));
+  currentSquarePointer -> setPiecePointer(new PKing(false, this));
   std::cout << "LOL 2" << std::endl;
-  switch (fenName) {
+  /*switch (fenName) {
     //white pieces
       case 'K': currentSquarePointer -> setPiecePointer(new PKing(true, this));break;//king
       case 'N': break; //night
@@ -60,7 +59,7 @@ void CPos::setPiece (char fenName, CSquare *currentSquarePointer) { //ONLY!!! at
       case 'p': break; //pawn
       case 'q': break; //queen
 
-  }
+  } */
 }
 
 std::string CPos::getSquareName(int x, int y) { //gets the algebraic notation name of the square
@@ -78,14 +77,14 @@ void CPos::parseFen (std::string fen) {
   //TODO parse the FEN to feed it into each square.
 
   std::cout<< "barrier 1 passed" << std::endl;
-  setPiece ('k', getSquarePointer(5, 8));
+  setPiece ('k', getSquarePointer(8, 5));
   std::cout<< "barrier 2 passed" << std::endl;
 }
 
 CSquare *CPos::getSquarePointer (int x, int y) {
-  std::cout << "LOL0" << std::endl;
+  std::cout << "  " << x << std::endl;
+  std::cout << "LOL0   " << squares.size() << "    " << x << "         " << squares[x].size() << "                " << y << std::endl;
   return squares[x-1][y-1];
-  std::cout<<"Lol0.1" << std::endl;
 }
 
 std::vector <std::string> CPos::getPossibleMoves (bool color) {
@@ -96,18 +95,27 @@ std::vector <std::string> CPos::getPossibleMoves (bool color) {
 void CPos::loopPieces(){
   CSquare *currentSquare;
   CPiece *currentPiece;
-  for (int x=1; x++; x=8) {
-    for (int y=1; y++; y=8) { //loops through the entire board
+  for (int x=1; x<= 8; x++) {
+    for (int y=1; y <= 8; y++) { //loops through the entire board
+        std::cout << "loopPieces" << y;
         currentSquare = getSquarePointer(x, y);
+        std::cout << "debug1" << std::endl;
         if (currentSquare->containsPiece()) { //if the square contains a piece
+                  std::cout << "debug2" << std::endl;
             currentPiece = currentSquare->getPiecePointer();
+                    std::cout << "debug3" << std::endl;
             if (toPlay == true) { //white to play
+                      std::cout << "debug4" << std::endl;
               if (currentPiece->getColor() == true) { //if the piece is white and white is to play
+                      std::cout << "debug5" << std::endl;
                   appendMoves(currentPiece -> getMoves());
               }
             } else //black to play
               {
+                std::cout << "debug6" << std::endl;
+                std::cout << currentPiece -> getColor () << std::endl;
                 if (currentPiece -> getColor() == false) { //if the piece is black and black is to play
+                std::cout << "debug7" << std::endl;
                     appendMoves(currentPiece -> getMoves());
                 }
               }
@@ -117,5 +125,8 @@ void CPos::loopPieces(){
 }
 
 void CPos::appendMoves(std::vector <std::string> newMoves) { //appends moves of a single piece to the entire list of Moves.
-    moves.insert(moves.end(), newMoves.begin(), newMoves.end());
+  std::cout << "debug7" << std::endl;
+  if (newMoves.size() > 0) {
+    moves.insert(moves.end() -1, newMoves.begin()-1, newMoves.end()-1);
+  }
 }

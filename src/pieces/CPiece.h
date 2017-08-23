@@ -3,12 +3,13 @@
 
 #include <string>
 #include <vector>
+#include <iostream>
 // pure virtual class. canot be instantiated.
 class CPiece {
 	public:
 		virtual void setCoordinates (int cordXI, int cordYI);
 		bool getColor();
-		std::vector<std::string> getMoves();
+		virtual std::vector<std::string> getMoves() =0;
 
 	protected:
 		int cordX; //the coordinates of the piece.

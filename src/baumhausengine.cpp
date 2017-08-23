@@ -13,8 +13,6 @@ This code comes with no warranty at all; not even the warranty to work properly 
 
 */
 
-bool firstTime = false;
-
 
 CBaumhausengine::CBaumhausengine(bool debugMode)
 {
@@ -38,6 +36,7 @@ void CBaumhausengine::init() {
 	this->color = false; // engine will play black
   position->feedFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -"); //not the true starting position, but a starting position that is used 4 debug
 	pipe->d("End - init()");
+  firstTime = true;
 }
 
 
@@ -45,13 +44,13 @@ void CBaumhausengine::analyzePos() {
 	// TODO Main thinking logic would probably be here..
   std::string tempMove;
 	// we should have candidate move now.
+  std::cout << firstTime << std::endl;
   movesList.clear();
-  movesList.insert(movesList.end(), position->getPossibleMoves(false).begin(), position->getPossibleMoves(false).end());
-  if (firstTime == true) {
-    std::cout << "firstTime passed" << std::endl;
+    if (firstTime == true) {
   	tempMove = "e7e5";
     firstTime = false;
   } else {
+    movesList.insert(movesList.end(), position->getPossibleMoves(false).begin(), position->getPossibleMoves(false).end());
     tempMove == movesList [0];
   }
 	makeMove(tempMove);
@@ -81,8 +80,6 @@ void CBaumhausengine::startRoutine() {
 	std::string message;
 	while (true) { //just simply spools to wait for a signal
     		std::string message = pipe->dequeueInputMessage(false);
-        if (message != "") {std::cout << message << " <<<< The gotten Message" << std::endl;}
-
     		if("quit" == message) {
     			break;
     		}

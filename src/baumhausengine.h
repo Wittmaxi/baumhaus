@@ -48,6 +48,7 @@ class CBaumhausengine
 		// tracks which player is on turn. false = black, true = white
 		bool colorOnTurn;
 
+    bool firstTime; //DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG
 
     private: //methods
 		    // initialize the engine for a new game
@@ -66,7 +67,7 @@ class CBaumhausengine
 		void makeMove(std::string move);
 
 
-        /// needed to asses the position
+        /// needed to assess the position
 
         //void assessPosition(cPos *position);
 

@@ -15,9 +15,12 @@ This code comes with no warranty at all; not even the warranty to work properly 
 
 */
 
-CSquare::CSquare()
+CSquare::CSquare(int iX, int iY)
 {
     //ctor
+    hasPiece = false;
+    x = iX;
+    y = iY;
 }
 
 CSquare::~CSquare()
@@ -27,15 +30,20 @@ CSquare::~CSquare()
 
 CPiece* CSquare::removePiece() { //gives back a pointer to the piece so the engine can put it on another CSquare
   return contained;
-  contained = NULL;
+  hasPiece = false;
 }
 
-void CSquare::takePiece() {
+CPiece* CSquare::takePiece() {
+  return contained;
   delete contained; // deletes the instance of that piece.
+  hasPiece = false;
 }
 
 void CSquare::setPiecePointer (CPiece* input) {
   contained = input;
+  hasPiece = true;
+  std::cout << "set hasPiece to true " << std::endl;
+  contained -> setCoordinates(x, y);
 }
 
 
@@ -53,16 +61,12 @@ int CSquare::returnAttackState() {
 }
 
 bool CSquare::containsPiece() {
-  if (contained == NULL) {
-    return (false);
-  } else {
-    return (true);
-  }
+  return hasPiece;
 }
 
 CPiece *CSquare::getPiecePointer() {
-  if (contained == NULL) {
-    std::cout<<"ERROR: A piece was queried, but there is no piece on the current square. This message is only meant to be seen for debug purposes." << std::endl;
+  if (!(containsPiece())) {
+
   } else {
       return (contained);
   }
