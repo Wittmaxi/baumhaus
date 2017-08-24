@@ -82,8 +82,7 @@ void CPos::parseFen (std::string fen) {
 }
 
 CSquare *CPos::getSquarePointer (int x, int y) {
-  std::cout << "  " << x << std::endl;
-  std::cout << "LOL0   " << squares.size() << "    " << x << "         " << squares[x].size() << "                " << y << std::endl;
+  std::cout << "getSquarePointer(): " << x << ", " << y <<  std::endl;
   return squares[x-1][y-1];
 }
 
@@ -96,36 +95,27 @@ void CPos::loopPieces(){
   CSquare *currentSquare;
   CPiece *currentPiece;
   for (int x=1; x<= 8; x++) {
-    for (int y=1; y <= 8; y++) { //loops through the entire board
-        std::cout << "loopPieces" << y;
-        currentSquare = getSquarePointer(x, y);
-        std::cout << "debug1" << std::endl;
-        if (currentSquare->containsPiece()) { //if the square contains a piece
-                  std::cout << "debug2" << std::endl;
-            currentPiece = currentSquare->getPiecePointer();
-                    std::cout << "debug3" << std::endl;
-            if (toPlay == true) { //white to play
-                      std::cout << "debug4" << std::endl;
-              if (currentPiece->getColor() == true) { //if the piece is white and white is to play
-                      std::cout << "debug5" << std::endl;
-                  appendMoves(currentPiece -> getMoves());
-              }
-            } else //black to play
-              {
-                std::cout << "debug6" << std::endl;
-                std::cout << currentPiece -> getColor () << std::endl;
-                if (currentPiece -> getColor() == false) { //if the piece is black and black is to play
-                std::cout << "debug7" << std::endl;
-                    appendMoves(currentPiece -> getMoves());
-                }
-              }
-        }
-    }
-  }
+		for (int y=1; y <= 8; y++) { //loops through the entire board
+			currentSquare = getSquarePointer(x, y);
+			if (currentSquare->containsPiece()) { //if the square contains a piece
+				currentPiece = currentSquare->getPiecePointer();
+				if (toPlay == true) { //white to play
+					if (currentPiece->getColor() == true) { //if the piece is white and white is to play
+						appendMoves(currentPiece -> getMoves());
+					}
+				} 
+				else { //black to play
+					std::cout << currentPiece -> getColor () << std::endl;
+					if (currentPiece -> getColor() == false) { //if the piece is black and black is to play
+					appendMoves(currentPiece -> getMoves());
+					}
+				}
+			}
+		}
+	}
 }
 
 void CPos::appendMoves(std::vector <std::string> newMoves) { //appends moves of a single piece to the entire list of Moves.
-  std::cout << "debug7" << std::endl;
   if (newMoves.size() > 0) {
     moves.insert(moves.end() -1, newMoves.begin()-1, newMoves.end()-1);
   }
