@@ -18,19 +18,21 @@ This code comes with no warranty at all; not even the warranty to work properly 
 class CSquare
 {
     public:
-        CSquare();
+        CSquare(int iX, int iY);
         virtual ~CSquare();
-        void setPiece(char fenName);
         CPiece* removePiece();
-        void takePiece();
+        CPiece* takePiece();
         void setPiecePointer (CPiece* input);
+        CPiece *getPiecePointer();
         void addBlackAttacker(); //increases the protection of the square (-1)
         void addWhiteAttacker(); //increases the protection of the square (+1)
         int returnAttackState(); //returns the protection state of a square
+        bool containsPiece();
 
     protected:
         int protection; //how much the square is protected: example: -1 means, black has protected the square one more time as white. When a piece is on the square it doesn't count as protected
         bool hasPiece; //if a piece is placed on the square.
+        int x, y; // one indexed
         CPiece *contained; //stores the contained piece.
 
     private:

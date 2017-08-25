@@ -29,6 +29,7 @@ class CBaumhausengine
 
     private: //members
 
+        pthread_t routineThread;
 		    bool debugMode;
 
         int depth; //searching depth
@@ -36,6 +37,7 @@ class CBaumhausengine
         CPipe *pipe;
         bool color; //false = black, true = white.
         bool gotPipeInput; //if the computer has to stop thinking (is checked by a pipe)
+        std::vector<std::string> movesList;
 
 		// engine's time in centiseconds
 		int mTime;
@@ -43,16 +45,17 @@ class CBaumhausengine
 		int oTime;
 		// random flag. true = use random
 		bool random;
-		// tracks which player is on turn. false = balck, true = white
+		// tracks which player is on turn. false = black, true = white
 		bool colorOnTurn;
 
+    bool firstTime; //DEBUG DEBUG DEBUG DEBUG DEBUG DEBUG
 
     private: //methods
-		// initialize the engine for a new game
-		void init();
+		    // initialize the engine for a new game
+		    void init();
 
         void analyzePos(); //analyses the position and returns a move (currently symbolysed as void). A move could be a class (CMove)
-		void ponderPos(); // ponders. this occurs if/when it's the opponent's turn
+		    void ponderPos(); // ponders. this occurs if/when it's the opponent's turn
         void updateSquares();
         void setColor (bool colorI); //setter for the piece-color
         bool getColor ();
@@ -64,7 +67,7 @@ class CBaumhausengine
 		void makeMove(std::string move);
 
 
-        /// needed to asses the position
+        /// needed to assess the position
 
         //void assessPosition(cPos *position);
 

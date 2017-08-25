@@ -3,6 +3,7 @@
 #include <iostream>
 #include <cstring>
 
+
 /*
 
 Baumhaus Engine 2017
@@ -29,7 +30,7 @@ int main (int argc, char** argv) {
 
     CBaumhausengine *engine = new CBaumhausengine(debugMode);
 
-	  engine -> startRoutine();
+	engine->startRoutine();
 }
 
 bool evaluateArgs(int argc, char** argv) {

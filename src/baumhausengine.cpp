@@ -13,11 +13,13 @@ This code comes with no warranty at all; not even the warranty to work properly 
 
 */
 
+
 CBaumhausengine::CBaumhausengine(bool debugMode)
 {
-    this->position = new CPos;
+    this->position = new CPos();
     this->pipe = new CPipe(debugMode);
-	this->debugMode = debugMode;
+	  this->debugMode = debugMode;
+    this->init(); //might be not used... If so remove it. Initially used for debug
     //ctor
 }
 
@@ -32,16 +34,36 @@ void CBaumhausengine::init() {
 	this->random = false; // by default random is off
 	this->colorOnTurn = true; // white starts the match
 	this->color = false; // engine will play black
+  position->feedFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -"); //not the true starting position, but a starting position that is used 4 debug
 	pipe->d("End - init()");
+  firstTime = true;
 }
 
+
 void CBaumhausengine::analyzePos() {
-	// TODO Main thinking logic would probably be here.
-
-	// . . .
-
+	// TODO Main thinking logic would probably be here..
+  std::string tempMove;
 	// we should have candidate move now.
-	std::string tempMove = "e7e5";
+  std::cout << firstTime << std::endl;
+  movesList.clear();
+    if (firstTime == true) {
+  	tempMove = "e7e5";
+    firstTime = false;
+  } else {
+		std::vector<std::string> possibleMoves = position->getPossibleMoves(false); // TODO change the hardcoded 'false' to the actual current color
+    std::cout << possibleMoves.size() << std::endl;
+    int counter = 0;
+    while (counter < possibleMoves.size()) {
+      std::cout << possibleMoves[counter] << std::endl;
+      counter ++;
+    }
+    if (possibleMoves.size() > 0) {
+			movesList.insert(movesList.end(), possibleMoves.begin(), possibleMoves.end());
+			tempMove = possibleMoves [3];
+      std::cout << tempMove << std::endl;
+		}
+  }
+  std::cout << tempMove << std::endl;
 	makeMove(tempMove);
 	pipe->queueOutputMessage("move " + tempMove);
 }
@@ -68,36 +90,35 @@ void CBaumhausengine::startRoutine() {
 
 	std::string message;
 	while (true) { //just simply spools to wait for a signal
-		std::string message = pipe->dequeueInputMessage(false);
+    		std::string message = pipe->dequeueInputMessage(false);
+    		if("quit" == message) {
+    			break;
+    		}
+    		else if ("new" == message) {
+    			init();
+    		}
+    		else if("ping" == message.substr(0, 4)) {
+    			pong(pipe->dequeueInputMessage(true));
+    		}
+    		else if("random" == message) {
+    			this->random = !this->random;
+    		}
+    		else if ("usermove" == message) { //quick and dirty way. needs to be made better
+          std::cout << "Got usermove request" << std::endl;
+          analyzePos();
+    			//std::string move = pipe->dequeueInputMessage(true);
+    			// validate move
+    			// TODO
 
-		if("quit" == message) {
-			break;
-		} 
-		else if ("new" == message) {
-			init();
-		}
-		else if("ping" == message) {
-			pong(pipe->dequeueInputMessage(true));
-		}
-		else if("random" == message) {
-			this->random = !this->random;
-		}
-		else if ("usermove" == message) {
-			std::string move = pipe->dequeueInputMessage(true);
-			// validate move
-			// TODO
-			
-			// if validation checks out. make the move.
-			makeMove(move);
-		}
-
-		// we've handled the message (assimung there was one), we can continue pondering/thinking
-		if(this->color == this->colorOnTurn) { // engine's turn
-			analyzePos();
-		}
-		else {
-			ponderPos();
-		}
+          // we've handled the message (assimung there was one), we can continue pondering/thinking
+          /*if(this->color == this->colorOnTurn) { // engine's turn
+                this->analyzePos();
+          } else {
+                this->ponderPos();
+          }*/
+    			// if validation checks out. make the move.
+    			//makeMove(move);
+  		  }
 	}
 
 	pipe->d("Goodbye!");
@@ -105,6 +126,7 @@ void CBaumhausengine::startRoutine() {
 
 void CBaumhausengine::pong(std::string val) {
 	this->pipe->queueOutputMessage("pong " + val);
+  std::cout << "Got Pong request" << std::endl;
 }
 
 void CBaumhausengine::makeMove(std::string move) {

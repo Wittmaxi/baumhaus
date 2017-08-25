@@ -1,13 +1,16 @@
 #ifndef CPIECE_H
 #define CPIECE_H
 
+#include <string>
+#include <vector>
+#include <iostream>
 // pure virtual class. canot be instantiated.
 class CPiece {
 	public:
-		virtual void setCoordinates (int cordXI, int cordYI){
-				cordX = cordXI;
-				cordY = cordYI;
-		};
+		virtual void setCoordinates (int cordXI, int cordYI);
+		bool getColor();
+		virtual std::vector<std::string> getMoves() =0;
+
 	protected:
 		int cordX; //the coordinates of the piece.
 		int cordY;
