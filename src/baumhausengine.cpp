@@ -51,11 +51,19 @@ void CBaumhausengine::analyzePos() {
     firstTime = false;
   } else {
 		std::vector<std::string> possibleMoves = position->getPossibleMoves(false); // TODO change the hardcoded 'false' to the actual current color
-		if (possibleMoves.size() > 0) {
+    std::cout << possibleMoves.size() << std::endl;
+    int counter = 0;
+    while (counter < possibleMoves.size()) {
+      std::cout << possibleMoves[counter] << std::endl;
+      counter ++;
+    }
+    if (possibleMoves.size() > 0) {
 			movesList.insert(movesList.end(), possibleMoves.begin(), possibleMoves.end());
-			tempMove == movesList [0];
+			tempMove = possibleMoves [3];
+      std::cout << tempMove << std::endl;
 		}
   }
+  std::cout << tempMove << std::endl;
 	makeMove(tempMove);
 	pipe->queueOutputMessage("move " + tempMove);
 }

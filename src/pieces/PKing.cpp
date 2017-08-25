@@ -35,23 +35,33 @@ std::vector<std::string> PKing::getMoves() {
   }
   if (squareAvailable (cordX +1, cordY-1)) {
     tempMoves.push_back (CPos::getSquareName(cordX, cordY) + CPos::getSquareName(cordX+1, cordY-1));
+    std::cout << "in 6,7" << std::endl;
   }
   if (squareAvailable (cordX, cordY-1)) {
-    tempMoves.push_back (CPos::getSquareName(cordX, cordY) + CPos::getSquareName(cordX+1, cordY-1));
+    tempMoves.push_back (CPos::getSquareName(cordX, cordY) + CPos::getSquareName(cordX, cordY-1));
   }
   if (squareAvailable (cordX -1, cordY-1)) {
     tempMoves.push_back (CPos::getSquareName(cordX, cordY) + CPos::getSquareName(cordX-1, cordY-1));
   }
-  std::cout << "getMovesDebug 3" << std::endl;
   return tempMoves;
 }
 
 bool PKing::squareAvailable (int cordX,int cordY) {
-  bool result;
-  if (cordX <= 8 and cordY <= 8) {
+  bool result = true;
+  CSquare* currentSquare;
+  CPiece* currentPiece;
+  std::cout << cordX << ", " << cordY << std::endl;
+  if (((cordX > 8) or (cordY > 8)) or ((cordY < 1) or (cordX < 1))) {
     result = false;
-  }else if (!(pos->getSquarePointer(cordX, cordY)->getPiecePointer() -> getColor () == this->getColor())) { //checks if there is a piece of the own type.
-    result = false;
+  }else { //checks if there is a piece of the own type.
+    currentSquare = pos -> getSquarePointer (cordX, cordY);
+    currentPiece = currentSquare -> getPiecePointer();
+    if (currentSquare -> containsPiece() == true) {
+      if (currentPiece->getColor() == this->getColor()) {
+        result = false;
+        std::cout << "set color" << std::endl;
+      }
+    }
   }
   return result;
 }
