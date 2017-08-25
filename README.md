@@ -15,20 +15,39 @@ To use the engine, an XBoard compatible Chess-UI (Arena is a good free choice) i
 
 On Linux, you can simply browse to the main folder of baumhaus and run </br>
 
-$>make </br>
+ `$> make` </br>
 
-The program will be found in the <bin> folder. 
+The program will be found in the `bin/` folder. 
 
 After that, add the created file (baumhaus) to your chess-UI
 
 ### WINDOWS
 
---Todo
+On Windows I would recommend using **mingw-w64** to emulate the linux environment. We don't recommend using the Visual Studio Compiler, as it may require extra header files (e.g. `stdafx.h`), which are not part of the project, nor should they be as we aim to be platform independant.
+
+**mingw-w64** is a fork of MinGW with added features, such as support for *pthreads* which are needed for this project. Find out more and download at: https://mingw-w64.org/doku.php
+
+In order to compile using the makefile, use `mingw32-make.exe` which should come as a part of the **mingw-w64** installation: <br>
+
+ `$> mingw32-make` </br>
+
+To clean the project, just use the clean target: <br>
+
+ `$> mingw32-make clean` </br>
+
+You will find the execuatable in the `bin\` folder.
+
+You can now add the engine to an XBoard Compatible Chess UI.
 
 ### MAC
 
 --Todo
 
+## Options
+
+ `-d` or `--debug` Launch the Engine with debugging enabled. This will turn on debug output, which may interfere XBoard protocol. Use for testing. </br>
+ `-h` or `--help` Displays the help text for the engine, and shows available options and usage.
+ 
 # Algorythmics
 
 ## Neural Network
