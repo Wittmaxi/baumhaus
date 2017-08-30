@@ -157,6 +157,6 @@ void CBaumhausengine::makeMove(std::string move) {
     this->colorOnTurn = !this->colorOnTurn; //change the player color
     pipe->d("color on turn: " + std::to_string(colorOnTurn)); //output whose turn it is
   } else {
-
+    
   }
 }

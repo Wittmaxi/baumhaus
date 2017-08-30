@@ -3,6 +3,7 @@
 #include "pieces/CPiece.h"
 #include "pieces/PKing.h"
 #include "pieces/CDummyPiece.h"
+#include "pieces/PBishop.h"
 #include <string>
 
 /*
@@ -25,7 +26,7 @@ CPos::CPos()
     }
     for (int y=1; y <= 8; y++) {
         for (int x=1; x <= 8; x++) { //loops through the entire board
-          squares[x-1, y-1].push_back (new CSquare(x, y));
+          squares[y-1]. push_back (new CSquare(x, y));
         }
     }
 
@@ -34,31 +35,35 @@ CPos::CPos()
 CPos::~CPos()
 {
     //dtor
+    int x = 1;
+      for (int y=1; y <= 8; y++) {
+          for (int x=1; x <= 8; x++) { //loops through the entire board
+            CSquare* currentSquare = squares [x-1][y-1];
+            delete currentSquare;
+          }
+      }
 }
 
 void CPos::setPiece (char fenName, CSquare *currentSquarePointer) { //ONLY!!! at startup or to reset the position/setting a FEN. If there is no piece, fenName = "V"
-  if (fenName == 'N') {
-    currentSquarePointer -> setPiecePointer (new CDp(false, this));
-  } else {
-    currentSquarePointer -> setPiecePointer(new PKing(false, this));
-  };
-  /*switch (fenName) {
+
+  switch (fenName) {
     //white pieces
-      case 'K': currentSquarePointer -> setPiecePointer(new PKing(true, this));break;//king
+      case 'K': currentSquarePointer -> setPiecePointer(new PKing(true, this)); break;//king
       case 'N': break; //knight
       case 'R': break; //rook
-      case 'B': break; //bishop
+      case 'B': currentSquarePointer -> setPiecePointer (new PBishop(true, this)); break; //bishop
       case 'P': break; //pawn
       case 'Q': break; //queen
     //black pieces
       case 'k': currentSquarePointer -> setPiecePointer(new PKing(false, this)); break; //king
       case 'r': break; //rook
       case 'n': break; //knight
-      case 'b': break; //bishop
+      case 'b': currentSquarePointer -> setPiecePointer (new PBishop(false, this)); break; //bishop
       case 'p': break; //pawn
       case 'q': break; //queen
 
-  } */
+      case 'D': currentSquarePointer -> setPiecePointer (new CDp(false, this)); break;
+  }
 }
 
 std::string CPos::getSquareName(int x, int y) { //gets the algebraic notation name of the square
@@ -89,11 +94,12 @@ void CPos::feedFen (std::string fenI) {
 void CPos::parseFen (std::string fen) {
   //TODO parse the FEN to feed it into each square.
   setPiece ('k', getSquarePointer(8, 5)); //hardcoding some pieces in for the time-being
-  setPiece ('N', getSquarePointer(8, 6));
-  setPiece ('N', getSquarePointer(7, 6));
-  setPiece ('N', getSquarePointer(7, 4));
-  setPiece ('N', getSquarePointer(8, 4));
-  setPiece ('N', getSquarePointer(5, 5)); // that one pawn the engine moves at the beginning
+  setPiece ('b', getSquarePointer(8, 6));
+  setPiece ('D', getSquarePointer(7, 6));
+  setPiece ('D', getSquarePointer(7, 4));
+  setPiece ('D', getSquarePointer(8, 4));
+  setPiece ('D', getSquarePointer(5, 5)); // that one pawn the engine moves at the beginning
+  setPiece ('D', getSquarePointer(7, 7));
 }
 
 CSquare* CPos::getSquarePointer (int x, int y) {
