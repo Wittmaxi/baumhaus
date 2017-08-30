@@ -1,5 +1,5 @@
-#ifndef PKING_H
-#define PKING_H
+#ifndef CDummyPiece_H
+#define CDummyPiece_H
 
 #include "../CPos.h"
 #include "CPiece.h"
@@ -8,13 +8,15 @@
 #include <string>
 #include <iostream>
 
-class PKing: public CPiece
+//FULLY DUMMY CLASS FOR PIECES THAT ARE THERE JUST TO DO NOTHING
+
+class CDp: public CPiece
 {
     public:
-        PKing(bool colorI, CPos* currentPosition);
-        virtual ~PKing();
+        CDp(bool colorI, CPos *currentPosition);
+        virtual ~CDp();
         std::vector<int> getSquareOn();
-        virtual std::vector<std::string> getMoves();
+        std::vector<std::string> getMoves();
         bool squareAvailable (int cordX, int cordY);
     protected:
 
@@ -22,4 +24,4 @@ class PKing: public CPiece
       CPos *pos;
 };
 
-#endif // PKING_H
+#endif

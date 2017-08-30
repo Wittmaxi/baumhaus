@@ -4,7 +4,9 @@
 #include <string>
 #include <vector>
 #include <iostream>
-// pure virtual class. canot be instantiated.
+
+//virtual class no instances
+
 class CPiece {
 	public:
 		virtual void setCoordinates (int cordXI, int cordYI);

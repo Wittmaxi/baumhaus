@@ -29,12 +29,11 @@ CSquare::~CSquare()
 }
 
 CPiece* CSquare::removePiece() { //gives back a pointer to the piece so the engine can put it on another CSquare
-  return contained;
   hasPiece = false;
+  return contained;
 }
 
-CPiece* CSquare::takePiece() {
-  return contained;
+void CSquare::takePiece() {
   delete contained; // deletes the instance of that piece.
   hasPiece = false;
 }

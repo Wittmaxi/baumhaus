@@ -21,7 +21,7 @@ class CSquare
         CSquare(int iX, int iY);
         virtual ~CSquare();
         CPiece* removePiece();
-        CPiece* takePiece();
+        void takePiece();
         void setPiecePointer (CPiece* input);
         CPiece *getPiecePointer();
         void addBlackAttacker(); //increases the protection of the square (-1)
