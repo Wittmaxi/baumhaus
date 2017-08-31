@@ -9,11 +9,11 @@
 #include <iostream>
 
 
-class PBishop: public CPiece
+class PRook: public CPiece
 {
     public:
-        PBishop(bool colorI, CPos *currentPosition);
-        virtual ~PBishop();
+        PRook(bool colorI, CPos *currentPosition);
+        virtual ~PRook();
         std::vector<int> getSquareOn();
         std::vector<std::string> getMoves();
         bool squareAvailable (int cordX, int cordY);

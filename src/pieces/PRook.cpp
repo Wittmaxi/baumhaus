@@ -1,31 +1,30 @@
-#include "PBishop.h"
+#include "PRook.h"
 #include "../CPos.h"
 
-PBishop::PBishop(bool colorI, CPos *currentPosition)
+PRook::PRook(bool colorI, CPos *currentPosition)
 {
     //ctor
     color = colorI;
     pos = currentPosition;
 }
 
-PBishop::~PBishop()
+PRook::~PRook()
 {
     //dtor
 }
 
 
 
-std::vector<std::string> PBishop::getMoves() {
+std::vector<std::string> PRook::getMoves() {
   tempMoves.clear();
   std::cout<< "bishop getMoves" << std::endl;
   bool collided = false;
   int relPosX = cordX; // where the move generator currently is.
   int relPosY = cordY;
   //four directions
-  //top-left:
+  //top:
   while (collided == false) {
     relPosY +=1;
-    relPosX -= 1;
     std::cout << "top-left" << std::endl;
     if (squareAvailable (relPosX, relPosY)) {
       tempMoves.push_back (CPos::getSquareName (cordX, cordY) + CPos::getSquareName(relPosX, relPosY));
@@ -36,9 +35,8 @@ std::vector<std::string> PBishop::getMoves() {
   collided = false;
   relPosY = cordY;
   relPosX = cordX;
-    //top-right:
+  //right
   while (collided == false) {
-    relPosY +=1;
     relPosX += 1;
     std::cout << "top-right" << std::endl;
     if (squareAvailable (relPosX, relPosY)) {
@@ -50,10 +48,9 @@ std::vector<std::string> PBishop::getMoves() {
   collided = false;
   relPosY = cordY;
   relPosX = cordX;
-    //bottom-right:
+    //left:
   while (collided == false) {
-    relPosX += 1;
-    relPosY -= 1;
+    relPosX -= 1;
     std::cout << "bottom-right" << std::endl;
     if (squareAvailable (relPosX, relPosY)) {
       tempMoves.push_back (CPos::getSquareName (cordX, cordY) + CPos::getSquareName(relPosX, relPosY));
@@ -66,10 +63,9 @@ std::vector<std::string> PBishop::getMoves() {
   collided = false;
   relPosY = cordY;
   relPosX = cordX;
-    //bottom-left:
+    //bottom:
   while (collided == false) {
     relPosY -=1;
-    relPosX -= 1;
     std::cout << "bottom-left" << relPosX << relPosY << std::endl;
     if (squareAvailable (relPosX, relPosY)) {
       tempMoves.push_back (CPos::getSquareName (cordX, cordY) + CPos::getSquareName(relPosX, relPosY));
@@ -80,7 +76,7 @@ std::vector<std::string> PBishop::getMoves() {
   return tempMoves;
 }
 
-bool PBishop::squareAvailable (int cordXI,int cordYI) {
+bool PRook::squareAvailable (int cordXI,int cordYI) {
   bool result = true;
   CSquare* currentSquare;
   CPiece* currentPiece;

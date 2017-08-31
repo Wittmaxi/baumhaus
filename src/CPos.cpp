@@ -4,6 +4,7 @@
 #include "pieces/PKing.h"
 #include "pieces/CDummyPiece.h"
 #include "pieces/PBishop.h"
+#include "pieces/PRook.h"
 #include <string>
 
 /*
@@ -93,23 +94,29 @@ void CPos::feedFen (std::string fenI) {
 
 void CPos::parseFen (std::string fen) {
   //TODO parse the FEN to feed it into each square.
-  setPiece ('k', getSquarePointer(8, 5)); //hardcoding some pieces in for the time-being
-  setPiece ('b', getSquarePointer(8, 6));
-  setPiece ('D', getSquarePointer(7, 6));
-  setPiece ('D', getSquarePointer(7, 4));
-  setPiece ('D', getSquarePointer(8, 4));
+  setPiece ('k', getSquarePointer(5, 8)); //hardcoding some pieces in for the time-being
+  setPiece ('b', getSquarePointer(6, 8));
+  setPiece ('D', getSquarePointer(6, 7));
+  setPiece ('D', getSquarePointer(4, 7));
+  setPiece ('D', getSquarePointer(4, 8));
   setPiece ('D', getSquarePointer(5, 5)); // that one pawn the engine moves at the beginning
   setPiece ('D', getSquarePointer(7, 7));
 }
 
 CSquare* CPos::getSquarePointer (int x, int y) {
-  return squares[x-1][y-1];
+  return squares[y-1][x-1];
 }
 
 std::vector <std::string> CPos::getPossibleMoves (bool color) {
   moves.clear();
   loopPieces();
   return moves;
+  for (int y = 0; y < squares.size(); y++) {
+    for (int x = 0; x < squares[y].size(); x++) {
+      std::cout << squares [y] [x] -> containsPiece() << " ";
+    }
+    std::cout << std::endl;
+  }
 }
 
 void CPos::loopPieces(){

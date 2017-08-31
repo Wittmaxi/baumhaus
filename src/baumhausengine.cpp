@@ -3,6 +3,7 @@
 #include <string>
 #include <iostream>
 #include <cstdlib>
+#include <time.h>
 
 
 /*
@@ -64,7 +65,8 @@ void CBaumhausengine::analyzePos() {
     }
     if (possibleMoves.size() > 0) {
 			movesList.insert(movesList.end(), possibleMoves.begin(), possibleMoves.end());
-			tempMove = possibleMoves [rand() % possibleMoves.size()];
+      srand (time(NULL));
+      tempMove = possibleMoves [rand() % possibleMoves.size()];
       std::cout << tempMove << std::endl;
 		}
     	makeMove(tempMove);
@@ -137,8 +139,8 @@ void CBaumhausengine::makeMove(std::string move) {
   std::vector<int> moveStartField = CPos::coordFromName (move.substr (0, 2));
   std::vector<int> moveEndField = CPos::coordFromName (move.substr (2, 2));
 
-  CSquare* startSquare = position->getSquarePointer (moveStartField[1], moveStartField [0]);
-  CSquare* endSquare = position -> getSquarePointer (moveEndField[1], moveEndField[0]);
+  CSquare* startSquare = position->getSquarePointer (moveStartField [0], moveStartField[1]);
+  CSquare* endSquare = position -> getSquarePointer (moveEndField[0], moveEndField[1]);
 
   if (startSquare->getPiecePointer()->getColor() == false /*this-> colorOnTurn*/) {
       if (endSquare -> containsPiece()){ //if the piece is taking another piece or even passing on a piece of its own color
@@ -147,16 +149,17 @@ void CBaumhausengine::makeMove(std::string move) {
           } else {
               endSquare->takePiece();
               endSquare->setPiecePointer(startSquare->removePiece());
+              endSquare->getPiecePointer () -> setCoordinates (moveEndField [0], moveEndField[1]);
           }
       } else {
           endSquare->setPiecePointer (startSquare->removePiece());
-          std::cout << "removed tha piece!" << std::endl << startSquare -> containsPiece () << std::endl;
+          endSquare->getPiecePointer () -> setCoordinates (moveEndField [0], moveEndField[1]);
       }
     // update position to reflect move
     pipe->queueOutputMessage("move " + move); //output the current move
     this->colorOnTurn = !this->colorOnTurn; //change the player color
     pipe->d("color on turn: " + std::to_string(colorOnTurn)); //output whose turn it is
   } else {
-    
+
   }
 }

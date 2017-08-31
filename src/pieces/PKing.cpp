@@ -54,7 +54,7 @@ bool PKing::squareAvailable (int cordX,int cordY) {
   if (((cordX > 8) or (cordY > 8)) or ((cordY < 1) or (cordX < 1))) {
     result = false;
   }else { //checks if there is a piece of the own type.
-    currentSquare = pos -> getSquarePointer (cordY, cordX);
+    currentSquare = pos -> getSquarePointer (cordX, cordY);
     if (currentSquare -> containsPiece() == true) {
       std::cout << "found square containing a piece" << std::endl;
       currentPiece = currentSquare -> getPiecePointer();
