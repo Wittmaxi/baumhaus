@@ -5,6 +5,7 @@
 #include "pieces/CDummyPiece.h"
 #include "pieces/PBishop.h"
 #include "pieces/PRook.h"
+#include "pieces/PKnight.h"
 #include <string>
 
 /*
@@ -50,20 +51,22 @@ void CPos::setPiece (char fenName, CSquare *currentSquarePointer) { //ONLY!!! at
   switch (fenName) {
     //white pieces
       case 'K': currentSquarePointer -> setPiecePointer(new PKing(true, this)); break;//king
-      case 'N': break; //knight
-      case 'R': break; //rook
+      case 'N': currentSquarePointer -> setPiecePointer(new PKnight(true, this)); break; //knight
+      case 'R': currentSquarePointer -> setPiecePointer (new PRook(true, this)); break; //rook
       case 'B': currentSquarePointer -> setPiecePointer (new PBishop(true, this)); break; //bishop
       case 'P': break; //pawn
       case 'Q': break; //queen
+
+      case 'D': currentSquarePointer -> setPiecePointer (new CDp(false, this)); break;
     //black pieces
       case 'k': currentSquarePointer -> setPiecePointer(new PKing(false, this)); break; //king
-      case 'r': break; //rook
-      case 'n': break; //knight
+      case 'r': currentSquarePointer -> setPiecePointer (new PRook(false, this));break; //rook
+      case 'n': currentSquarePointer -> setPiecePointer(new PKnight(false, this)); break; //knight
       case 'b': currentSquarePointer -> setPiecePointer (new PBishop(false, this)); break; //bishop
       case 'p': break; //pawn
       case 'q': break; //queen
 
-      case 'D': currentSquarePointer -> setPiecePointer (new CDp(false, this)); break;
+      case 'd': currentSquarePointer -> setPiecePointer (new CDp(false, this)); break;
   }
 }
 
@@ -96,11 +99,18 @@ void CPos::parseFen (std::string fen) {
   //TODO parse the FEN to feed it into each square.
   setPiece ('k', getSquarePointer(5, 8)); //hardcoding some pieces in for the time-being
   setPiece ('b', getSquarePointer(6, 8));
-  setPiece ('D', getSquarePointer(6, 7));
-  setPiece ('D', getSquarePointer(4, 7));
-  setPiece ('D', getSquarePointer(4, 8));
-  setPiece ('D', getSquarePointer(5, 5)); // that one pawn the engine moves at the beginning
-  setPiece ('D', getSquarePointer(7, 7));
+  setPiece ('b', getSquarePointer(3, 8));
+  setPiece ('d', getSquarePointer(6, 7));
+  setPiece ('d', getSquarePointer(4, 7));
+  setPiece ('d', getSquarePointer(4, 8));
+  setPiece ('d', getSquarePointer(5, 5)); // that one pawn the engine moves at the beginning
+  setPiece ('d', getSquarePointer(7, 7));
+  setPiece ('r', getSquarePointer(8, 8));
+  setPiece ('r', getSquarePointer(1, 8));
+  setPiece ('d', getSquarePointer(8, 7));
+  setPiece ('d', getSquarePointer(1, 7));
+  setPiece ('n', getSquarePointer(2, 8));
+  setPiece ('n', getSquarePointer(7, 8));
 }
 
 CSquare* CPos::getSquarePointer (int x, int y) {

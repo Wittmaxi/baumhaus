@@ -1,5 +1,5 @@
-#ifndef PROOK_H
-#define PROOK_H
+#ifndef PKNIGHT_H
+#define PKNIGHT_H
 
 #include "../CPos.h"
 #include "CPiece.h"
@@ -8,14 +8,13 @@
 #include <string>
 #include <iostream>
 
-
-class PRook: public CPiece
+class PKnight: public CPiece
 {
     public:
-        PRook(bool colorI, CPos *currentPosition);
-        virtual ~PRook();
+        PKnight(bool colorI, CPos* currentPosition);
+        virtual ~PKnight();
         std::vector<int> getSquareOn();
-        std::vector<std::string> getMoves();
+        virtual std::vector<std::string> getMoves();
         bool squareAvailable (int cordX, int cordY);
     protected:
       std::vector <std::string> tempMoves;
