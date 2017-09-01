@@ -49,13 +49,6 @@ void CBaumhausengine::analyzePos() {
 	// we should have candidate move now.
   std::cout << firstTime << std::endl;
   movesList.clear();
-    if (firstTime == true) {
-  	tempMove = "e7e5";
-    firstTime = false;
-    pipe->queueOutputMessage("move " + tempMove); //output the current move
-    this->colorOnTurn = !this->colorOnTurn; //change the player color
-    pipe->d("color on turn: " + std::to_string(colorOnTurn)); //output whose turn it is
-  } else {
 		std::vector<std::string> possibleMoves = position->getPossibleMoves(false); // TODO change the hardcoded 'false' to the actual current color
     std::cout << possibleMoves.size() << std::endl;
     int counter = 0;
@@ -65,12 +58,12 @@ void CBaumhausengine::analyzePos() {
     }
     if (possibleMoves.size() > 0) {
 			movesList.insert(movesList.end(), possibleMoves.begin(), possibleMoves.end());
+      std::cout << time(NULL) << std::endl; 
       srand (time(NULL));
       tempMove = possibleMoves [rand() % possibleMoves.size()];
       std::cout << tempMove << std::endl;
 		}
     	makeMove(tempMove);
-  }
 }
 
 void CBaumhausengine::ponderPos() {

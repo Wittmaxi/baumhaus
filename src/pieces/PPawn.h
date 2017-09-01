@@ -1,5 +1,5 @@
-#ifndef PKNIGHT_H
-#define PKNIGHT_H
+#ifndef PPAWN_H
+#define PPAWN_H
 
 #include "../CPos.h"
 #include "CPiece.h"
@@ -8,14 +8,15 @@
 #include <string>
 #include <iostream>
 
-class PKnight: public CPiece
+class PPawn: public CPiece
 {
     public:
-        PKnight(bool colorI, CPos* currentPosition);
-        virtual ~PKnight();
+        PPawn(bool colorI, CPos* currentPosition);
+        virtual ~PPawn();
         std::vector<int> getSquareOn();
         virtual std::vector<std::string> getMoves();
-        bool squareAvailable (int cordX, int cordY);
+        bool squareAvailable (int cordXI, int cordYI);
+        bool cordsInBounds (int cordXI, int cordYI);
     protected:
       std::vector <std::string> tempMoves;
     private:
