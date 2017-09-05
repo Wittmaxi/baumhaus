@@ -19,48 +19,31 @@ std::vector<std::string> PPawn::getMoves() {
   //The moves are hardcoded, as they are constant for a King. PLEASE FORGIVE ME FOR THIS MADNESS!!!
   std::cout << pos->getPlayerColor() << "LOL" << std::endl;
   if (pos->getPlayerColor() == false) { //black
-    /*black*/
-    if (cordsInBounds (cordX, cordY-1)) {
-      if ( squareAvailable (cordX, cordY-1)) {
+    std::cout << cordX << cordY << std::endl;
+    if (squareAvailable (cordX, cordY-1)) { //single step
         tempMoves.push_back (CPos::getSquareName(cordX, cordY) + CPos::getSquareName(cordX, cordY-1));
-      }
     }
-    if (cordsInBounds (cordX, cordY -2) && cordY == 7) {
-      if (squareAvailable (cordX, cordY+1) && squareAvailable (cordX, cordY+2)) {
+    if (cordY == 7 && (squareAvailable (cordX, cordY-1) && squareAvailable (cordX, cordY -2))) { // double step
         tempMoves.push_back (CPos::getSquareName(cordX, cordY) + CPos::getSquareName(cordX, cordY-2));
-      }
-    }
-
-    if (cordsInBounds(cordX+1, cordY-1) && pos->getSquarePointer(cordX+1, cordY-1)->containsPiece()) {
-      if (pos->getSquarePointer(cordX+1, cordY-1)->getPiecePointer()->getColor() != this-> color) {
-        tempMoves.push_back (CPos::getSquareName(cordX, cordY) + CPos::getSquareName(cordX +1, cordY-1));
-      }
-    }
-    if (cordsInBounds(cordX-1, cordY-1) && pos->getSquarePointer(cordX-1, cordY-1)->containsPiece()) {
-      if ((pos->getSquarePointer(cordX-1, cordY-1)->getPiecePointer()->getColor() != this-> color)) {
-        tempMoves.push_back (CPos::getSquareName(cordX, cordY) + CPos::getSquareName(cordX-1, cordY-1));
-      }
     }
   } else {
     /*white*/
   }
-  std::cout << "pawngeneration finished" << std::endl;
+  std::cout << "pawngeneration finished" << tempMoves.size() << std::endl;
   return tempMoves;
 }
 
 
 bool PPawn::cordsInBounds (int cordXI,int cordYI) {
-  bool result = true;
   if (((cordXI > 8) or (cordYI > 8)) or ((cordYI < 1) or (cordXI < 1))) {
     return false;
   }
+  return true;
 }
 
 bool PPawn::squareAvailable (int cordXI, int cordYI) {
-  CSquare* searchedSquare;
-  CPiece* searchedPiece;
-  searchedSquare = pos->getSquarePointer (cordXI, cordYI);
-  if (searchedSquare->containsPiece()) {
+  if (pos->getSquarePointer (cordXI, cordYI) -> containsPiece() && !(cordsInBounds (cordXI, cordXI))) {
     return false;
   }
+  return true;
 }

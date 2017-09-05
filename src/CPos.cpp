@@ -98,13 +98,14 @@ void CPos::feedFen (std::string fenI) {
 
 void CPos::parseFen (std::string fen) {
   //TODO parse the FEN to feed it into each square.
-  setPiece ('k', getSquarePointer(5, 8)); //hardcoding some pieces in for the time-being
+  /*setPiece ('k', getSquarePointer(5, 8)); //hardcoding some pieces in for the time-being
   setPiece ('b', getSquarePointer(6, 8));
   setPiece ('b', getSquarePointer(3, 8));
   setPiece ('r', getSquarePointer(8, 8));
   setPiece ('r', getSquarePointer(1, 8));
   setPiece ('n', getSquarePointer(2, 8));
-  setPiece ('n', getSquarePointer(7, 8));
+  setPiece ('n', getSquarePointer(7, 8));*/
+  setPiece ('d', getSquarePointer(4, 8));
   setPiece ('p', getSquarePointer(1, 7));
   setPiece ('p', getSquarePointer(2, 7));
   setPiece ('p', getSquarePointer(3, 7));
@@ -155,6 +156,7 @@ void CPos::loopPieces(){
 			}
 		}
 	}
+  std::cout << "generated the movesList" << std::endl;
 }
 
 void CPos::appendMoves(std::vector <std::string> newMoves) { //appends moves of a single piece to the entire list of Moves.

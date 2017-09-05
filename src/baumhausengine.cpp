@@ -46,24 +46,20 @@ void CBaumhausengine::init() {
 void CBaumhausengine::analyzePos() {
 	// TODO Main thinking logic would probably be here..
   std::string tempMove;
-	// we should have candidate move now.
   std::cout << firstTime << std::endl;
   movesList.clear();
 		std::vector<std::string> possibleMoves = position->getPossibleMoves(false); // TODO change the hardcoded 'false' to the actual current color
+    std::cout << "got the movesList" << std::endl;
     std::cout << possibleMoves.size() << std::endl;
-    int counter = 0;
-    while (counter < possibleMoves.size()) {
-      std::cout << possibleMoves[counter] << std::endl;
-      counter ++;
-    }
     if (possibleMoves.size() > 0) {
-			movesList.insert(movesList.end(), possibleMoves.begin(), possibleMoves.end());
-      std::cout << time(NULL) << std::endl; 
+			movesList = possibleMoves;
+      std::cout << "setting seed" << std::endl;
       srand (time(NULL));
+      std::cout << "random will be generated" << std::endl;
       tempMove = possibleMoves [rand() % possibleMoves.size()];
       std::cout << tempMove << std::endl;
-		}
     	makeMove(tempMove);
+    }
 }
 
 void CBaumhausengine::ponderPos() {
