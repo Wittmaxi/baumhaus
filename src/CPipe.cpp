@@ -19,14 +19,27 @@ This code comes with no warranty at all; not even the warranty to work properly 
 
 const std::string NEWLINE_CMD = " ";
 
-CPipe::CPipe(bool debugMode)
+// Must explicitly refrence self here
+CPipe* CPipe::self = nullptr;
+
+CPipe* CPipe::getInstance() {
+	if(!self) {
+		self = new CPipe();
+	}
+	return self;
+}
+
+void CPipe::init(bool debugMode) {
+	this->debugMode = debugMode; 
+}
+
+CPipe::CPipe()
 {
 	setbuf(stdin, NULL); // remove buffer to ensure commands are recieved immediataley.
 	setbuf(stdout, NULL); // remove buffer to ensure commands are sent immediataley.
 	inputMessageQueue.clear();
 	outputMessageQueue.clear();
 	this->isRunning = true;
-	this->debugMode = debugMode;
 	// begin the IO threads
 	pthread_create(&(this->inThread), NULL, CPipe::startInputThread, this);
 	pthread_create(&(this->outThread), NULL, CPipe::startOutputThread, this);

@@ -24,12 +24,13 @@ extern const std::string NEWLINE_CMD;
 
 class CPipe {
     public:
-        CPipe(bool debugMode);
-        virtual ~CPipe();
-		    void queueOutputMessage(std::string message);
-		    std::string dequeueOutputMessage(bool waitForMessage);
+		static CPipe* getInstance();
+		void init(bool debugMode);
+
+		void queueOutputMessage(std::string message);
+		std::string dequeueOutputMessage(bool waitForMessage);
         void queueInputMessage(std::string message);
-    		std::string dequeueInputMessage(bool waitForMessage); //changed to InputMessage, in case its needed. @awais, delete if its just duplicate
+    	std::string dequeueInputMessage(bool waitForMessage);
 
 
 		// debugging output
@@ -138,6 +139,11 @@ class CPipe {
 		// mutex's to make sure we don't have any funny threading issues
 		std::mutex inputMutex;
 		std::mutex outputMutex;
+
+		// enforcing singleton pattern
+		CPipe();
+		virtual ~CPipe();
+		static CPipe* self;
 };
 
 #endif // CPIPE_H

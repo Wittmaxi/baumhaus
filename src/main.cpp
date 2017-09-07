@@ -28,7 +28,10 @@ int main (int argc, char** argv) {
 		return 0;
 	}
 
-    CBaumhausengine *engine = new CBaumhausengine(debugMode);
+	// initialize the CPipe now, and set debugMode.
+	CPipe::getInstance()->init(debugMode);
+	// now start up the engine
+    CBaumhausengine *engine = new CBaumhausengine();
 
 	engine->startRoutine();
 }

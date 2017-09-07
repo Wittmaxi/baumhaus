@@ -13,12 +13,11 @@ This code comes with no warranty at all; not even the warranty to work properly 
 
 */
 
+CPipe* pipe = CPipe::getInstance();
 
-CBaumhausengine::CBaumhausengine(bool debugMode)
+CBaumhausengine::CBaumhausengine()
 {
     this->position = new CPos();
-    this->pipe = new CPipe(debugMode);
-	  this->debugMode = debugMode;
     this->init(); //might be not used... If so remove it. Initially used for debug
     //ctor
 }
@@ -26,7 +25,6 @@ CBaumhausengine::CBaumhausengine(bool debugMode)
 CBaumhausengine::~CBaumhausengine()
 {
 	delete this->position;
-	delete this->pipe;
     //dtor
 }
 
@@ -34,9 +32,9 @@ void CBaumhausengine::init() {
 	this->random = false; // by default random is off
 	this->colorOnTurn = true; // white starts the match
 	this->color = false; // engine will play black
-  position->feedFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -"); //not the true starting position, but a starting position that is used 4 debug
+	position->feedFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -"); //not the true starting position, but a starting position that is used 4 debug
 	pipe->d("End - init()");
-  firstTime = true;
+	firstTime = true;
 }
 
 
@@ -125,7 +123,7 @@ void CBaumhausengine::startRoutine() {
 }
 
 void CBaumhausengine::pong(std::string val) {
-	this->pipe->queueOutputMessage("pong " + val);
+	pipe->queueOutputMessage("pong " + val);
   std::cout << "Got Pong request" << std::endl;
 }
 
