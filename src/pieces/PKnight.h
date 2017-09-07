@@ -1,5 +1,5 @@
-#ifndef PKING_H
-#define PKING_H
+#ifndef PKNIGHT_H
+#define PKNIGHT_H
 
 #include "../CPos.h"
 #include "CPiece.h"
@@ -8,18 +8,18 @@
 #include <string>
 #include <iostream>
 
-class PKing: public CPiece
+class PKnight: public CPiece
 {
     public:
-        PKing(bool colorI, CPos* currentPosition);
-        virtual ~PKing();
+        PKnight(bool colorI, CPos* currentPosition);
+        virtual ~PKnight();
         std::vector<int> getSquareOn();
         virtual std::vector<std::string> getMoves();
         bool squareAvailable (int cordX, int cordY);
     protected:
-
+      std::vector <std::string> tempMoves;
     private:
       CPos *pos;
 };
 
-#endif // PKING_H
+#endif

@@ -73,6 +73,7 @@ class CBaumhausengine
 
         /// run by assessPosision(). All these functions also create candidate moves that will be evaluated by a NN and then calculated through.
 
+        //void findMaterialDiff(CPos *position)
         //void findOpenLines(cPos *position);
         //void findHoles(cPos *posision);
         //void findBadPieces(cPos *position);

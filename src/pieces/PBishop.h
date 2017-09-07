@@ -1,5 +1,5 @@
-#ifndef PKING_H
-#define PKING_H
+#ifndef PBISHOP_H
+#define PBISHOP_H
 
 #include "../CPos.h"
 #include "CPiece.h"
@@ -8,18 +8,19 @@
 #include <string>
 #include <iostream>
 
-class PKing: public CPiece
+
+class PBishop: public CPiece
 {
     public:
-        PKing(bool colorI, CPos* currentPosition);
-        virtual ~PKing();
+        PBishop(bool colorI, CPos *currentPosition);
+        virtual ~PBishop();
         std::vector<int> getSquareOn();
-        virtual std::vector<std::string> getMoves();
+        std::vector<std::string> getMoves();
         bool squareAvailable (int cordX, int cordY);
     protected:
-
+      std::vector <std::string> tempMoves;
     private:
       CPos *pos;
 };
 
-#endif // PKING_H
+#endif
