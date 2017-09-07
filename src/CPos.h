@@ -22,11 +22,12 @@ class CPos
 				CPos();
 				virtual ~CPos();
 				static std::string getSquareName(int a, int b); //gets the two indexes of the board
+				static std::vector <int> coordFromName (std::string squareName);
 				CSquare *getSquareWithName();
 				void feedFen (std::string fenI);
 				CSquare *getSquarePointer(int x, int y);
 				std::vector<std::string> getPossibleMoves(bool color); //color: true = white
-
+				bool getPlayerColor();
 
 		protected:
 				std::vector<std::vector<CSquare*>> squares;

@@ -2,6 +2,9 @@
 
 #include <string>
 #include <iostream>
+#include <cstdlib>
+#include <time.h>
+
 
 /*
 
@@ -41,29 +44,20 @@ void CBaumhausengine::init() {
 void CBaumhausengine::analyzePos() {
 	// TODO Main thinking logic would probably be here..
   std::string tempMove;
-	// we should have candidate move now.
   std::cout << firstTime << std::endl;
   movesList.clear();
-    if (firstTime == true) {
-  	tempMove = "e7e5";
-    firstTime = false;
-  } else {
 		std::vector<std::string> possibleMoves = position->getPossibleMoves(false); // TODO change the hardcoded 'false' to the actual current color
+    std::cout << "got the movesList" << std::endl;
     std::cout << possibleMoves.size() << std::endl;
-    int counter = 0;
-    while (counter < possibleMoves.size()) {
-      std::cout << possibleMoves[counter] << std::endl;
-      counter ++;
-    }
     if (possibleMoves.size() > 0) {
-			movesList.insert(movesList.end(), possibleMoves.begin(), possibleMoves.end());
-			tempMove = possibleMoves [3];
+			movesList = possibleMoves;
+      std::cout << "setting seed" << std::endl;
+      srand (time(NULL));
+      std::cout << "random will be generated" << std::endl;
+      tempMove = possibleMoves [rand() % possibleMoves.size()];
       std::cout << tempMove << std::endl;
-		}
-  }
-  std::cout << tempMove << std::endl;
-	makeMove(tempMove);
-	pipe->queueOutputMessage("move " + tempMove);
+    	makeMove(tempMove);
+    }
 }
 
 void CBaumhausengine::ponderPos() {
@@ -128,9 +122,31 @@ void CBaumhausengine::pong(std::string val) {
 }
 
 void CBaumhausengine::makeMove(std::string move) {
-	// update position to reflect move
+  //remove the old piece pointer and set it otherwhere.
+  std::vector<int> moveStartField = CPos::coordFromName (move.substr (0, 2));
+  std::vector<int> moveEndField = CPos::coordFromName (move.substr (2, 2));
 
-	// other color's turn
-	this->colorOnTurn = !this->colorOnTurn;
-	pipe->d("color on turn: " + std::to_string(colorOnTurn));
+  CSquare* startSquare = position->getSquarePointer (moveStartField [0], moveStartField[1]);
+  CSquare* endSquare = position -> getSquarePointer (moveEndField[0], moveEndField[1]);
+
+  if (startSquare->getPiecePointer()->getColor() == false /*this-> colorOnTurn*/) {
+      if (endSquare -> containsPiece()){ //if the piece is taking another piece or even passing on a piece of its own color
+          if (endSquare->getPiecePointer()->getColor() != this-> colorOnTurn) { //checks if the piece is of the same color
+
+          } else {
+              endSquare->takePiece();
+              endSquare->setPiecePointer(startSquare->removePiece());
+              endSquare->getPiecePointer () -> setCoordinates (moveEndField [0], moveEndField[1]);
+          }
+      } else {
+          endSquare->setPiecePointer (startSquare->removePiece());
+          endSquare->getPiecePointer () -> setCoordinates (moveEndField [0], moveEndField[1]);
+      }
+    // update position to reflect move
+    pipe->queueOutputMessage("move " + move); //output the current move
+    this->colorOnTurn = !this->colorOnTurn; //change the player color
+    pipe->d("color on turn: " + std::to_string(colorOnTurn)); //output whose turn it is
+  } else {
+
+  }
 }

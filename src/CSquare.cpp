@@ -26,15 +26,17 @@ CSquare::CSquare(int iX, int iY)
 CSquare::~CSquare()
 {
     //dtor
+    if (hasPiece) { //delete the pointed piece
+      delete contained;
+    }
 }
 
 CPiece* CSquare::removePiece() { //gives back a pointer to the piece so the engine can put it on another CSquare
-  return contained;
   hasPiece = false;
+  return contained;
 }
 
-CPiece* CSquare::takePiece() {
-  return contained;
+void CSquare::takePiece() {
   delete contained; // deletes the instance of that piece.
   hasPiece = false;
 }

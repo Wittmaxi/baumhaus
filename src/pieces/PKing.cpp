@@ -1,7 +1,7 @@
 #include "PKing.h"
 #include "../CPos.h"
 
-PKing::PKing(bool colorI, CPos *currentPosition /*true: white*/)
+PKing::PKing(bool colorI, CPos* currentPosition)
 {
     //ctor
     color = colorI;
@@ -12,6 +12,7 @@ PKing::~PKing()
 {
     //dtor
 }
+
 
 std::vector<std::string> PKing::getMoves() {
   std::cout << "getMovesDebug 1" << std::endl;
@@ -35,7 +36,6 @@ std::vector<std::string> PKing::getMoves() {
   }
   if (squareAvailable (cordX +1, cordY-1)) {
     tempMoves.push_back (CPos::getSquareName(cordX, cordY) + CPos::getSquareName(cordX+1, cordY-1));
-    std::cout << "in 6,7" << std::endl;
   }
   if (squareAvailable (cordX, cordY-1)) {
     tempMoves.push_back (CPos::getSquareName(cordX, cordY) + CPos::getSquareName(cordX, cordY-1));
@@ -55,11 +55,11 @@ bool PKing::squareAvailable (int cordX,int cordY) {
     result = false;
   }else { //checks if there is a piece of the own type.
     currentSquare = pos -> getSquarePointer (cordX, cordY);
-    currentPiece = currentSquare -> getPiecePointer();
     if (currentSquare -> containsPiece() == true) {
+      std::cout << "found square containing a piece" << std::endl;
+      currentPiece = currentSquare -> getPiecePointer();
       if (currentPiece->getColor() == this->getColor()) {
         result = false;
-        std::cout << "set color" << std::endl;
       }
     }
   }
