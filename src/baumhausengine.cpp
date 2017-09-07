@@ -16,8 +16,6 @@ This code comes with no warranty at all; not even the warranty to work properly 
 
 */
 
-CPipe* pipe = CPipe::getInstance();
-
 CBaumhausengine::CBaumhausengine()
 {
     this->position = new CPos();
@@ -44,18 +42,19 @@ void CBaumhausengine::init() {
 void CBaumhausengine::analyzePos() {
 	// TODO Main thinking logic would probably be here..
   std::string tempMove;
-  std::cout << firstTime << std::endl;
+  if(firstTime) {
+	pipe->d("First Time");
+  }
   movesList.clear();
 		std::vector<std::string> possibleMoves = position->getPossibleMoves(false); // TODO change the hardcoded 'false' to the actual current color
-    std::cout << "got the movesList" << std::endl;
-    std::cout << possibleMoves.size() << std::endl;
+    pipe->d("got the movesList: " + str(possibleMoves.size()));
     if (possibleMoves.size() > 0) {
 			movesList = possibleMoves;
-      std::cout << "setting seed" << std::endl;
+      pipe->d("setting seed");
       srand (time(NULL));
-      std::cout << "random will be generated" << std::endl;
+      pipe->d("random will be generated");
       tempMove = possibleMoves [rand() % possibleMoves.size()];
-      std::cout << tempMove << std::endl;
+      pipe->d("temp move: " + tempMove);
     	makeMove(tempMove);
     }
 }
@@ -78,7 +77,7 @@ bool CBaumhausengine::getColor() {
 
 void CBaumhausengine::startRoutine() {
 
-	std::cout << "Baumhaus Engine started up... Waiting for Signals";
+	std::cout << "Baumhaus Engine started up... Waiting for Signals"; // Not sure this has an impact on XBoard IO . . . 
 
 	std::string message;
 	while (true) { //just simply spools to wait for a signal
@@ -96,7 +95,7 @@ void CBaumhausengine::startRoutine() {
     			this->random = !this->random;
     		}
     		else if ("usermove" == message) { //quick and dirty way. needs to be made better
-          std::cout << "Got usermove request" << std::endl;
+          pipe->d("Got usermove request");
           analyzePos();
     			//std::string move = pipe->dequeueInputMessage(true);
     			// validate move
@@ -118,7 +117,6 @@ void CBaumhausengine::startRoutine() {
 
 void CBaumhausengine::pong(std::string val) {
 	pipe->queueOutputMessage("pong " + val);
-  std::cout << "Got Pong request" << std::endl;
 }
 
 void CBaumhausengine::makeMove(std::string move) {
@@ -145,7 +143,7 @@ void CBaumhausengine::makeMove(std::string move) {
     // update position to reflect move
     pipe->queueOutputMessage("move " + move); //output the current move
     this->colorOnTurn = !this->colorOnTurn; //change the player color
-    pipe->d("color on turn: " + std::to_string(colorOnTurn)); //output whose turn it is
+    pipe->d("color on turn: " + str(colorOnTurn)); //output whose turn it is
   } else {
 
   }

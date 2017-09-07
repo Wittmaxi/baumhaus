@@ -17,6 +17,8 @@ This code comes with no warranty at all; not even the warranty to work properly 
 
 */
 
+CPipe* pipe = CPipe::getInstance();
+
 const std::string NEWLINE_CMD = " ";
 
 // Must explicitly refrence self here
@@ -384,4 +386,33 @@ std::string CPipe::readNext(bool readToEnd) {
 	}
 
 	return str;
+}
+
+// helper functions to convert to string
+std::string str(int value) {
+	return std::to_string(value);
+}
+std::string str(long value) {
+	return std::to_string(value);
+}
+std::string str(long long value) {
+	return std::to_string(value);
+}
+std::string str(unsigned value) {
+	return std::to_string(value);
+}
+std::string str(unsigned long value) {
+	return std::to_string(value);
+}
+std::string str(unsigned long long value) {
+	return std::to_string(value);
+}
+std::string str(float value) {
+	return std::to_string(value);
+}
+std::string str(double value) {
+	return std::to_string(value);
+}
+std::string str(long double value) {
+	return std::to_string(value);
 }

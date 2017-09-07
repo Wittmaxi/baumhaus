@@ -146,4 +146,18 @@ class CPipe {
 		static CPipe* self;
 };
 
+// must be declared after class definition
+extern CPipe* pipe;
+
+// helper functions to convert to string
+std::string str(int value);
+std::string str(long value);
+std::string str(long long value);
+std::string str(unsigned value);
+std::string str(unsigned long value);
+std::string str(unsigned long long value);
+std::string str(float value);
+std::string str(double value);
+std::string str(long double value);
+
 #endif // CPIPE_H

@@ -1,4 +1,5 @@
 #include "PBishop.h"
+#include "../CPipe.h"
 #include "../CPos.h"
 
 PBishop::PBishop(bool colorI, CPos *currentPosition)
@@ -17,7 +18,7 @@ PBishop::~PBishop()
 
 std::vector<std::string> PBishop::getMoves() {
   tempMoves.clear();
-  std::cout<< "bishop getMoves" << std::endl;
+  pipe->d("bishop getMoves");
   bool collided = false;
   int relPosX = cordX; // where the move generator currently is.
   int relPosY = cordY;
@@ -26,7 +27,7 @@ std::vector<std::string> PBishop::getMoves() {
   while (collided == false) {
     relPosY +=1;
     relPosX -= 1;
-    std::cout << "top-left" << std::endl;
+    pipe->d("top-left");
     if (squareAvailable (relPosX, relPosY)) {
       tempMoves.push_back (CPos::getSquareName (cordX, cordY) + CPos::getSquareName(relPosX, relPosY));
     } else {
@@ -40,7 +41,7 @@ std::vector<std::string> PBishop::getMoves() {
   while (collided == false) {
     relPosY +=1;
     relPosX += 1;
-    std::cout << "top-right" << std::endl;
+    pipe->d("top-right");
     if (squareAvailable (relPosX, relPosY)) {
       tempMoves.push_back (CPos::getSquareName (cordX, cordY) + CPos::getSquareName(relPosX, relPosY));
     } else {
@@ -54,15 +55,15 @@ std::vector<std::string> PBishop::getMoves() {
   while (collided == false) {
     relPosX += 1;
     relPosY -= 1;
-    std::cout << "bottom-right" << std::endl;
+    pipe->d("bottom-right");
     if (squareAvailable (relPosX, relPosY)) {
       tempMoves.push_back (CPos::getSquareName (cordX, cordY) + CPos::getSquareName(relPosX, relPosY));
     } else {
-      std::cout << "stopped exec" << std::endl;
+      pipe->d("stopped exec");
       collided = true; // just trying to go out the way of ANOTHER break xD
     }
   }
-  std::cout << "exited bottom-right" << std::endl;
+  pipe->d("exited bottom-right");
   collided = false;
   relPosY = cordY;
   relPosX = cordX;
@@ -70,7 +71,8 @@ std::vector<std::string> PBishop::getMoves() {
   while (collided == false) {
     relPosY -=1;
     relPosX -= 1;
-    std::cout << "bottom-left" << relPosX << relPosY << std::endl;
+    pipe->d("bottom-left");
+	pipe->d(str(relPosX) + ", " + str(relPosY));
     if (squareAvailable (relPosX, relPosY)) {
       tempMoves.push_back (CPos::getSquareName (cordX, cordY) + CPos::getSquareName(relPosX, relPosY));
     } else {
@@ -84,16 +86,16 @@ bool PBishop::squareAvailable (int cordXI,int cordYI) {
   bool result = true;
   CSquare* currentSquare;
   CPiece* currentPiece;
-  if (((cordXI > 8) or (cordYI > 8)) or ((cordYI < 1) or (cordXI < 1))) {
+  if (((cordXI > 8) || (cordYI > 8)) || ((cordYI < 1) || (cordXI < 1))) {
     result = false;
   }else { //checks if there is a piece of the own type.
     currentSquare = pos -> getSquarePointer (cordXI, cordYI);
     if (currentSquare -> containsPiece() == true) {
-      std::cout << "found square containing a piece" << std::endl;
+      pipe->d("found square containing a piece");
       currentPiece = currentSquare -> getPiecePointer();
-      std::cout << currentPiece->getColor () << this->getColor() << std::endl;
+      pipe->d(str(currentPiece->getColor()) + ", " + str(this->getColor()));
       if (currentPiece->getColor() == this->getColor()) {
-        std::cout << "returned false" << std::endl;
+        pipe->d("returned false");
         result = false;
       } else {
               tempMoves.push_back (CPos::getSquareName (cordX, cordY) + CPos::getSquareName(cordXI, cordYI));
