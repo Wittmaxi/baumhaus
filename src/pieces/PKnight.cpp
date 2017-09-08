@@ -1,4 +1,5 @@
 #include "PKnight.h"
+#include "../CPipe.h"
 #include "../CPos.h"
 
 PKnight::PKnight(bool colorI, CPos* currentPosition)
@@ -48,7 +49,7 @@ bool PKnight::squareAvailable (int cordXI,int cordYI) {
   bool result = true;
   CSquare* currentSquare;
   CPiece* currentPiece;
-  if (((cordXI > 8) or (cordYI > 8)) or ((cordYI < 1) or (cordXI < 1))) {
+  if (((cordXI > 8) || (cordYI > 8)) || ((cordYI < 1) || (cordXI < 1))) {
     result = false;
   }else { //checks if there is a piece of the own type.
     currentSquare = pos -> getSquarePointer (cordXI, cordYI);

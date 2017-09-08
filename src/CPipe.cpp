@@ -17,16 +17,31 @@ This code comes with no warranty at all; not even the warranty to work properly 
 
 */
 
+CPipe* pipe = CPipe::getInstance();
+
 const std::string NEWLINE_CMD = " ";
 
-CPipe::CPipe(bool debugMode)
+// Must explicitly refrence self here
+CPipe* CPipe::self = nullptr;
+
+CPipe* CPipe::getInstance() {
+	if(!self) {
+		self = new CPipe();
+	}
+	return self;
+}
+
+void CPipe::init(bool debugMode) {
+	this->debugMode = debugMode; 
+}
+
+CPipe::CPipe()
 {
 	setbuf(stdin, NULL); // remove buffer to ensure commands are recieved immediataley.
 	setbuf(stdout, NULL); // remove buffer to ensure commands are sent immediataley.
 	inputMessageQueue.clear();
 	outputMessageQueue.clear();
 	this->isRunning = true;
-	this->debugMode = debugMode;
 	// begin the IO threads
 	pthread_create(&(this->inThread), NULL, CPipe::startInputThread, this);
 	pthread_create(&(this->outThread), NULL, CPipe::startOutputThread, this);
@@ -371,4 +386,33 @@ std::string CPipe::readNext(bool readToEnd) {
 	}
 
 	return str;
+}
+
+// helper functions to convert to string
+std::string str(int value) {
+	return std::to_string(value);
+}
+std::string str(long value) {
+	return std::to_string(value);
+}
+std::string str(long long value) {
+	return std::to_string(value);
+}
+std::string str(unsigned value) {
+	return std::to_string(value);
+}
+std::string str(unsigned long value) {
+	return std::to_string(value);
+}
+std::string str(unsigned long long value) {
+	return std::to_string(value);
+}
+std::string str(float value) {
+	return std::to_string(value);
+}
+std::string str(double value) {
+	return std::to_string(value);
+}
+std::string str(long double value) {
+	return std::to_string(value);
 }

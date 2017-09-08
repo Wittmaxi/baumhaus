@@ -16,12 +16,9 @@ This code comes with no warranty at all; not even the warranty to work properly 
 
 */
 
-
-CBaumhausengine::CBaumhausengine(bool debugMode)
+CBaumhausengine::CBaumhausengine()
 {
     this->position = new CPos();
-    this->pipe = new CPipe(debugMode);
-	  this->debugMode = debugMode;
     this->init(); //might be not used... If so remove it. Initially used for debug
     //ctor
 }
@@ -29,7 +26,6 @@ CBaumhausengine::CBaumhausengine(bool debugMode)
 CBaumhausengine::~CBaumhausengine()
 {
 	delete this->position;
-	delete this->pipe;
     //dtor
 }
 
@@ -39,23 +35,24 @@ void CBaumhausengine::init() {
 	this->color = false; // engine will play black
   position->feedFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -");
 	pipe->d("End - init()");
-  firstTime = true;
+	firstTime = true;
 }
 
 
 void CBaumhausengine::analyzePos() {
 	// TODO Main thinking logic would probably be here..
   std::string tempMove;
-  std::cout << firstTime << std::endl;
+  if(firstTime) {
+	pipe->d("First Time");
+  }
   movesList.clear();
 		std::vector<std::string> possibleMoves = position->getPossibleMoves(false); // TODO change the hardcoded 'false' to the actual current color
-    std::cout << possibleMoves.size() << std::endl;
     if (possibleMoves.size() > 0) {
 			movesList = possibleMoves;
-      for (int i = 0; i < movesList.size(); i++) {std::cout << movesList[i] << std::endl;}
+      pipe->d("setting seed");
       srand (time(NULL));
       tempMove = possibleMoves [rand() % possibleMoves.size()];
-      std::cout << tempMove << std::endl;
+      pipe->d("temp move: " + tempMove);
     	makeMove(tempMove);
     }
 }
@@ -77,6 +74,7 @@ bool CBaumhausengine::getColor() {
 }
 
 void CBaumhausengine::startRoutine() {
+  pipe -> d ("THE BAUMHAUS-ENGINE WAS STARTED!");
 	std::string message;
 	while (true) { //just simply spools to wait for a signal
     		std::string message = pipe->dequeueInputMessage(false);
@@ -93,7 +91,6 @@ void CBaumhausengine::startRoutine() {
     			this->random = !this->random;
     		}
     		else if ("usermove" == message) { //quick and dirty way. needs to be made better
-          std::cout << "Got usermove request" << std::endl;
           movePointers (pipe->dequeueInputMessage(true).substr(1, 4));
           analyzePos();
           this->colorOnTurn != this->colorOnTurn;
@@ -116,8 +113,7 @@ void CBaumhausengine::startRoutine() {
 }
 
 void CBaumhausengine::pong(std::string val) {
-	this->pipe->queueOutputMessage("pong " + val);
-  std::cout << "Got Pong request" << std::endl;
+	pipe->queueOutputMessage("pong " + val);
 }
 
 void CBaumhausengine::makeMove(std::string move) {

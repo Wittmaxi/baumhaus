@@ -21,7 +21,7 @@ This code comes with no warranty at all; not even the warranty to work properly 
 class CBaumhausengine
 {
     public:
-        CBaumhausengine(bool debugMode);
+        CBaumhausengine();
         virtual ~CBaumhausengine();
         void startRoutine();
 
@@ -30,11 +30,9 @@ class CBaumhausengine
     private: //members
 
         pthread_t routineThread;
-		    bool debugMode;
 
         int depth; //searching depth
         CPos *position; //the position: it can be loaded customly
-        CPipe *pipe;
         bool color; //false = black, true = white.
         bool gotPipeInput; //if the computer has to stop thinking (is checked by a pipe)
         std::vector<std::string> movesList;

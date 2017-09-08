@@ -7,6 +7,7 @@
 #include "pieces/PRook.h"
 #include "pieces/PKnight.h"
 #include "pieces/PPawn.h"
+#include "CPipe.h"
 #include <string>
 
 /*
@@ -74,12 +75,13 @@ std::string CPos::getSquareName(int x, int y) { //gets the algebraic notation na
   const std::vector <char> fileNames  = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'};
   std::string currentName;
   currentName = fileNames[x-1] + std::to_string(y);
+  pipe->d(currentName);
   return (currentName);
 }
 
-std::vector <int> CPos::coordFromName (std::string squareName) { // converts the name of a square into the coordinates
-  if (squareName.size() > 2 || squareName.size() < 2) {
-    std::cout << "Error in square Name conversion" << std::endl; //TODO change to pipe -> d
+std::vector <int> CPos::coordFromName (std::string squareName) {
+  if (squareName.size() > 2) {
+    pipe->d("Error in square Name conversion");
   } else {
     //ok, this is messy, but: we take the character value of the squares character and remove what is before A
     std::vector <int> returnVector;
@@ -140,9 +142,9 @@ std::vector <std::string> CPos::getPossibleMoves (bool color) {
   return moves;
   for (int y = 0; y < squares.size(); y++) {
     for (int x = 0; x < squares[y].size(); x++) {
-      std::cout << squares [y] [x] -> containsPiece() << " ";
+      pipe->d("  " + str(squares[y][x]->containsPiece()));
     }
-    std::cout << std::endl;
+    pipe->d("---------------------");
   }
 }
 
@@ -160,7 +162,7 @@ void CPos::loopPieces(){
 					}
 				}
 				else { //black to play
-					std::cout << currentPiece -> getColor () << std::endl;
+					pipe->d("color: " + str(currentPiece->getColor()));
 					if (currentPiece -> getColor() == false) { //if the piece is black and black is to play
             appendMoves(currentPiece -> getMoves());
 					}
