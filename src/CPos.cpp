@@ -57,8 +57,7 @@ void CPos::setPiece (char fenName, CSquare *currentSquarePointer) { //ONLY!!! at
       case 'B': currentSquarePointer -> setPiecePointer (new PBishop(true, this)); break; //bishop
       case 'P': currentSquarePointer -> setPiecePointer (new PPawn(true, this));break; //pawn
       case 'Q': break; //queen
-
-      case 'D': currentSquarePointer -> setPiecePointer (new CDp(false, this)); break;
+      case 'D': currentSquarePointer -> setPiecePointer (new CDp(true, this)); break;
     //black pieces
       case 'k': currentSquarePointer -> setPiecePointer(new PKing(false, this)); break; //king
       case 'r': currentSquarePointer -> setPiecePointer (new PRook(false, this));break; //rook
@@ -75,13 +74,12 @@ std::string CPos::getSquareName(int x, int y) { //gets the algebraic notation na
   const std::vector <char> fileNames  = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'};
   std::string currentName;
   currentName = fileNames[x-1] + std::to_string(y);
-  std::cout << currentName << std::endl;
   return (currentName);
 }
 
-std::vector <int> CPos::coordFromName (std::string squareName) {
-  if (squareName.size() > 2) {
-    std::cout << "Error in square Name conversion" << std::endl;
+std::vector <int> CPos::coordFromName (std::string squareName) { // converts the name of a square into the coordinates
+  if (squareName.size() > 2 || squareName.size() < 2) {
+    std::cout << "Error in square Name conversion" << std::endl; //TODO change to pipe -> d
   } else {
     //ok, this is messy, but: we take the character value of the squares character and remove what is before A
     std::vector <int> returnVector;
@@ -98,13 +96,13 @@ void CPos::feedFen (std::string fenI) {
 
 void CPos::parseFen (std::string fen) {
   //TODO parse the FEN to feed it into each square.
-  /*setPiece ('k', getSquarePointer(5, 8)); //hardcoding some pieces in for the time-being
+  setPiece ('k', getSquarePointer(5, 8)); //hardcoding some pieces in for the time-being
   setPiece ('b', getSquarePointer(6, 8));
   setPiece ('b', getSquarePointer(3, 8));
   setPiece ('r', getSquarePointer(8, 8));
   setPiece ('r', getSquarePointer(1, 8));
   setPiece ('n', getSquarePointer(2, 8));
-  setPiece ('n', getSquarePointer(7, 8));*/
+  setPiece ('n', getSquarePointer(7, 8));
   setPiece ('d', getSquarePointer(4, 8));
   setPiece ('p', getSquarePointer(1, 7));
   setPiece ('p', getSquarePointer(2, 7));
@@ -114,6 +112,22 @@ void CPos::parseFen (std::string fen) {
   setPiece ('p', getSquarePointer(6, 7));
   setPiece ('p', getSquarePointer(7, 7));
   setPiece ('p', getSquarePointer(8, 7));
+  setPiece ('K', getSquarePointer(5, 1)); //WHITE PIECES
+  setPiece ('B', getSquarePointer(6, 1));
+  setPiece ('B', getSquarePointer(3, 1));
+  setPiece ('R', getSquarePointer(8, 1));
+  setPiece ('R', getSquarePointer(1, 1));
+  setPiece ('N', getSquarePointer(2, 1));
+  setPiece ('N', getSquarePointer(7, 1));
+  setPiece ('D', getSquarePointer(4, 1));
+  setPiece ('P', getSquarePointer(1, 2));
+  setPiece ('P', getSquarePointer(2, 2));
+  setPiece ('P', getSquarePointer(3, 2));
+  setPiece ('P', getSquarePointer(4, 2));
+  setPiece ('P', getSquarePointer(5, 2));
+  setPiece ('P', getSquarePointer(6, 2));
+  setPiece ('P', getSquarePointer(7, 2));
+  setPiece ('P', getSquarePointer(8, 2));
 }
 
 CSquare* CPos::getSquarePointer (int x, int y) {
@@ -139,7 +153,6 @@ void CPos::loopPieces(){
 		for (int y=1; y <= 8; y++) { //loops through the entire board
 			currentSquare = getSquarePointer(x, y);
 			if (currentSquare->containsPiece()) { //if the square contains a piece
-        std::cout << x << y << "contains a piece" << std::endl;
 				currentPiece = currentSquare->getPiecePointer();
 				if (toPlay == true) { //white to play
 					if (currentPiece->getColor() == true) { //if the piece is white and white is to play
@@ -150,13 +163,11 @@ void CPos::loopPieces(){
 					std::cout << currentPiece -> getColor () << std::endl;
 					if (currentPiece -> getColor() == false) { //if the piece is black and black is to play
             appendMoves(currentPiece -> getMoves());
-            std::cout << "moves got" << std::endl;
 					}
 				}
 			}
 		}
 	}
-  std::cout << "generated the movesList" << std::endl;
 }
 
 void CPos::appendMoves(std::vector <std::string> newMoves) { //appends moves of a single piece to the entire list of Moves.

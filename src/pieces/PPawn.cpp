@@ -17,7 +17,6 @@ PPawn::~PPawn()
 std::vector<std::string> PPawn::getMoves() {
   tempMoves.clear();
   //The moves are hardcoded, as they are constant for a King. PLEASE FORGIVE ME FOR THIS MADNESS!!!
-  std::cout << pos->getPlayerColor() << "LOL" << std::endl;
   if (pos->getPlayerColor() == false) { //black
     std::cout << cordX << cordY << std::endl;
     if (squareAvailable (cordX, cordY-1)) { //single step
@@ -26,10 +25,19 @@ std::vector<std::string> PPawn::getMoves() {
     if (cordY == 7 && (squareAvailable (cordX, cordY-1) && squareAvailable (cordX, cordY -2))) { // double step
         tempMoves.push_back (CPos::getSquareName(cordX, cordY) + CPos::getSquareName(cordX, cordY-2));
     }
+    if (cordsInBounds(cordX-1, cordY-1) && pos->getSquarePointer (cordX-1, cordY-1)-> containsPiece()) {
+      if (pos->getSquarePointer (cordX-1, cordY-1)-> getPiecePointer()-> getColor() != this->color){
+        tempMoves.push_back (CPos::getSquareName(cordX, cordY) + CPos::getSquareName(cordX-1, cordY-1));
+      }
+    }
+    if (cordsInBounds(cordX+1, cordY-1) && pos->getSquarePointer (cordX+1, cordY-1)-> containsPiece()) {
+      if (pos->getSquarePointer (cordX+1, cordY-1)-> getPiecePointer()-> getColor() != this->color) {
+        tempMoves.push_back (CPos::getSquareName(cordX, cordY) + CPos::getSquareName(cordX+1, cordY-1));
+      }
+    }
   } else {
     /*white*/
   }
-  std::cout << "pawngeneration finished" << tempMoves.size() << std::endl;
   return tempMoves;
 }
 
@@ -42,7 +50,7 @@ bool PPawn::cordsInBounds (int cordXI,int cordYI) {
 }
 
 bool PPawn::squareAvailable (int cordXI, int cordYI) {
-  if (pos->getSquarePointer (cordXI, cordYI) -> containsPiece() && !(cordsInBounds (cordXI, cordXI))) {
+  if (pos->getSquarePointer (cordXI, cordYI) -> containsPiece() || !(cordsInBounds (cordXI, cordXI))) {
     return false;
   }
   return true;

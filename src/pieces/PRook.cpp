@@ -38,7 +38,6 @@ std::vector<std::string> PRook::getMoves() {
   //right
   while (collided == false) {
     relPosX += 1;
-    std::cout << "top-right" << std::endl;
     if (squareAvailable (relPosX, relPosY)) {
       tempMoves.push_back (CPos::getSquareName (cordX, cordY) + CPos::getSquareName(relPosX, relPosY));
     } else {
@@ -51,22 +50,18 @@ std::vector<std::string> PRook::getMoves() {
     //left:
   while (collided == false) {
     relPosX -= 1;
-    std::cout << "bottom-right" << std::endl;
     if (squareAvailable (relPosX, relPosY)) {
       tempMoves.push_back (CPos::getSquareName (cordX, cordY) + CPos::getSquareName(relPosX, relPosY));
     } else {
-      std::cout << "stopped exec" << std::endl;
       collided = true; // just trying to go out the way of ANOTHER break xD
     }
   }
-  std::cout << "exited bottom-right" << std::endl;
   collided = false;
   relPosY = cordY;
   relPosX = cordX;
     //bottom:
   while (collided == false) {
     relPosY -=1;
-    std::cout << "bottom-left" << relPosX << relPosY << std::endl;
     if (squareAvailable (relPosX, relPosY)) {
       tempMoves.push_back (CPos::getSquareName (cordX, cordY) + CPos::getSquareName(relPosX, relPosY));
     } else {

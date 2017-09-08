@@ -7,5 +7,5 @@ void CPiece::setCoordinates (int cordXI, int cordYI) { // NO ZERO INDEXING!
 }
 
 bool CPiece::getColor() {
-  return (color);
+  return this->color;
 }

@@ -17,7 +17,6 @@ PBishop::~PBishop()
 
 std::vector<std::string> PBishop::getMoves() {
   tempMoves.clear();
-  std::cout<< "bishop getMoves" << std::endl;
   bool collided = false;
   int relPosX = cordX; // where the move generator currently is.
   int relPosY = cordY;
@@ -26,7 +25,6 @@ std::vector<std::string> PBishop::getMoves() {
   while (collided == false) {
     relPosY +=1;
     relPosX -= 1;
-    std::cout << "top-left" << std::endl;
     if (squareAvailable (relPosX, relPosY)) {
       tempMoves.push_back (CPos::getSquareName (cordX, cordY) + CPos::getSquareName(relPosX, relPosY));
     } else {
@@ -40,7 +38,6 @@ std::vector<std::string> PBishop::getMoves() {
   while (collided == false) {
     relPosY +=1;
     relPosX += 1;
-    std::cout << "top-right" << std::endl;
     if (squareAvailable (relPosX, relPosY)) {
       tempMoves.push_back (CPos::getSquareName (cordX, cordY) + CPos::getSquareName(relPosX, relPosY));
     } else {
@@ -54,15 +51,12 @@ std::vector<std::string> PBishop::getMoves() {
   while (collided == false) {
     relPosX += 1;
     relPosY -= 1;
-    std::cout << "bottom-right" << std::endl;
     if (squareAvailable (relPosX, relPosY)) {
       tempMoves.push_back (CPos::getSquareName (cordX, cordY) + CPos::getSquareName(relPosX, relPosY));
     } else {
-      std::cout << "stopped exec" << std::endl;
       collided = true; // just trying to go out the way of ANOTHER break xD
     }
   }
-  std::cout << "exited bottom-right" << std::endl;
   collided = false;
   relPosY = cordY;
   relPosX = cordX;
@@ -70,7 +64,6 @@ std::vector<std::string> PBishop::getMoves() {
   while (collided == false) {
     relPosY -=1;
     relPosX -= 1;
-    std::cout << "bottom-left" << relPosX << relPosY << std::endl;
     if (squareAvailable (relPosX, relPosY)) {
       tempMoves.push_back (CPos::getSquareName (cordX, cordY) + CPos::getSquareName(relPosX, relPosY));
     } else {
