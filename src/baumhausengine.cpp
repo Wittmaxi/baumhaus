@@ -33,7 +33,7 @@ void CBaumhausengine::init() {
 	this->random = false; // by default random is off
 	this->colorOnTurn = true; // white starts the match
 	this->color = false; // engine will play black
-	position->feedFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -"); //not the true starting position, but a starting position that is used 4 debug
+  position->feedFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq -");
 	pipe->d("End - init()");
 	firstTime = true;
 }
@@ -47,12 +47,10 @@ void CBaumhausengine::analyzePos() {
   }
   movesList.clear();
 		std::vector<std::string> possibleMoves = position->getPossibleMoves(false); // TODO change the hardcoded 'false' to the actual current color
-    pipe->d("got the movesList: " + str(possibleMoves.size()));
     if (possibleMoves.size() > 0) {
 			movesList = possibleMoves;
       pipe->d("setting seed");
       srand (time(NULL));
-      pipe->d("random will be generated");
       tempMove = possibleMoves [rand() % possibleMoves.size()];
       pipe->d("temp move: " + tempMove);
     	makeMove(tempMove);
@@ -76,9 +74,7 @@ bool CBaumhausengine::getColor() {
 }
 
 void CBaumhausengine::startRoutine() {
-
-	std::cout << "Baumhaus Engine started up... Waiting for Signals"; // Not sure this has an impact on XBoard IO . . . 
-
+  pipe -> d ("THE BAUMHAUS-ENGINE WAS STARTED!");
 	std::string message;
 	while (true) { //just simply spools to wait for a signal
     		std::string message = pipe->dequeueInputMessage(false);
@@ -95,8 +91,9 @@ void CBaumhausengine::startRoutine() {
     			this->random = !this->random;
     		}
     		else if ("usermove" == message) { //quick and dirty way. needs to be made better
-          pipe->d("Got usermove request");
+          movePointers (pipe->dequeueInputMessage(true).substr(1, 4));
           analyzePos();
+          this->colorOnTurn != this->colorOnTurn;
     			//std::string move = pipe->dequeueInputMessage(true);
     			// validate move
     			// TODO
@@ -121,17 +118,39 @@ void CBaumhausengine::pong(std::string val) {
 
 void CBaumhausengine::makeMove(std::string move) {
   //remove the old piece pointer and set it otherwhere.
+    movePointers (move);
+    // update position to reflect move
+    pipe->queueOutputMessage("move " + move); //output the current move
+    this->colorOnTurn = !this->colorOnTurn; //change the player color
+    pipe->d("color on turn: " + std::to_string(colorOnTurn)); //output whose turn it is
+}
+
+bool CBaumhausengine::movePointers (std::string move) {
+  std::cout << "in movePointers_" << move << std::endl;
+  std::cout << "no return type" << std::endl;
   std::vector<int> moveStartField = CPos::coordFromName (move.substr (0, 2));
+  std::cout << "cord 1" << std::endl;
   std::vector<int> moveEndField = CPos::coordFromName (move.substr (2, 2));
+  std::cout << "cord 2" << std::endl;
 
+  std::cout << "declaring vars" << moveStartField[0] << moveStartField[1] << std::endl;
   CSquare* startSquare = position->getSquarePointer (moveStartField [0], moveStartField[1]);
+  std::cout << "declared variable 1!" << moveStartField[0] << moveStartField[1] << std::endl;
   CSquare* endSquare = position -> getSquarePointer (moveEndField[0], moveEndField[1]);
+  std::cout << "declared variables!" << std::endl;
 
-  if (startSquare->getPiecePointer()->getColor() == false /*this-> colorOnTurn*/) {
+  if (startSquare->containsPiece() == false)  {return false;} // if there is no piece in the start square, return an error
+
+  std::cout << "to play: " << this -> colorOnTurn << startSquare->getPiecePointer()->getColor() << std::endl;
+  if (startSquare->getPiecePointer()->getColor() == this-> colorOnTurn) {
+      std::cout << "pointer is correct" << std::endl;
       if (endSquare -> containsPiece()){ //if the piece is taking another piece or even passing on a piece of its own color
-          if (endSquare->getPiecePointer()->getColor() != this-> colorOnTurn) { //checks if the piece is of the same color
-
+          std::cout << "contains piece" << std::endl;
+          if (endSquare->getPiecePointer()->getColor() == this-> colorOnTurn) { //checks if the piece is of the same color
+              return false;
+              std::cout << "error" << std::endl;
           } else {
+              std::cout << "taking enemy piece" << std::endl;
               endSquare->takePiece();
               endSquare->setPiecePointer(startSquare->removePiece());
               endSquare->getPiecePointer () -> setCoordinates (moveEndField [0], moveEndField[1]);
@@ -140,11 +159,7 @@ void CBaumhausengine::makeMove(std::string move) {
           endSquare->setPiecePointer (startSquare->removePiece());
           endSquare->getPiecePointer () -> setCoordinates (moveEndField [0], moveEndField[1]);
       }
-    // update position to reflect move
-    pipe->queueOutputMessage("move " + move); //output the current move
-    this->colorOnTurn = !this->colorOnTurn; //change the player color
-    pipe->d("color on turn: " + str(colorOnTurn)); //output whose turn it is
-  } else {
-
-  }
+    } else {
+      return false;
+    }
 }

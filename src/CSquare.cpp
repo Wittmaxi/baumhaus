@@ -44,7 +44,6 @@ void CSquare::takePiece() {
 void CSquare::setPiecePointer (CPiece* input) {
   contained = input;
   hasPiece = true;
-  pipe->d("set hasPiece to true ");
   contained -> setCoordinates(x, y);
 }
 

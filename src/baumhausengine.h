@@ -57,6 +57,7 @@ class CBaumhausengine
         void updateSquares();
         void setColor (bool colorI); //setter for the piece-color
         bool getColor ();
+        bool movePointers (std::string move); //moves the piece pointers. Returns false on error
 
 		/* responses to some XBoard commands */
 		// pong the UI

@@ -54,7 +54,6 @@ bool PKnight::squareAvailable (int cordXI,int cordYI) {
   }else { //checks if there is a piece of the own type.
     currentSquare = pos -> getSquarePointer (cordXI, cordYI);
     if (currentSquare -> containsPiece() == true) {
-      pipe->d("found square containing a piece");
       currentPiece = currentSquare -> getPiecePointer();
       if (currentPiece->getColor() == this->getColor()) {
         result = false;

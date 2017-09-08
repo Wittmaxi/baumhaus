@@ -18,7 +18,7 @@ PBishop::~PBishop()
 
 std::vector<std::string> PBishop::getMoves() {
   tempMoves.clear();
-  pipe->d("bishop getMoves");
+
   bool collided = false;
   int relPosX = cordX; // where the move generator currently is.
   int relPosY = cordY;
@@ -27,7 +27,6 @@ std::vector<std::string> PBishop::getMoves() {
   while (collided == false) {
     relPosY +=1;
     relPosX -= 1;
-    pipe->d("top-left");
     if (squareAvailable (relPosX, relPosY)) {
       tempMoves.push_back (CPos::getSquareName (cordX, cordY) + CPos::getSquareName(relPosX, relPosY));
     } else {
@@ -41,7 +40,7 @@ std::vector<std::string> PBishop::getMoves() {
   while (collided == false) {
     relPosY +=1;
     relPosX += 1;
-    pipe->d("top-right");
+
     if (squareAvailable (relPosX, relPosY)) {
       tempMoves.push_back (CPos::getSquareName (cordX, cordY) + CPos::getSquareName(relPosX, relPosY));
     } else {
@@ -55,15 +54,12 @@ std::vector<std::string> PBishop::getMoves() {
   while (collided == false) {
     relPosX += 1;
     relPosY -= 1;
-    pipe->d("bottom-right");
     if (squareAvailable (relPosX, relPosY)) {
       tempMoves.push_back (CPos::getSquareName (cordX, cordY) + CPos::getSquareName(relPosX, relPosY));
     } else {
-      pipe->d("stopped exec");
       collided = true; // just trying to go out the way of ANOTHER break xD
     }
   }
-  pipe->d("exited bottom-right");
   collided = false;
   relPosY = cordY;
   relPosX = cordX;
@@ -71,8 +67,6 @@ std::vector<std::string> PBishop::getMoves() {
   while (collided == false) {
     relPosY -=1;
     relPosX -= 1;
-    pipe->d("bottom-left");
-	pipe->d(str(relPosX) + ", " + str(relPosY));
     if (squareAvailable (relPosX, relPosY)) {
       tempMoves.push_back (CPos::getSquareName (cordX, cordY) + CPos::getSquareName(relPosX, relPosY));
     } else {
