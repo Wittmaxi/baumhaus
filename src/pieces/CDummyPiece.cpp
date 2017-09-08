@@ -1,4 +1,5 @@
 #include "CDummyPiece.h"
+#include "../CPipe.h"
 #include "../CPos.h"
 
 CDp::CDp(bool colorI, CPos *currentPosition)
@@ -15,7 +16,7 @@ CDp::~CDp()
 
 std::vector<std::string> CDp::getMoves() {
   std::vector <std::string> tempMoves;
-  std::cout << "dummymovesCalled" << std::endl;
+  pipe->d("dummymovesCalled");
   return tempMoves;
 }
 
