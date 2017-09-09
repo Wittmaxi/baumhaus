@@ -175,3 +175,11 @@ if (newMoves.size() > 0) {
 bool CPos::getPlayerColor () {
   return toPlay;
 }
+
+void setSquareAttackStates () {
+  
+}
+
+bool CPos::kingIsInCheck(bool color) { //returns, wether the king that is to play is in check
+
+}

@@ -35,6 +35,7 @@ class CPos
 				std::string fen;
 				bool toPlay; //which player is to play
 		private:
+			  bool kingIsInCheck(bool color);
 				void parseFen(std::string fen);
 				void loopPieces(); //goes through every piece to gets its moves.
 				void appendMoves(std::vector <std::string> newMoves);

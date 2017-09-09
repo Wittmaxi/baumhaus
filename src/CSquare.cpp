@@ -72,3 +72,25 @@ CPiece *CSquare::getPiecePointer() {
       return (contained);
   }
 }
+
+int CSquare::getWhiteAttackers() {
+  return whiteAttackers;
+}
+
+int CSquare::getBlackAttackers() {
+    return blackAttackers;
+}
+
+void CSquare::addAttackers(bool color) {
+  if (color) { //add white attacker
+    whiteAttackers += 1;
+  } else { // add black attacker
+    blackAttackers +=;
+  }
+  calcTotalAttack();
+}
+
+int CSquare::calcTotalAttack() {
+  totalAttack = whiteAttackers - blackAttackers; // minus for black
+  return totalAttack;
+}
