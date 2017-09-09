@@ -7,6 +7,11 @@ PBishop::PBishop(bool colorI, CPos *currentPosition)
     //ctor
     color = colorI;
     pos = currentPosition;
+    if (color) { //if the piece is white, give it a white FEN-Name
+      fenType = 'B';
+    } else {
+      fenType = 'b';
+    }
 }
 
 PBishop::~PBishop()
@@ -30,7 +35,7 @@ std::vector<std::string> PBishop::getMoves() {
     if (squareAvailable (relPosX, relPosY)) {
       tempMoves.push_back (CPos::getSquareName (cordX, cordY) + CPos::getSquareName(relPosX, relPosY));
     } else {
-      collided = true; // just trying to go out the way of ANOTHER break xD
+      collided = true; // just trying to go out the way of ANOTHER break
     }
   }
   collided = false;

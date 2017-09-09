@@ -7,6 +7,11 @@ PRook::PRook(bool colorI, CPos *currentPosition)
     //ctor
     color = colorI;
     pos = currentPosition;
+    if (color) { //if the piece is white, give it a white FEN-Name
+      fenType = 'R';
+    } else {
+      fenType = 'r';
+    }
 }
 
 PRook::~PRook()

@@ -7,6 +7,11 @@ PQueen::PQueen(bool colorI, CPos *currentPosition)
     //ctor
     color = colorI;
     pos = currentPosition;
+    if (color) { //if the piece is white, give it a white FEN-Name
+      fenType = 'Q';
+    } else {
+      fenType = 'q';
+    }
 }
 
 PQueen::~PQueen()

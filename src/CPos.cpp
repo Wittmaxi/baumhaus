@@ -176,10 +176,14 @@ bool CPos::getPlayerColor () {
   return toPlay;
 }
 
-void setSquareAttackStates () {
-  
+void CPos::setSquareAttackStates () {
+
 }
 
 bool CPos::kingIsInCheck(bool color) { //returns, wether the king that is to play is in check
+
+}
+
+std::pair CPos::getKingCords() {
 
 }

@@ -16,6 +16,7 @@ class CPiece {
 	protected:
 		int cordX; //the coordinates of the piece.
 		int cordY;
+		char fenType; //what fen-character the piece is.
 		bool color; //the figurine color. True means white. LOL.
 };
 

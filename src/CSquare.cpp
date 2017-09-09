@@ -41,25 +41,12 @@ void CSquare::takePiece() {
   hasPiece = false;
 }
 
-void CSquare::setPiecePointer (CPiece* input) {
+void CSquare::setPiecePointer (CPiece* input) { //gets the piece pointer as input and the type of the piece.
   contained = input;
   hasPiece = true;
   contained -> setCoordinates(x, y);
 }
 
-
-//attack state
-void CSquare::addBlackAttacker () {
-    protection -= 1;
-}
-
-void CSquare::addWhiteAttacker() {
-   protection += 1;
-}
-
-int CSquare::returnAttackState() {
-  return protection;
-}
 
 bool CSquare::containsPiece() {
   return hasPiece;
@@ -83,14 +70,18 @@ int CSquare::getBlackAttackers() {
 
 void CSquare::addAttackers(bool color) {
   if (color) { //add white attacker
-    whiteAttackers += 1;
+    whiteAttackers ++;
   } else { // add black attacker
-    blackAttackers +=;
+    blackAttackers ++;
   }
   calcTotalAttack();
 }
 
 int CSquare::calcTotalAttack() {
   totalAttack = whiteAttackers - blackAttackers; // minus for black
+  return totalAttack;
+}
+
+int CSquare::returnAttackState() {
   return totalAttack;
 }
