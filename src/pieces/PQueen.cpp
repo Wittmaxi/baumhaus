@@ -1,4 +1,4 @@
-#include "PBishop.h"
+#include "PQueen.h"
 #include "../CPipe.h"
 #include "../CPos.h"
 
@@ -127,7 +127,7 @@ bool PQueen::squareAvailable (int cordXI,int cordYI) {
   if (((cordXI > 8) || (cordYI > 8)) || ((cordYI < 1) || (cordXI < 1))) {
     result = false;
   }else { //checks if there is a piece of the own type.
-    currentSquare = pos -> getSquarePointer (cordXI, cordYI);
+    currentSquare = this-> pos -> getSquarePointer (cordXI, cordYI);
     if (currentSquare -> containsPiece() == true) {
       currentPiece = currentSquare -> getPiecePointer();
       if (currentPiece->getColor() == this->getColor()) {

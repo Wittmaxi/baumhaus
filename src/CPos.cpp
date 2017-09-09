@@ -7,6 +7,7 @@
 #include "pieces/PRook.h"
 #include "pieces/PKnight.h"
 #include "pieces/PPawn.h"
+#include "pieces/PQueen.h"
 #include "CPipe.h"
 #include <string>
 
@@ -52,20 +53,20 @@ void CPos::setPiece (char fenName, CSquare *currentSquarePointer) { //ONLY!!! at
 
   switch (fenName) {
     //white pieces
-      case 'K': currentSquarePointer -> setPiecePointer(new PKing(true, this)); break;//king
-      case 'N': currentSquarePointer -> setPiecePointer(new PKnight(true, this)); break; //knight
+      case 'K': currentSquarePointer -> setPiecePointer (new PKing(true, this)); break;//king
+      case 'N': currentSquarePointer -> setPiecePointer (new PKnight(true, this)); break; //knight
       case 'R': currentSquarePointer -> setPiecePointer (new PRook(true, this)); break; //rook
       case 'B': currentSquarePointer -> setPiecePointer (new PBishop(true, this)); break; //bishop
       case 'P': currentSquarePointer -> setPiecePointer (new PPawn(true, this));break; //pawn
-      case 'Q': break; //queen
+      case 'Q': currentSquarePointer -> setPiecePointer (new PQueen(true, this)); break; //queen
       case 'D': currentSquarePointer -> setPiecePointer (new CDp(true, this)); break;
     //black pieces
-      case 'k': currentSquarePointer -> setPiecePointer(new PKing(false, this)); break; //king
+      case 'k': currentSquarePointer -> setPiecePointer (new PKing(false, this)); break; //king
       case 'r': currentSquarePointer -> setPiecePointer (new PRook(false, this));break; //rook
-      case 'n': currentSquarePointer -> setPiecePointer(new PKnight(false, this)); break; //knight
+      case 'n': currentSquarePointer -> setPiecePointer (new PKnight(false, this)); break; //knight
       case 'b': currentSquarePointer -> setPiecePointer (new PBishop(false, this)); break; //bishop
       case 'p': currentSquarePointer -> setPiecePointer (new PPawn(false, this));break; //pawn
-      case 'q': break; //queen
+      case 'q': currentSquarePointer -> setPiecePointer (new PQueen(false, this)); break; //queen
 
       case 'd': currentSquarePointer -> setPiecePointer (new CDp(false, this)); break;
   }
@@ -105,7 +106,7 @@ void CPos::parseFen (std::string fen) {
   setPiece ('r', getSquarePointer(1, 8));
   setPiece ('n', getSquarePointer(2, 8));
   setPiece ('n', getSquarePointer(7, 8));
-  setPiece ('d', getSquarePointer(4, 8));
+  setPiece ('q', getSquarePointer(4, 8));
   setPiece ('p', getSquarePointer(1, 7));
   setPiece ('p', getSquarePointer(2, 7));
   setPiece ('p', getSquarePointer(3, 7));
@@ -121,7 +122,7 @@ void CPos::parseFen (std::string fen) {
   setPiece ('R', getSquarePointer(1, 1));
   setPiece ('N', getSquarePointer(2, 1));
   setPiece ('N', getSquarePointer(7, 1));
-  setPiece ('D', getSquarePointer(4, 1));
+  setPiece ('Q', getSquarePointer(4, 1));
   setPiece ('P', getSquarePointer(1, 2));
   setPiece ('P', getSquarePointer(2, 2));
   setPiece ('P', getSquarePointer(3, 2));
