@@ -140,12 +140,6 @@ std::vector <std::string> CPos::getPossibleMoves (bool color) {
   moves.clear();
   loopPieces();
   return moves;
-  for (int y = 0; y < squares.size(); y++) {
-    for (int x = 0; x < squares[y].size(); x++) {
-      pipe->d("  " + str(squares[y][x]->containsPiece()));
-    }
-    pipe->d("---------------------");
-  }
 }
 
 void CPos::loopPieces(){
@@ -162,7 +156,6 @@ void CPos::loopPieces(){
 					}
 				}
 				else { //black to play
-					pipe->d("color: " + str(currentPiece->getColor()));
 					if (currentPiece -> getColor() == false) { //if the piece is black and black is to play
             appendMoves(currentPiece -> getMoves());
 					}

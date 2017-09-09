@@ -19,7 +19,6 @@ std::vector<std::string> PPawn::getMoves() {
   tempMoves.clear();
   //The moves are hardcoded, as they are constant for a King. PLEASE FORGIVE ME FOR THIS MADNESS!!!
   if (pos->getPlayerColor() == false) { //black
-	pipe->d(str(cordX) + ", " + str(cordY));
     if (squareAvailable (cordX, cordY-1)) { //single step
         tempMoves.push_back (CPos::getSquareName(cordX, cordY) + CPos::getSquareName(cordX, cordY-1));
     }

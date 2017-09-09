@@ -34,14 +34,15 @@ class CPipe {
 
 
 		// debugging output
-		void d(const char* message);
-		void d(const std::string message);
+		void d(const char* message, bool newLine = true);
+		void d(const std::string message, bool newLine = true);
 
 		// IO loops
 		void startInput();
 		void startOutput();
 
-    protected:
+  protected:
+
 		std::string readNext(bool readToEnd = false);
 		/*
 		XBoard Commands

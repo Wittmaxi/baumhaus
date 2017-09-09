@@ -32,7 +32,7 @@ CPipe* CPipe::getInstance() {
 }
 
 void CPipe::init(bool debugMode) {
-	this->debugMode = debugMode; 
+	this->debugMode = debugMode;
 }
 
 CPipe::CPipe()
@@ -246,7 +246,7 @@ void CPipe::startOutput() {
 	std::string cmd;
 	do {
 		if("" != (cmd = dequeueOutputMessage(false))) {
-			std::cout << (debugMode ? "[OUTPUT] " : "" ) << cmd << std::endl;
+			std::cout << (debugMode ? "" : "" ) << cmd << std::endl;
 		}
 	} while(isRunning);
 }
@@ -362,15 +362,18 @@ void CPipe::startInput() {
 	this->queueInputMessage("quit");
 }
 
-void CPipe::d(const char* message) {
+void CPipe::d(const char* message, bool newLine) {
 	// TODO: use globally defined param to determine whether to print.
 	if(this->debugMode) {
-		std::cout << "[DEBUG] " << message << std::endl;
+		std::cout << "[DEBUG]" << message;
+		if (newLine == true) {
+			std::cout << std::endl; // this way, the user can choose, wether he wants to output a new line or not
+		}
 	}
 }
 
-void CPipe::d(const std::string message) {
-	d(message.c_str());
+void CPipe::d(const std::string message, bool newLine) {
+	d(message.c_str(), newLine);
 }
 
 std::string CPipe::readNext(bool readToEnd) {

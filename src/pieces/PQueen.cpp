@@ -2,21 +2,21 @@
 #include "../CPipe.h"
 #include "../CPos.h"
 
-PBishop::PBishop(bool colorI, CPos *currentPosition)
+PQueen::PQueen(bool colorI, CPos *currentPosition)
 {
     //ctor
     color = colorI;
     pos = currentPosition;
 }
 
-PBishop::~PBishop()
+PQueen::~PQueen()
 {
     //dtor
 }
 
 
 
-std::vector<std::string> PBishop::getMoves() {
+std::vector<std::string> PQueen::getMoves() {
   tempMoves.clear();
 
   bool collided = false;
@@ -73,10 +73,54 @@ std::vector<std::string> PBishop::getMoves() {
       collided = true; // just trying to go out the way of ANOTHER break xD
     }
   }
+  while (collided == false) {
+    relPosY +=1;
+    if (squareAvailable (relPosX, relPosY)) {
+      tempMoves.push_back (CPos::getSquareName (cordX, cordY) + CPos::getSquareName(relPosX, relPosY));
+    } else {
+      collided = true; // just trying to go out the way of ANOTHER break xD
+    }
+  }
+  collided = false;
+  relPosY = cordY;
+  relPosX = cordX;
+  //right
+  while (collided == false) {
+    relPosX += 1;
+    if (squareAvailable (relPosX, relPosY)) {
+      tempMoves.push_back (CPos::getSquareName (cordX, cordY) + CPos::getSquareName(relPosX, relPosY));
+    } else {
+      collided = true; // just trying to go out the way of ANOTHER break xD
+    }
+  }
+  collided = false;
+  relPosY = cordY;
+  relPosX = cordX;
+    //left:
+  while (collided == false) {
+    relPosX -= 1;
+    if (squareAvailable (relPosX, relPosY)) {
+      tempMoves.push_back (CPos::getSquareName (cordX, cordY) + CPos::getSquareName(relPosX, relPosY));
+    } else {
+      collided = true; // just trying to go out the way of ANOTHER break xD
+    }
+  }
+  collided = false;
+  relPosY = cordY;
+  relPosX = cordX;
+    //bottom:
+  while (collided == false) {
+    relPosY -=1;
+    if (squareAvailable (relPosX, relPosY)) {
+      tempMoves.push_back (CPos::getSquareName (cordX, cordY) + CPos::getSquareName(relPosX, relPosY));
+    } else {
+      collided = true; // just trying to go out the way of ANOTHER break xD
+    }
+  }
   return tempMoves;
 }
 
-bool PBishop::squareAvailable (int cordXI,int cordYI) {
+bool PQueen::squareAvailable (int cordXI,int cordYI) {
   bool result = true;
   CSquare* currentSquare;
   CPiece* currentPiece;

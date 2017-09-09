@@ -16,7 +16,6 @@ CDp::~CDp()
 
 std::vector<std::string> CDp::getMoves() {
   std::vector <std::string> tempMoves;
-  pipe->d("dummymovesCalled");
   return tempMoves;
 }
 

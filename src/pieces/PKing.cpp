@@ -16,8 +16,6 @@ PKing::~PKing()
 
 
 std::vector<std::string> PKing::getMoves() {
-  pipe->d("getMovesDebug 1");
-  pipe->d("coordX= " + str(cordX) + "\tcoordY= " + str(cordY));
   std::vector <std::string> tempMoves;
   //The moves are hardcoded, as they are constant for a King. PLEASE FORGIVE ME FOR THIS MADNESS!!!
   if (squareAvailable (cordX +1, cordY+1)) {
@@ -51,13 +49,11 @@ bool PKing::squareAvailable (int cordX,int cordY) {
   bool result = true;
   CSquare* currentSquare;
   CPiece* currentPiece;
-  pipe->d(str(cordX) + ", " + str(cordY));
   if (((cordX > 8) || (cordY > 8)) || ((cordY < 1) || (cordX < 1))) {
     result = false;
   }else { //checks if there is a piece of the own type.
     currentSquare = pos -> getSquarePointer (cordX, cordY);
     if (currentSquare -> containsPiece() == true) {
-      pipe->d("found square containing a piece");
       currentPiece = currentSquare -> getPiecePointer();
       if (currentPiece->getColor() == this->getColor()) {
         result = false;
