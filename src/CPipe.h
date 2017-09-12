@@ -159,5 +159,6 @@ std::string str(unsigned long long value);
 std::string str(float value);
 std::string str(double value);
 std::string str(long double value);
+std::string ltrim(std::string str);
 
 #endif // CPIPE_H

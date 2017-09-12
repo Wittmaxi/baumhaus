@@ -246,7 +246,7 @@ void CPipe::startOutput() {
 	std::string cmd;
 	do {
 		if("" != (cmd = dequeueOutputMessage(false))) {
-			std::cout << (debugMode ? "[OUTPUT] " : "" ) << cmd << std::endl;
+			std::cout << cmd << std::endl;
 		}
 	} while(isRunning);
 }
@@ -375,14 +375,12 @@ void CPipe::d(const std::string message) {
 
 std::string CPipe::readNext(bool readToEnd) {
 	std::string str;
-
-	// skip any whitespace at the beginning of the input
-	std::cin >> std::skipws;
-
+	
 	if(readToEnd) {
 		std::getline(std::cin, str);
+		str = ltrim(str);
 	} else {
-		std::cin >> str;
+		std::cin >> std::skipws >> str;
 	}
 
 	return str;
@@ -415,4 +413,7 @@ std::string str(double value) {
 }
 std::string str(long double value) {
 	return std::to_string(value);
+}
+std::string ltrim(std::string str) {
+	return str.erase(0, str.find_first_not_of(' '));
 }

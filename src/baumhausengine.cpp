@@ -91,9 +91,9 @@ void CBaumhausengine::startRoutine() {
     			this->random = !this->random;
     		}
     		else if ("usermove" == message) { //quick and dirty way. needs to be made better
-          movePointers (pipe->dequeueInputMessage(true).substr(1, 4));
-          analyzePos();
-          this->colorOnTurn != this->colorOnTurn;
+			  movePointers (pipe->dequeueInputMessage(true).substr(1, 4));
+			  analyzePos();
+			  this->colorOnTurn != this->colorOnTurn;
     			//std::string move = pipe->dequeueInputMessage(true);
     			// validate move
     			// TODO
