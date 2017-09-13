@@ -28,18 +28,25 @@ class CPos
 				CSquare *getSquarePointer(int x, int y);
 				std::vector<std::string> getPossibleMoves(bool color); //color: true = white
 				bool getPlayerColor();
+				bool movePointers (std::string move);
+				void writeBitBoard(); //function that simply prints a board of bools with the values of containsPiece()
+				void writeAttackStates(); //print the attack states of each square
+				void setColor(bool colorI);
 
-		protected:
+		private:
 				std::vector<std::vector<CSquare*>> squares;
 				std::vector<std::string> moves;
+				std::vector<std::string> blacksLastMoves;
 				std::string fen;
 				bool toPlay; //which player is to play
 		private:
-			  bool kingIsInCheck(bool color);
-				std::pair getKindCoords(bool color); 
+				std::vector <std::string> getOufOfCheck(std::vector <std::string> movesI, bool colorI);
+			  bool kingIsInCheck (bool color);
+				std::pair<int, int> getKingCoords(bool color);
+				void setSquaresAttackStates();
 				void parseFen(std::string fen);
-				void loopPieces(); //goes through every piece to gets its moves.
-				void appendMoves(std::vector <std::string> newMoves);
+				std::vector <std::string> loopPieces(bool colorI); //goes through every piece to gets its moves.
+				std::vector <std::string> appendMoves(std::vector <std::string> newMoves, std::vector<std::string> oldMoves);
 				void setPiece (char fenName, CSquare *currentSquarePointer);
 };
 

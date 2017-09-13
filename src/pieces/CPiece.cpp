@@ -9,3 +9,7 @@ void CPiece::setCoordinates (int cordXI, int cordYI) { // NO ZERO INDEXING!
 bool CPiece::getColor() {
   return this->color;
 }
+
+char CPiece::getPieceType() {
+  return fenType;
+}

@@ -24,6 +24,7 @@ extern const std::string NEWLINE_CMD;
 
 class CPipe {
     public:
+
 		static CPipe* getInstance();
 		void init(bool debugMode);
 
@@ -34,8 +35,14 @@ class CPipe {
 
 
 		// debugging output
-		void d(const char* message, bool newLine = true);
-		void d(const std::string message, bool newLine = true);
+		void d(const char* message, bool newLine = true, bool writeDebug = true);
+		void d(const std::string message, bool newLine = true, bool writeDebug = true);
+		void d(const int message, bool newLine = true, bool writeDebug = true);
+		void d(const float message, bool newLine = true, bool writeDebug = true);
+		void d(const double message, bool newLine = true, bool writeDebug = true);
+		void d(const bool message, bool newLine = true, bool writeDebug = true);
+
+
 
 		// IO loops
 		void startInput();
@@ -140,6 +147,7 @@ class CPipe {
 		// mutex's to make sure we don't have any funny threading issues
 		std::mutex inputMutex;
 		std::mutex outputMutex;
+
 
 		// enforcing singleton pattern
 		CPipe();

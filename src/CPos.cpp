@@ -76,7 +76,6 @@ std::string CPos::getSquareName(int x, int y) { //gets the algebraic notation na
   const std::vector <char> fileNames  = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'};
   std::string currentName;
   currentName = fileNames[x-1] + std::to_string(y);
-  pipe->d(currentName);
   return (currentName);
 }
 
@@ -137,53 +136,232 @@ CSquare* CPos::getSquarePointer (int x, int y) {
   return squares[y-1][x-1];
 }
 
-std::vector <std::string> CPos::getPossibleMoves (bool color) {
+std::vector <std::string> CPos::getPossibleMoves (bool colorI) {
   moves.clear();
-  loopPieces();
+  moves = loopPieces(colorI);
+  for (int i = 0; i < moves.size(); i++) {
+    pipe -> d(moves[i]);
+  }
+  pipe -> d("setting attack states");
+  setSquaresAttackStates();
+  pipe -> d("ATTACK STATES SET");
+  writeAttackStates();
+
+  /*pipe -> d("Checking if King in check. Color :", false);
+  pipe -> d(colorI ? "1" : "0");
+  moves = getOufOfCheck(moves, colorI); //removes every move that brings the king into check
+  if (moves.size() == 0) {
+    //checkmate
+    pipe -> d ("");
+  }
+  */
+  std::vector<std::string> tmp;
+  for (int i = 0; i < moves.size(); i++) { //remove moves that are only meant for the Attack-setters
+    if (moves[i].substr (4, 2) != "AS") {
+      tmp.push_back (moves[i]);
+    }
+  }
+  moves = tmp;
+
   return moves;
 }
 
-void CPos::loopPieces(){
+std::vector<std::string> CPos::loopPieces(bool colorI){
   CSquare *currentSquare;
   CPiece *currentPiece;
+  std::vector<std::string> tempMoves;
   for (int x=1; x<= 8; x++) {
 		for (int y=1; y <= 8; y++) { //loops through the entire board
 			currentSquare = getSquarePointer(x, y);
 			if (currentSquare->containsPiece()) { //if the square contains a piece
 				currentPiece = currentSquare->getPiecePointer();
-				if (toPlay == true) { //white to play
+				if (colorI == true) { //white to play
 					if (currentPiece->getColor() == true) { //if the piece is white and white is to play
-            appendMoves(currentPiece -> getMoves());
+            tempMoves = appendMoves(currentPiece -> getMoves(), tempMoves);
 					}
 				}
 				else { //black to play
 					if (currentPiece -> getColor() == false) { //if the piece is black and black is to play
-            appendMoves(currentPiece -> getMoves());
+            tempMoves = appendMoves(currentPiece -> getMoves(), tempMoves);
 					}
 				}
 			}
 		}
 	}
+  return tempMoves;
 }
 
-void CPos::appendMoves(std::vector <std::string> newMoves) { //appends moves of a single piece to the entire list of Moves.
+std::vector<std::string> CPos::appendMoves(std::vector <std::string> newMoves, std::vector<std::string> oldMoves) { //appends moves of a single piece to the entire list of Moves.
 if (newMoves.size() > 0) {
-    moves.insert(moves.end(), newMoves.begin(), newMoves.end());
+    oldMoves.insert(oldMoves.end(), newMoves.begin(), newMoves.end());
   }
+  return oldMoves;
 }
 
 bool CPos::getPlayerColor () {
   return toPlay;
 }
 
-void CPos::setSquareAttackStates () {
+void CPos::setSquaresAttackStates () {
+  CSquare* currentSquare;
+  std::vector <std::string> movesWhite = loopPieces (true);
+  std::vector <std::string> movesBlack = loopPieces (false);
+  int x, y;
+  std::vector <int> temp;
+    for (int i = 0; i < movesWhite.size(); i++) {
+      pipe -> d(movesWhite[i]);
+    }
+    for (int i = 0; i < movesBlack.size(); i++) {
+      pipe -> d(movesBlack[i]);
+    }
+  std::string currentMove;
+  for (int i = 0; i < movesWhite.size(); i++){
+    currentMove = movesWhite[i];
+    if (currentMove.substr(4, 2) != "MO") {//resolve the flag of the move like "MO" (Other flags, if needed)
+      pipe-> d (currentMove.substr(2,2));
 
+      temp = coordFromName(currentMove.substr (2, 2));
+      x = temp[0];
+      y = temp[1];
+      currentSquare = getSquarePointer(x, y);
+
+      currentSquare->addAttackers (true);
+    }
+    pipe -> d("ATTACKSTATES. Convolution: ", false, false);
+    pipe -> d(i);
+  }
+  for (int i = 0; i < movesBlack.size(); i++){
+    currentMove = movesBlack [i];
+    if (currentMove.substr(4, 2) != "MO") {//resolve the flag of the move like "MO" (Other flags, if needed)
+      temp = coordFromName(currentMove.substr (2, 2));
+      x = temp[0];
+      y = temp[1];
+      currentSquare = getSquarePointer(x, y);
+
+      currentSquare->addAttackers (false);
+    }
+    pipe -> d("ATTACKSTATES (black). Convolution: ", false, false);
+    pipe -> d(i);
+  }
 }
 
-bool CPos::kingIsInCheck(bool color) { //returns, wether the king that is to play is in check
-
+bool CPos::kingIsInCheck(bool colorI) { //returns, wether the king that is to play is in check
+  std::pair <int, int> tmp;
+  tmp = getKingCoords(colorI);
+  pipe -> d ("GOT KING COORDS");
+  CSquare* currentSquare =  getSquarePointer (std::get<0> (tmp), std::get<1> (tmp));
+  pipe ->d ("got current Square");
+  if (colorI) { //white king
+    if (currentSquare->getWhiteAttackers() != 0) {
+      return true;
+    }
+  } else {
+    if (currentSquare->getBlackAttackers() != 0) {
+        return true;
+    }
+  }
+  return false;
 }
 
-std::pair CPos::getKingCords() {
+std::pair<int, int> CPos::getKingCoords(bool colorI) {
+  CSquare* currentSquare;
+  CPiece* currentPiece;
 
+  pipe -> d("finding the kings coordinates");
+  for (int x = 0; x < 8; x++) {
+    for (int y = 0; y < 8; y++) {
+      currentSquare = getSquarePointer(x+1, y+1);
+      if (currentSquare->containsPiece()) {
+        currentPiece = currentSquare-> getPiecePointer ();
+        if ((currentPiece->getPieceType() == 'K' && colorI == true) || (currentPiece->getPieceType() == 'k' && colorI == false)) {
+          std::pair<int, int> tmp = std::make_pair (x, y);
+          pipe -> d(std::get<0> (tmp), false);
+          pipe -> d(std::get<0> (tmp));
+          return tmp;
+        }
+      }
+    }
+  }
+  std::pair<int, int> tmp = std::make_pair (-1, -1); //edge-case
+  return tmp;
+}
+
+std::vector <std::string> CPos::getOufOfCheck(std::vector <std::string> movesI, bool colorI) {
+  pipe -> d("Remove non-King moves");
+  std::pair <int, int> temp = getKingCoords(colorI);
+  std::vector <std::string> newMoves;
+  pipe -> d("Read out the Kings-coordinates");
+  std::string kingLocation = getSquareName (std::get<0> (temp), std::get<1> (temp));
+  pipe -> d("Looping though every move");
+  this -> writeBitBoard ();
+  this -> writeAttackStates();
+  CPos *newPos; //variable to test the current position on
+
+  for (int i = 0; i < movesI.size(); i++) {
+    newPos = new CPos(*this);
+    pipe -> d ("moving pointers");
+    newPos->movePointers (movesI [i]);
+    newPos->writeBitBoard();
+    newPos->writeAttackStates();
+    pipe -> d ("Is the king in check after the last move?");
+    if (!(newPos->kingIsInCheck(colorI))) {
+      newMoves.push_back (movesI [i]);
+    }
+    pipe -> d(i);
+    delete &newPos;
+  }
+  return newMoves;
+}
+
+bool CPos::movePointers (std::string move) {
+  std::vector<int> moveStartField = coordFromName (move.substr (0, 2));
+  std::vector<int> moveEndField = coordFromName (move.substr (2, 2));
+
+  CSquare* startSquare = this-> getSquarePointer (moveStartField [0], moveStartField[1]);;
+  CSquare* endSquare = this-> getSquarePointer (moveEndField[0], moveEndField[1]);
+
+  if (startSquare->containsPiece() == false)  {return false;} // if there is no piece in the start square, return an error
+
+  if (startSquare->getPiecePointer()->getColor() == this-> toPlay) {
+      if (endSquare -> containsPiece()){ //if the piece is taking another piece or even passing on a piece of its own color
+          if (endSquare->getPiecePointer()->getColor() == this-> toPlay) { //checks if the piece is of the same color
+              return false;
+          } else {
+              pipe-> d("Taking a piece");
+              endSquare->takePiece();
+              endSquare->setPiecePointer(startSquare->removePiece());
+          }
+      } else {
+          pipe-> d("movind a piece");
+          endSquare->setPiecePointer (startSquare->removePiece());
+      }
+    } else {
+      return false;
+    }
+}
+
+void CPos::writeBitBoard() {
+  for (int y = 0; y < 8; y++) {
+    for (int x = 0; x < 8; x++) {
+      pipe -> d(getSquarePointer(x+1, y+1)->containsPiece(), false, false);
+    }
+    pipe->d("");
+  }
+}
+
+void CPos::writeAttackStates() {
+  pipe->d("", false, true);
+  for (int x = 0; x < 8; x++) {
+    for (int y = 0; y < 8; y++) {
+      pipe -> d(getSquarePointer(x+1, y+1)->returnAttackState(), false, false);
+      pipe -> d(" ", false, false);
+    }
+    pipe->d("");
+    pipe->d("", false, true);
+  }
+  pipe->d ("");
+}
+
+void CPos::setColor(bool colorI) {
+  toPlay = colorI;
 }

@@ -22,26 +22,50 @@ PPawn::~PPawn()
 
 std::vector<std::string> PPawn::getMoves() {
   tempMoves.clear();
-  //The moves are hardcoded, as they are constant for a King. PLEASE FORGIVE ME FOR THIS MADNESS!!!
-  if (pos->getPlayerColor() == false) { //black
+  //the flag "MO" added to is to signal, that the piece cant take to that direction. Is important when generating attack states of
+  //squares.
+  if (this->color == false) { //black
     if (squareAvailable (cordX, cordY-1)) { //single step
-        tempMoves.push_back (CPos::getSquareName(cordX, cordY) + CPos::getSquareName(cordX, cordY-1));
+        tempMoves.push_back (CPos::getSquareName(cordX, cordY) + CPos::getSquareName(cordX, cordY-1) + "MO");
     }
     if (cordY == 7 && (squareAvailable (cordX, cordY-1) && squareAvailable (cordX, cordY -2))) { // double step
-        tempMoves.push_back (CPos::getSquareName(cordX, cordY) + CPos::getSquareName(cordX, cordY-2));
+        tempMoves.push_back (CPos::getSquareName(cordX, cordY) + CPos::getSquareName(cordX, cordY-2) + "MO");
     }
     if (cordsInBounds(cordX-1, cordY-1) && pos->getSquarePointer (cordX-1, cordY-1)-> containsPiece()) {
       if (pos->getSquarePointer (cordX-1, cordY-1)-> getPiecePointer()-> getColor() != this->color){
         tempMoves.push_back (CPos::getSquareName(cordX, cordY) + CPos::getSquareName(cordX-1, cordY-1));
       }
+    } else if (cordsInBounds(cordX-1, cordY-1)) {
+        tempMoves.push_back (CPos::getSquareName(cordX, cordY)  + CPos::getSquareName(cordX-1, cordY-1) + "AS"); //for the calculation of attackers
     }
     if (cordsInBounds(cordX+1, cordY-1) && pos->getSquarePointer (cordX+1, cordY-1)-> containsPiece()) {
       if (pos->getSquarePointer (cordX+1, cordY-1)-> getPiecePointer()-> getColor() != this->color) {
         tempMoves.push_back (CPos::getSquareName(cordX, cordY) + CPos::getSquareName(cordX+1, cordY-1));
       }
+    }else  if (cordsInBounds(cordX+1, cordY-1)){
+      tempMoves.push_back (CPos::getSquareName(cordX, cordY)  + CPos::getSquareName(cordX+1, cordY-1) + "AS");
     }
   } else {
-    /*white*/
+    if (squareAvailable (cordX, cordY+1)) { //single step
+        tempMoves.push_back (CPos::getSquareName(cordX, cordY) + CPos::getSquareName(cordX, cordY+1) + "MO");
+    }
+    if (cordY == 2 && (squareAvailable (cordX, cordY+1) && squareAvailable (cordX, cordY +2))) { // double step
+        tempMoves.push_back (CPos::getSquareName(cordX, cordY) + CPos::getSquareName(cordX, cordY+2) + "MO");
+    }
+    if (cordsInBounds(cordX-1, cordY+1) && pos->getSquarePointer (cordX-1, cordY+1)-> containsPiece()) {
+      if (pos->getSquarePointer (cordX-1, cordY+1)-> getPiecePointer()-> getColor() != this->color){
+        tempMoves.push_back (CPos::getSquareName(cordX, cordY) + CPos::getSquareName(cordX-1, cordY+1));
+      }
+    }else  if (cordsInBounds(cordX-1, cordY+1)){
+        tempMoves.push_back (CPos::getSquareName(cordX, cordY)  + CPos::getSquareName(cordX-1, cordY+1) + "AS"); //for the calculation of attackers
+    }
+    if (cordsInBounds(cordX+1, cordY+1) && pos->getSquarePointer (cordX+1, cordY+1)-> containsPiece()) {
+      if (pos->getSquarePointer (cordX+1, cordY+1)-> getPiecePointer()-> getColor() != this->color) {
+        tempMoves.push_back (CPos::getSquareName(cordX, cordY) + CPos::getSquareName(cordX+1, cordY+1));
+      }
+    } else if (cordsInBounds(cordX+1, cordY+1)){
+      tempMoves.push_back (CPos::getSquareName(cordX, cordY)  + CPos::getSquareName(cordX+1, cordY+1) + "AS");
+    }
   }
   return tempMoves;
 }

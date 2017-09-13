@@ -6,6 +6,8 @@
 #include <vector>
 #include <pthread.h>
 #include <mutex>
+#include <sstream>
+
 
 /*
 
@@ -19,10 +21,15 @@ This code comes with no warranty at all; not even the warranty to work properly 
 
 CPipe* pipe = CPipe::getInstance();
 
+
 const std::string NEWLINE_CMD = " ";
 
 // Must explicitly refrence self here
+
 CPipe* CPipe::self = nullptr;
+
+
+
 
 CPipe* CPipe::getInstance() {
 	if(!self) {
@@ -362,19 +369,40 @@ void CPipe::startInput() {
 	this->queueInputMessage("quit");
 }
 
-void CPipe::d(const char* message, bool newLine) {
+void CPipe::d(const char* message, bool newLine, bool writeDebug) {
 	// TODO: use globally defined param to determine whether to print.
 	if(this->debugMode) {
-		std::cout << "[DEBUG]" << message;
+		if (writeDebug) {
+			std::cout << "[DEBUG]";
+		} else;
+		std::cout << message;
 		if (newLine == true) {
 			std::cout << std::endl; // this way, the user can choose, wether he wants to output a new line or not
 		}
 	}
 }
 
-void CPipe::d(const std::string message, bool newLine) {
-	d(message.c_str(), newLine);
+void CPipe::d(const std::string message, bool newLine, bool writeDebug) {
+	d(message.c_str(), newLine, writeDebug);
 }
+
+void CPipe::d(const int message, bool newLine, bool writeDebug) { //for anything else than strings
+	d(std::to_string(message), newLine, writeDebug);
+}
+
+void CPipe::d(const float message, bool newLine, bool writeDebug) { //for anything else than strings
+	d(std::to_string(message), newLine, writeDebug);
+}
+
+void CPipe::d(const double message, bool newLine, bool writeDebug ) { //for anything else than strings
+	d(std::to_string(message), newLine, writeDebug);
+}
+
+void CPipe::d(const bool message, bool newLine, bool writeDebug) {
+	d(std::to_string(message), newLine, writeDebug);
+}
+
+
 
 std::string CPipe::readNext(bool readToEnd) {
 	std::string str;

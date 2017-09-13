@@ -19,6 +19,9 @@ CSquare::CSquare(int iX, int iY)
 {
     //ctor
     hasPiece = false;
+    whiteAttackers = 0;
+    blackAttackers = 0;
+    totalAttack = 0;
     x = iX;
     y = iY;
 }

@@ -112,43 +112,10 @@ void CBaumhausengine::pong(std::string val) {
 
 void CBaumhausengine::makeMove(std::string move) {
   //remove the old piece pointer and set it otherwhere.
-    movePointers (move);
+    position -> setColor (colorOnTurn);
+    position -> movePointers (move);
     // update position to reflect move
     if (this->colorOnTurn == color) {pipe->queueOutputMessage("move " + move);} //output the current move
     this->colorOnTurn = !this->colorOnTurn; //change the player color
-}
-
-bool CBaumhausengine::movePointers (std::string move) {
-  pipe -> d(move);
-  std::vector<int> moveStartField = CPos::coordFromName (move.substr (0, 2));
-  std::vector<int> moveEndField = CPos::coordFromName (move.substr (2, 2));
-
-  CSquare* startSquare = position->getSquarePointer (moveStartField [0], moveStartField[1]);;
-  CSquare* endSquare = position -> getSquarePointer (moveEndField[0], moveEndField[1]);
-
-  if (startSquare->containsPiece() == false)  {return false;} // if there is no piece in the start square, return an error
-
-  if (startSquare->getPiecePointer()->getColor() == this-> colorOnTurn) {
-      if (endSquare -> containsPiece()){ //if the piece is taking another piece or even passing on a piece of its own color
-          if (endSquare->getPiecePointer()->getColor() == this-> colorOnTurn) { //checks if the piece is of the same color
-              return false;
-          } else {
-              pipe -> d ("taking some piece");
-              endSquare->takePiece();
-              endSquare->setPiecePointer(startSquare->removePiece());
-          }
-      } else {
-          pipe -> d ("moving piece");
-          endSquare->setPiecePointer (startSquare->removePiece());
-      }
-    } else {
-      return false;
-    }
-    for (int i = 0; i < 8; i++) {
-      for (int j = 0; j < 8; j++) {
-        std::cout << position->getSquarePointer (i+1, j+1)->containsPiece() << " ";
-        }
-        std::cout << std::endl;
-    }
-
+    position -> setColor(colorOnTurn);
 }

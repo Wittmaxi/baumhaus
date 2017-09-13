@@ -23,7 +23,7 @@ class CSquare
         CPiece *getPiecePointer();
         CPiece* removePiece();
         void takePiece();
-        void setPiecePointer (CPiece* input, char type);
+        void setPiecePointer (CPiece* input);
         void addAttackers(bool color);
         void resetAttackStates();
         int returnAttackState(); //returns the protection state of a square
