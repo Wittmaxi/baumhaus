@@ -10,6 +10,7 @@
 #include "pieces/PQueen.h"
 #include "CPipe.h"
 #include <string>
+#include <ctype>
 
 /*
 
@@ -115,8 +116,8 @@ void CPos::parseFen (std::string fen) { //parses a fen and sets pieces onto the 
   for (int i = 0; i < fen.size(); i++) { //go trough the entire text
     char currentChar = fen[i]; //what the current character is
 
-    if (std::isDigit(currentChar)) { //if the current character is a number (number = number of free squares)
-      columnCounter += character - 48; //add the column counter if some squares are let out
+    if (isdigit(currentChar)) { //if the current character is a number (number = number of free squares)
+      columnCounter += currentChar - 48; //add the column counter if some squares are let out
     } else if (currentChar == '/') { //new row
       rowCounter++; //increment the row counter
       columnCounter = 0; //reset the column counter
@@ -235,29 +236,15 @@ bool CPos::movePointers (std::string move) { //move the piece pointers, after a 
   CSquare* startSquare = this-> getSquarePointer (moveStartField [0], moveStartField[1]); //the square-pointer where the piece starts
   CSquare* endSquare = this-> getSquarePointer (moveEndField[0], moveEndField[1]); //the square where the piece ends
 
-  if (startSquare->containsPiece() == false)  {
-    return false;
-  } // if there is no piece in the start square, return an error
-
-  if (startSquare->getPiecePointer()->getColor() == this-> toPlay) {
-      if (endSquare -> containsPiece()){ //if the piece is taking another piece or even passing on a piece of its own color
-          if (endSquare->getPiecePointer()->getColor() == this-> toPlay) { //checks if the piece is of the same color
-              return false;
-          } else {
-              pipe-> d("Taking a piece");
-              endSquare->takePiece();
-              endSquare->setPiecePointer(startSquare->removePiece());
-          }
-      } else {
-          pipe-> d("movind a piece");
-          endSquare->setPiecePointer (startSquare->removePiece());
-      }
+    if (endSquare -> containsPiece()){ //if the piece is taking another piece or even passing on a piece of its own color
+      endSquare->takePiece(); //if the ending-square contains a piece, take it and replace it by the moved piece
+      endSquare->setPiecePointer(startSquare->removePiece());  //set the piece Pointer of the removed piece on startsquare
     } else {
-      return false;
+        endSquare->setPiecePointer (startSquare->removePiece()); //if the endsquare has no piece, simply put the moved piece onto it
     }
 }
 
-void CPos::writeBitBoard() {
+void CPos::writeBitBoard() { //write true or false to check the states of the Chess board
   for (int y = 0; y < 8; y++) {
     for (int x = 0; x < 8; x++) {
       pipe -> d(getSquarePointer(x+1, y+1)->containsPiece(), false, false);
@@ -272,8 +259,8 @@ void CPos::setColor(bool colorI) {
 
 void CPos::updateFen () {
   std::string tempFen;
-  for (int i = 0; i < squares.size(); i++) {
-    for (int j = 0; j < squares[i].size();j++) {
+  for (int i = 0; i < squares.length(); i++) {
+    for (int j = 0; j < squares[i].length();j++) {
 
     }
   }
