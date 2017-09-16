@@ -78,7 +78,7 @@ Rather use
 cout << "HI";
 cout << "HI";
 ```
-ALWAYS indent with a backspace.
+ALWAYS indent with two spaces. Simulated spaces are ok
 
 The curly brackets should be placed after the statement
 e.g.:
@@ -96,7 +96,7 @@ if (true)
 ```
 ### comments
 You should comment as many lines as possible IN ADDITION to clear code!!!
-NEVER put in comment that lye.
+NEVER put in comment that lie.
 
 ### variable-namings
 For coding this project, we use camelCase in function and variable names. This means, every word in the name begins with a capital except for the first word.
@@ -105,7 +105,7 @@ EXAMPLES:
 ```
 mySimpleVariable
 helloWorld
-jemsBond
+jamesBond
 ```
 The variables should have meaningful names and shouldn't contain signs as they might be incompatible to some compilers.
 
@@ -119,4 +119,4 @@ There are many different branches. Commit to the branch that fits best your code
  
 ### branching
 
-Once in a week, the branches get merged into master.
+Make a PR, when the feature in your branch is finished.

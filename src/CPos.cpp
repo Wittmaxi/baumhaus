@@ -10,7 +10,7 @@
 #include "pieces/PQueen.h"
 #include "CPipe.h"
 #include <string>
-#include <ctype>
+#include <ctype.h>
 
 /*
 
@@ -26,7 +26,7 @@ CPos::CPos() //the constructor of the position. Initializes the array of CSquare
 {
 
   std::vector<CSquare*> row; //an empty row that will be pushed back
-  for (x=1; x <= 8; x++) { //create Rows inside the array of squares
+  for (int x=1; x <= 8; x++) { //create Rows inside the array of squares
     squares.push_back (row);
   }
 
@@ -40,7 +40,7 @@ CPos::CPos() //the constructor of the position. Initializes the array of CSquare
 CPos::CPos (CPos* copy) { //copy constructor. Creates the vector of Squares and then take the fen of the old position
   std::vector<CSquare*> row;  //create an empty row
 
-  for (x=1; x <= 8; x++) {
+  for (int x=1; x <= 8; x++) {
     squares.push_back (row); //create rows inside of the array
   }
 
@@ -51,7 +51,7 @@ CPos::CPos (CPos* copy) { //copy constructor. Creates the vector of Squares and 
   }
 
   this->toPlay = copy->toPlay; //copy the player color
-  this->fen (copy->getFen); //copies the fen of the old class
+  this->fen = copy->getFen(); //copies the fen of the old class
   this->feedFen(this->fen); //place pieces according to the FEN
 
 }
@@ -149,21 +149,26 @@ std::vector<std::string> CPos::loopPieces(bool colorI){ //returns every legal mo
   CSquare *currentSquare; //create empty pointer for the square the loop is currently in. Gets updated every iteration
   CPiece *currentPiece; //pointer to the current piece. Is updated on every iteration of the loop
   std::vector<std::string> tempMoves; //temp array to store moves
+  std::vector<std::string> newMoves; //the new moves
+
 
   for (int x=1; x<= 8; x++) {
 		for (int y=1; y <= 8; y++) { //loops through the entire board
 			currentSquare = getSquarePointer(x, y); //get the pointer to the current square
+      newMoves.clear(); //empties the last generated moves
 
       if (currentSquare->containsPiece()) { //if the square contains a piece
 				currentPiece = currentSquare->getPiecePointer(); //if the current square has a piece, then get its piece pointer
 
 				if (colorI) { //white to play
 					if (currentPiece->getColor() == true) { //if the piece is white and white is to play
-            tempMoves += currentPiece -> getMoves();
+             newMoves = currentPiece -> getMoves(); //gets every legal move of the currentPiece and 
+            tempMoves.insert(tempMoves.end(), newMoves.begin(), newMoves.end());
 					}
 				} else { //black to play
 					if (currentPiece -> getColor() == false) { //if the piece is black and black is to play
-            tempMoves += currentPiece -> getMoves();
+            newMoves = currentPiece -> getMoves();
+            tempMoves.insert(tempMoves.end(), newMoves.begin(), newMoves.end());
 					}
 				}
 			}
@@ -245,23 +250,24 @@ bool CPos::movePointers (std::string move) { //move the piece pointers, after a 
 }
 
 void CPos::writeBitBoard() { //write true or false to check the states of the Chess board
-  for (int y = 0; y < 8; y++) {
+  for (int y = 0; y < 8; y++) { //loops trough every square
     for (int x = 0; x < 8; x++) {
-      pipe -> d(getSquarePointer(x+1, y+1)->containsPiece(), false, false);
+      pipe -> d(getSquarePointer(x+1, y+1)->containsPiece(), false, false); //gets wether the square contains a piece
     }
     pipe->d("");
   }
 }
 
-void CPos::setColor(bool colorI) {
+void CPos::setColor(bool colorI) { //Sets the color that has to play
   toPlay = colorI;
 }
 
-void CPos::updateFen () {
-  std::string tempFen;
-  for (int i = 0; i < squares.length(); i++) {
-    for (int j = 0; j < squares[i].length();j++) {
+void CPos::updateFen () { //parse trough the entire Board to generate a FEN-string
+  std::string tempFen; //the temp-string that gets added elements
 
+  for (int i = 0; i < squares.size(); i++) { //loops trough the entire board, again.
+    for (int j = 0; j < squares[i].size();j++) {
+      /* Will be done after refactoring. Also, I need to lookup, if there is an algorythm to generate FEN-strings... */
     }
   }
 }
