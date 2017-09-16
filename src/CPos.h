@@ -20,6 +20,7 @@ class CPos
 {
 		public:
 				CPos();
+				CPos(CPos* original);
 				virtual ~CPos();
 				static std::string getSquareName(int a, int b); //gets the two indexes of the board
 				static std::vector <int> coordFromName (std::string squareName);
@@ -30,24 +31,22 @@ class CPos
 				bool getPlayerColor();
 				bool movePointers (std::string move);
 				void writeBitBoard(); //function that simply prints a board of bools with the values of containsPiece()
-				void writeAttackStates(); //print the attack states of each square
 				void setColor(bool colorI);
+				std::string getFen ();
 
 		private:
-				std::vector<std::vector<CSquare*>> squares;
+				std::vector<std::vector> squares;
 				std::vector<std::string> moves;
-				std::vector<std::string> blacksLastMoves;
 				std::string fen;
 				bool toPlay; //which player is to play
 		private:
-				std::vector <std::string> getOufOfCheck(std::vector <std::string> movesI, bool colorI);
+				std::vector <std::string> getOutOfCheck(std::vector <std::string> movesI, bool colorI);
 			  bool kingIsInCheck (bool color);
 				std::pair<int, int> getKingCoords(bool color);
-				void setSquaresAttackStates();
 				void parseFen(std::string fen);
 				std::vector <std::string> loopPieces(bool colorI); //goes through every piece to gets its moves.
-				std::vector <std::string> appendMoves(std::vector <std::string> newMoves, std::vector<std::string> oldMoves);
 				void setPiece (char fenName, CSquare *currentSquarePointer);
+				void updateFen (); //updates the current fen after a move
 };
 
 #endif // CPOS_H

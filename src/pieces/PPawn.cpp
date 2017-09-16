@@ -35,15 +35,11 @@ std::vector<std::string> PPawn::getMoves() {
       if (pos->getSquarePointer (cordX-1, cordY-1)-> getPiecePointer()-> getColor() != this->color){
         tempMoves.push_back (CPos::getSquareName(cordX, cordY) + CPos::getSquareName(cordX-1, cordY-1));
       }
-    } else if (cordsInBounds(cordX-1, cordY-1)) {
-        tempMoves.push_back (CPos::getSquareName(cordX, cordY)  + CPos::getSquareName(cordX-1, cordY-1) + "AS"); //for the calculation of attackers
     }
     if (cordsInBounds(cordX+1, cordY-1) && pos->getSquarePointer (cordX+1, cordY-1)-> containsPiece()) {
       if (pos->getSquarePointer (cordX+1, cordY-1)-> getPiecePointer()-> getColor() != this->color) {
         tempMoves.push_back (CPos::getSquareName(cordX, cordY) + CPos::getSquareName(cordX+1, cordY-1));
       }
-    }else  if (cordsInBounds(cordX+1, cordY-1)){
-      tempMoves.push_back (CPos::getSquareName(cordX, cordY)  + CPos::getSquareName(cordX+1, cordY-1) + "AS");
     }
   } else {
     if (squareAvailable (cordX, cordY+1)) { //single step
@@ -56,16 +52,12 @@ std::vector<std::string> PPawn::getMoves() {
       if (pos->getSquarePointer (cordX-1, cordY+1)-> getPiecePointer()-> getColor() != this->color){
         tempMoves.push_back (CPos::getSquareName(cordX, cordY) + CPos::getSquareName(cordX-1, cordY+1));
       }
-    }else  if (cordsInBounds(cordX-1, cordY+1)){
-        tempMoves.push_back (CPos::getSquareName(cordX, cordY)  + CPos::getSquareName(cordX-1, cordY+1) + "AS"); //for the calculation of attackers
     }
     if (cordsInBounds(cordX+1, cordY+1) && pos->getSquarePointer (cordX+1, cordY+1)-> containsPiece()) {
       if (pos->getSquarePointer (cordX+1, cordY+1)-> getPiecePointer()-> getColor() != this->color) {
         tempMoves.push_back (CPos::getSquareName(cordX, cordY) + CPos::getSquareName(cordX+1, cordY+1));
       }
-    } else if (cordsInBounds(cordX+1, cordY+1)){
-      tempMoves.push_back (CPos::getSquareName(cordX, cordY)  + CPos::getSquareName(cordX+1, cordY+1) + "AS");
-    }
+    } 
   }
   return tempMoves;
 }
