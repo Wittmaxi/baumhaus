@@ -5,7 +5,7 @@
 *.exe
 
 # ignore anything in the bin/
-bin/
+bindir/
 
 # for us VS users, ignore .vs/
 .vs/
