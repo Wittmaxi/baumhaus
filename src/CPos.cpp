@@ -51,8 +51,12 @@ CPos::CPos (CPos* copy) { //copy constructor. Creates the vector of Squares and 
   }
 
   this->toPlay = copy->toPlay; //copy the player color
-  this->fen = copy->getFen(); //copies the fen of the old class
-  this->feedFen(this->fen); //place pieces according to the FEN
+ 
+  for (int y = 0; copy->squares.size(); y++) {  //copy the square inside of the copied
+    for (int x = 0; copy->squares[y].size(); x++) {
+      squares[y][x] = new CSquare(copy->getSquarePointer(y+1, x+1));
+    }
+  }
 
 }
 
@@ -105,12 +109,11 @@ std::vector <int> CPos::coordFromName (std::string squareName) { //return two nu
 }
 
 void CPos::feedFen (std::string fenI) {
-    fen = fenI;
     parseFen(fenI);
 }
 
 void CPos::parseFen (std::string fen) { //parses a fen and sets pieces onto the board accordingly
-  int rowCounter = 0; //what row we are in
+  int rowCounter = 8; //what row we are in
   int columnCounter = -1; //what column we are in
   pipe->d("PARSING FEN" + fen);
   for (int i = 0; i < fen.size(); i++) { //go trough the entire text
@@ -119,21 +122,17 @@ void CPos::parseFen (std::string fen) { //parses a fen and sets pieces onto the 
     if (isdigit(currentChar)) { //if the current character is a number (number = number of free squares)
       columnCounter += currentChar - 48; //add the column counter if some squares are let out
     } else if (currentChar == '/') { //new row
-      rowCounter++; //increment the row counter
+      rowCounter--; //increment the row counter
       columnCounter = -1; //reset the column counter
     } else if (currentChar == ' ') { //if the character is empty (relevant part of the fen is finished)
         break; //simply break out of the loop
     } else {
       columnCounter++;
-      setPiece (currentChar, getSquarePointer(columnCounter+1, rowCounter+1)); //if the character is a text, put an according piece onto the correct row/column
+      setPiece (currentChar, getSquarePointer(columnCounter+1, rowCounter)); //if the character is a text, put an according piece onto the correct row/column
     }
 
   }
   writeBitBoard();
-}
-
-std::string CPos::getFen () { //returns the current FEN
-  return fen;
 }
 
 CSquare* CPos::getSquarePointer (int x, int y) { //returns the pointer of the square on x, y
@@ -146,6 +145,10 @@ std::vector <std::string> CPos::getPossibleMoves (bool colorI) { //returns the p
   moves.clear(); //remove the moves that might already have been generated
   moves = loopPieces(colorI); //find every legal move (No matter if its good or bad)
 
+  for (int i = 0; i<moves.size(); i++) {
+    std::cout << moves[i] << std::endl;
+  }
+
   return moves; //return the generated moves
 }
 
@@ -155,6 +158,9 @@ std::vector<std::string> CPos::loopPieces(bool colorI){ //returns every legal mo
   std::vector<std::string> tempMoves; //temp array to store moves
   std::vector<std::string> newMoves; //the new moves
 
+  pipe->d("Looping Pieces like crazy");
+
+  pipe->d(colorI);
 
   for (int x=1; x<= 8; x++) {
 		for (int y=1; y <= 8; y++) { //loops through the entire board
@@ -165,10 +171,14 @@ std::vector<std::string> CPos::loopPieces(bool colorI){ //returns every legal mo
 				currentPiece = currentSquare->getPiecePointer(); //if the current square has a piece, then get its piece pointer
 
 				if (colorI && currentPiece->getColor() == true) { //white to play
+          pipe->d("getting moves from a white piece");
 					newMoves = currentPiece -> getMoves(); //gets every legal move of the currentPiece and 
           tempMoves.insert(tempMoves.end(), newMoves.begin(), newMoves.end());
-				} else if (currentPiece->getColor() == false) { //black to play
+
+				} else if (!(colorI) && currentPiece->getColor() == false) { //black to play
 					  //if the piece is black and black is to play
+            pipe->d("Getting move from a black piece");
+            pipe->d(currentPiece->getColor());
             newMoves = currentPiece -> getMoves();
             tempMoves.insert(tempMoves.end(), newMoves.begin(), newMoves.end());
 				}
@@ -182,7 +192,7 @@ bool CPos::getPlayerColor () { //returns the color of the current player
   return toPlay;
 }
 
-bool CPos::kingIsInCheck(bool colorI) { //returns, wether the king that is to play is in check
+bool CPos::kingIsInCheck(std::vector<std::string> moveSet, bool colorI) { //returns, wether the king that is to play is in check
   std::pair <int, int> tmp; //makes a temporary pair
   tmp = getKingCoords(colorI); //get the coordinates into the pair
 
@@ -227,12 +237,7 @@ std::vector <std::string> CPos::getOutOfCheck(std::vector <std::string> movesI, 
   std::pair <int, int> temp = getKingCoords(colorI); //get the coordinates of the according King
   std::vector <std::string> newMoves; //create a new array to store the legal moves
   
-
-  /*
-
-    NEEDS REWRITING, NEEDS REWRITING, NEEDS REWRITING, NEEDS REWRITING
-  
-  */
+  pipe->d(kingIsInCheck(movesI, colorI));
 }
 
 bool CPos::movePointers (std::string move) { //move the piece pointers, after a move
@@ -244,8 +249,6 @@ bool CPos::movePointers (std::string move) { //move the piece pointers, after a 
 
   endSquare->takePiece(); //if the ending-square contains a piece, take it and replace it by the moved piece
   endSquare->setPiecePointer(startSquare->removePiece());  //set the piece Pointer of the removed piece on startsquare
-
-  updateFen(); //update the fen-variable that keeps track of the position
 }
 
 void CPos::writeBitBoard() { //write true or false to check the states of the Chess board
@@ -259,33 +262,6 @@ void CPos::writeBitBoard() { //write true or false to check the states of the Ch
 
 void CPos::setColor(bool colorI) { //Sets the color that has to play
   toPlay = colorI;
-  pipe->d("TO FUCKING PLAY");
-  pipe->d(toPlay);
-}
-
-void CPos::updateFen () { //parse trough the entire Board to generate a FEN-string
-  std::string tempFen; //the temp-string that gets added elements
-  int freeCellsCounter; // counts how many consecutive free cells there are.
-  CSquare* currentSquare;
-
-  for (int i = 0; i < squares.size(); i++) { //loops trough the entire board, again.
-    for (int j = 0; j < squares[i].size();j++) {
-      currentSquare = getSquarePointer (i+1, j+1);
-      if (currentSquare->containsPiece()) {
-        if (freeCellsCounter != 0) {
-          tempFen += std::to_string(freeCellsCounter);
-        }
-        tempFen += currentSquare->getPiecePointer()->getPieceType();
-        freeCellsCounter = 0;
-      } else {
-        freeCellsCounter ++;
-      }
-      /* Will be done after refactoring. Also, I need to lookup, if there is an algorythm to generate FEN-strings... */
-    }
-    tempFen += "/";
-   }
-  this->fen = tempFen;
-  pipe->d (tempFen);
 }
 
 void CPos::emptyCells() { //remove the piece pointers in all cells

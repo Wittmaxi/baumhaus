@@ -19,25 +19,18 @@ class CSquare
 {
     public:
         CSquare(int iX, int iY);
+        CSquare(CSquare* copy);
         virtual ~CSquare();
         CPiece *getPiecePointer();
         CPiece* removePiece();
         void takePiece();
         void setPiecePointer (CPiece* input);
-        void addAttackers(bool color);
-        void resetAttackStates();
-        int returnAttackState(); //returns the protection state of a square
-        int getWhiteAttackers();
-        int getBlackAttackers();
         bool containsPiece();
 
       private:
         int calcTotalAttack(); //calculates the total amount of protection
 
         CPiece *contained; //stores the contained piece.
-        int totalAttack;
-        int whiteAttackers;
-        int blackAttackers;
         int x, y; // one indexed
         bool hasPiece; //if a piece is placed on the square.
 };

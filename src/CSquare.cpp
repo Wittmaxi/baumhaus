@@ -19,11 +19,15 @@ CSquare::CSquare(int iX, int iY)
 {
     //ctor
     hasPiece = false;
-    whiteAttackers = 0;
-    blackAttackers = 0;
-    totalAttack = 0;
     x = iX;
     y = iY;
+}
+
+CSquare::CSquare(CSquare* copy) {
+  this->x = copy->x;
+  this->y = copy->y;
+  this->hasPiece = copy->hasPiece;
+  this->contained = &*copy->contained;
 }
 
 CSquare::~CSquare()
@@ -65,28 +69,3 @@ CPiece *CSquare::getPiecePointer() {
   }
 }
 
-int CSquare::getWhiteAttackers() {
-  return whiteAttackers;
-}
-
-int CSquare::getBlackAttackers() {
-    return blackAttackers;
-}
-
-void CSquare::addAttackers(bool color) {
-  if (color) { //add white attacker
-    whiteAttackers ++;
-  } else { // add black attacker
-    blackAttackers ++;
-  }
-  calcTotalAttack();
-}
-
-int CSquare::calcTotalAttack() {
-  totalAttack = whiteAttackers - blackAttackers; // minus for black
-  return totalAttack;
-}
-
-int CSquare::returnAttackState() {
-  return totalAttack;
-}
