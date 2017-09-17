@@ -31,9 +31,9 @@ class CBaumhausengine
 
         pthread_t routineThread;
 
-        int depth; //searching depth
+        int depth; //searching depth (only for the brute-forcing part)
         CPos *position; //the position: it can be loaded customly
-        bool color; //false = black, true = white.
+        bool color; //What color the engine plays false = black, true = white.
         bool gotPipeInput; //if the computer has to stop thinking (is checked by a pipe)
         std::vector<std::string> movesList;
 
@@ -50,21 +50,17 @@ class CBaumhausengine
 
     private: //methods
 		    // initialize the engine for a new game
-		    void init();
-
+		void init();
         void analyzePos(); //analyses the position and returns a move (currently symbolysed as void). A move could be a class (CMove)
-		    void ponderPos(); // ponders. this occurs if/when it's the opponent's turn
-        void updateSquares();
+		void ponderPos(); // ponders. this occurs if/when it's the opponent's turn
         void setColor (bool colorI); //setter for the piece-color
-        bool getColor ();
-
 		/* responses to some XBoard commands */
 		// pong the UI
 		void pong(std::string val);
 		// make move and update internal board. Both user moves and engines moves should pass thorugh here.
 		void makeMove(std::string move);
 
-
+        /*
         /// needed to assess the position
 
         //void assessPosition(cPos *position);
@@ -80,6 +76,7 @@ class CBaumhausengine
         //void findWeakPawns(cPos *position);
         //void findHangingPieces(cPos *position);
         //void findStrongPoints(cPos *position);
+        */
 };
 
 #endif // BAUMHAUSENGINE_H

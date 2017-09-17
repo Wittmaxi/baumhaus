@@ -40,8 +40,10 @@ CPiece* CSquare::removePiece() { //gives back a pointer to the piece so the engi
 }
 
 void CSquare::takePiece() {
-  delete contained; // deletes the instance of that piece.
-  hasPiece = false;
+  if (hasPiece) { //if there is a piece, THEN ONLY delete the current piece
+    delete contained; // deletes the instance of that piece.
+    hasPiece = false;
+  }
 }
 
 void CSquare::setPiecePointer (CPiece* input) { //gets the piece pointer as input and the type of the piece.
