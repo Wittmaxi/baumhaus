@@ -2,6 +2,12 @@
 #include "../CPipe.h"
 #include "../CPos.h"
 
+CPiece* PKnight::clone(CPos* position) {
+  CPiece* clone = new PKnight(this->color, position);
+
+  return clone;
+}
+
 PKnight::PKnight(bool colorI, CPos* currentPosition)
 {
     //ctor

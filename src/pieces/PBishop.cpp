@@ -2,6 +2,12 @@
 #include "../CPipe.h"
 #include "../CPos.h"
 
+CPiece* PBishop::clone(CPos *position) {
+  CPiece* clone = new PBishop(this->color, position);
+
+  return clone;
+}
+
 PBishop::PBishop(bool colorI, CPos *currentPosition)
 {
     //ctor

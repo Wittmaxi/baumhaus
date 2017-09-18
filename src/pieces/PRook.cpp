@@ -2,6 +2,12 @@
 #include "../CPipe.h"
 #include "../CPos.h"
 
+CPiece* PRook::clone(CPos* position) {
+  CPiece* clone = new PRook(this->color, position);
+
+  return clone;
+}
+
 PRook::PRook(bool colorI, CPos *currentPosition)
 {
     //ctor

@@ -2,6 +2,12 @@
 #include "../CPipe.h"
 #include "../CPos.h"
 
+CPiece* PPawn::clone(CPos* position) {
+  CPiece* clone = new PPawn(this->color, position);
+
+  return clone;
+}
+
 PPawn::PPawn(bool colorI, CPos* currentPosition)
 {
     //ctor

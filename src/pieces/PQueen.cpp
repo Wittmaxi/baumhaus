@@ -2,6 +2,12 @@
 #include "../CPipe.h"
 #include "../CPos.h"
 
+CPiece* PQueen::clone(CPos* position) {
+  CPiece* clone = new PQueen(this->color, position);
+
+  return clone;
+}
+
 PQueen::PQueen(bool colorI, CPos *currentPosition)
 {
     //ctor

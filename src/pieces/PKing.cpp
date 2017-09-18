@@ -2,6 +2,12 @@
 #include "../CPipe.h"
 #include "../CPos.h"
 
+CPiece* PKing::clone(CPos* position) {
+  CPiece* clone = new PKing(this->color, position);
+
+  return clone;
+}
+
 PKing::PKing(bool colorI, CPos* currentPosition)
 {
     //ctor

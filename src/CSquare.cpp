@@ -27,7 +27,9 @@ CSquare::CSquare(CSquare* copy) {
   this->x = copy->x;
   this->y = copy->y;
   this->hasPiece = copy->hasPiece;
+  pipe->d("almost finished");
   this->contained = &*copy->contained;
+  pipe->d("finished!");
 }
 
 CSquare::~CSquare()

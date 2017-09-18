@@ -40,7 +40,7 @@ class CPos
 				bool toPlay; //which player is to play
 		private:
 				std::vector <std::string> getOutOfCheck(std::vector <std::string> movesI, bool colorI);
-			    bool kingIsInCheck (bool color);
+			    bool kingIsInCheck (std::string move, bool color);
 				std::pair<int, int> getKingCoords(bool color);
 				void parseFen(std::string fen);
 				std::vector <std::string> loopPieces(bool colorI); //goes through every piece to gets its moves.

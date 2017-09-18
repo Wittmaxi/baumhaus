@@ -37,7 +37,9 @@ CPos::CPos() //the constructor of the position. Initializes the array of CSquare
   }
 }
 
-CPos::CPos (CPos* copy) { //copy constructor. Creates the vector of Squares and then take the fen of the old position
+CPos::CPos (CPos* copy) { //copy constructor. Creates the vector of Squares
+  pipe->d("in the copy constructor");
+
   std::vector<CSquare*> row;  //create an empty row
 
   for (int x=1; x <= 8; x++) {
@@ -46,17 +48,15 @@ CPos::CPos (CPos* copy) { //copy constructor. Creates the vector of Squares and 
 
   for (int y=1; y <= 8; y++) {
     for (int x=1; x <= 8; x++) { //loops through the entire board
-      squares[y-1]. push_back (new CSquare(x, y)); //creates square in the rows
+      squares[y-1]. push_back (new CSquare(copy->getSquarePointer(x, y))); //creates square in the rows
     }
   }
 
+  pipe->d("created squares");
+
   this->toPlay = copy->toPlay; //copy the player color
- 
-  for (int y = 0; copy->squares.size(); y++) {  //copy the square inside of the copied
-    for (int x = 0; copy->squares[y].size(); x++) {
-      squares[y][x] = new CSquare(copy->getSquarePointer(y+1, x+1));
-    }
-  }
+
+  pipe->d("FINISHED");
 
 }
 
@@ -141,9 +141,13 @@ CSquare* CPos::getSquarePointer (int x, int y) { //returns the pointer of the sq
 
 std::vector <std::string> CPos::getPossibleMoves (bool colorI) { //returns the possible moves for the side colorI
   pipe->d ("GETTING POSSIBLE MOVES");
+  pipe->d ("DEAL WITH IT BRO");
   pipe->d (colorI);
   moves.clear(); //remove the moves that might already have been generated
   moves = loopPieces(colorI); //find every legal move (No matter if its good or bad)
+
+  moves = getOutOfCheck(moves, colorI);
+
 
   for (int i = 0; i<moves.size(); i++) {
     std::cout << moves[i] << std::endl;
@@ -192,18 +196,47 @@ bool CPos::getPlayerColor () { //returns the color of the current player
   return toPlay;
 }
 
-bool CPos::kingIsInCheck(std::vector<std::string> moveSet, bool colorI) { //returns, wether the king that is to play is in check
+bool CPos::kingIsInCheck(std::string move, bool colorI) { //returns, wether the king that is to play is in check
   std::pair <int, int> tmp; //makes a temporary pair
   tmp = getKingCoords(colorI); //get the coordinates into the pair
+  std::string kingSquareName = "";
 
   CSquare* currentSquare =  getSquarePointer (std::get<0> (tmp), std::get<1> (tmp)); //get the square the King is on
+  kingSquareName = CPos::getSquareName(std::get<0> (tmp), std::get<1> (tmp));
 
-  /*
+  pipe->d("king is in check?");
 
-  NEEDS REWRITING, NEEDS REWRITING, NEEDS REWRITING
+  CPos* newPos = new CPos(this);
 
-  */
+  pipe->d("created new position");
 
+  newPos->writeBitBoard();
+
+  pipe->d(move);
+
+  pipe->d(move.substr(0, 4));
+
+  newPos->movePointers(move.substr(0, 4));
+
+  pipe->d("moves pointers");
+
+  std::vector<std::string> opponentMoves = newPos->loopPieces(!(colorI));
+
+  pipe->d("getting moves");
+ 
+  for (int i = 0; i < opponentMoves.size(); i++) {
+    pipe->d(opponentMoves[i]);
+  } 
+
+  for (int i = 0; i < opponentMoves.size(); i++) {
+    if (opponentMoves[i].substr(2,2) == kingSquareName) {
+      pipe->d("move makes king be in check");
+      return false;
+    }
+  }
+
+  delete newPos;
+  return false;
 }
 
 std::pair<int, int> CPos::getKingCoords(bool colorI) { //get the coordinates of the king of colorI and return a pair with its coordinates
@@ -234,21 +267,32 @@ std::pair<int, int> CPos::getKingCoords(bool colorI) { //get the coordinates of 
 
 std::vector <std::string> CPos::getOutOfCheck(std::vector <std::string> movesI, bool colorI) {
 
-  std::pair <int, int> temp = getKingCoords(colorI); //get the coordinates of the according King
   std::vector <std::string> newMoves; //create a new array to store the legal moves
   
-  pipe->d(kingIsInCheck(movesI, colorI));
+  for (int i = 0; i < movesI.size(); i++) {
+    if (!(kingIsInCheck(movesI[i], colorI))) {
+      newMoves.push_back(movesI[i]);
+    }
+  }
+
+  return newMoves;
 }
 
 bool CPos::movePointers (std::string move) { //move the piece pointers, after a move
   std::vector<int> moveStartField = coordFromName (move.substr (0, 2)); //get the field where the piece started
   std::vector<int> moveEndField = coordFromName (move.substr (2, 2)); //get the field the piece moves onto
 
-  CSquare* startSquare = this-> getSquarePointer (moveStartField [0], moveStartField[1]); //the square-pointer where the piece starts
+  pipe->d("got the fields");
+
+  CSquare* startSquare = this-> getSquarePointer (moveStartField[0], moveStartField[1]); //the square-pointer where the piece starts
   CSquare* endSquare = this-> getSquarePointer (moveEndField[0], moveEndField[1]); //the square where the piece ends
+
+  pipe->d("got the square");
 
   endSquare->takePiece(); //if the ending-square contains a piece, take it and replace it by the moved piece
   endSquare->setPiecePointer(startSquare->removePiece());  //set the piece Pointer of the removed piece on startsquare
+
+  pipe->d("movedPointers!!! ");
 }
 
 void CPos::writeBitBoard() { //write true or false to check the states of the Chess board

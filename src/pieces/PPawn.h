@@ -17,6 +17,7 @@ class PPawn: public CPiece
         virtual std::vector<std::string> getMoves();
         bool squareAvailable (int cordXI, int cordYI);
         bool cordsInBounds (int cordXI, int cordYI);
+        CPiece* clone(CPos* position);
     protected:
       std::vector <std::string> tempMoves;
     private:
