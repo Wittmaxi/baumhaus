@@ -67,7 +67,9 @@ class CBaumhausengine
     // go command routine
     void go();
     // plyOther command routine
-    void CBaumhausengine::playOther();
+    void playOther();
+    // function to validate user's move input
+    bool validateMove(std::string move);
 
 
         /// needed to assess the position

@@ -4,7 +4,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <time.h>
-
+#include <regex>
 
 /*
 
@@ -90,35 +90,23 @@ void CBaumhausengine::startRoutine() {
     		else if ("new" == message) {
     			init();
     		}
-    		else if("ping" == message.substr(0, 4)) {
+    		else if("ping" == message) {
     			pong(pipe->dequeueInputMessage(true));
     		}
     		else if("random" == message) {
     			this->random = !this->random;
     		}
-    		else if("usermove" == message) { //quick and dirty way. needs to be made better
-			    
+    		else if("usermove" == message) {
           auto move = pipe->dequeueInputMessage(true);
           
           // TODO: validate move before determining that this should happen.
           // If not a valid move, we must throw an error and not do anything.
+          if (validateMove(move)) {
+            movePointers(move);
+            analyzePos();
 
-          movePointers(move);
-			    analyzePos();
-
-			    this->colorOnTurn != this->colorOnTurn;
-    			//std::string move = pipe->dequeueInputMessage(true);
-    			// validate move
-    			// TODO
-
-          // we've handled the message (assimung there was one), we can continue pondering/thinking
-          /*if(this->color == this->colorOnTurn) { // engine's turn
-                this->analyzePos();
-          } else {
-                this->ponderPos();
-          }*/
-    			// if validation checks out. make the move.
-    			//makeMove(move);
+            this->colorOnTurn != this->colorOnTurn;
+          }
   		  }
         else if("go" == message) {
           go();
@@ -199,5 +187,19 @@ void CBaumhausengine::go() {
 void CBaumhausengine::playOther() {
   // TODO: similar to go(). exit force mode, enter pondering, and start opponent's clock.
   this->color = !this->colorOnTurn;
+}
 
+bool CBaumhausengine::validateMove(std::string move) {
+  
+  // regex to match legal moves. all moves should be like "e2e4" (i.e. <file><rank><file><rank>). Pawn promotions have an extra character denoting the piece to promote to (q, r, n, b).
+  auto moveRegex = std::regex("([a-hA-H][1-8]){2}[qQrRnNbB]?");
+
+  if(!regex_match(move, moveRegex)) {
+    pipe->d("Invalid move");
+    return false;
+  }
+  
+  // TODO: actually validate the move
+  pipe->d("Valid move");
+  return true;
 }
