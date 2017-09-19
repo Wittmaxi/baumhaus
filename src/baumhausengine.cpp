@@ -98,12 +98,9 @@ void CBaumhausengine::startRoutine() {
     		}
     		else if ("usermove" == message) { //quick and dirty way. needs to be made better
 			    
-          auto test = pipe->dequeueInputMessage(true);
+          auto move = pipe->dequeueInputMessage(true);
           
-          pipe->d(test);
-          pipe->d(test.substr(1, 4));
-
-          movePointers (test.substr(1, 4));
+          movePointers(move);
 			    analyzePos();
 			    this->colorOnTurn != this->colorOnTurn;
     			//std::string move = pipe->dequeueInputMessage(true);
