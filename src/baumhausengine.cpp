@@ -30,6 +30,12 @@ CBaumhausengine::~CBaumhausengine()
 }
 
 void CBaumhausengine::init() {
+  // TODO NOW
+  // enter 'force' mode
+  // stop clocks
+  // reset time controls
+  // reset depth limits
+  // use wall clock
 	this->random = false; // by default random is off
 	this->colorOnTurn = true; // white starts the match
 	this->color = false; // engine will play black
@@ -91,9 +97,12 @@ void CBaumhausengine::startRoutine() {
     			this->random = !this->random;
     		}
     		else if ("usermove" == message) { //quick and dirty way. needs to be made better
-			  movePointers (pipe->dequeueInputMessage(true).substr(1, 4));
-			  analyzePos();
-			  this->colorOnTurn != this->colorOnTurn;
+			    
+          auto move = pipe->dequeueInputMessage(true);
+          
+          movePointers(move);
+			    analyzePos();
+			    this->colorOnTurn != this->colorOnTurn;
     			//std::string move = pipe->dequeueInputMessage(true);
     			// validate move
     			// TODO
@@ -126,31 +135,31 @@ void CBaumhausengine::makeMove(std::string move) {
 }
 
 bool CBaumhausengine::movePointers (std::string move) {
-  std::cout << "in movePointers_" << move << std::endl;
-  std::cout << "no return type" << std::endl;
+  pipe->d("in movePointers_" + move);
+  pipe->d("no return type");
   std::vector<int> moveStartField = CPos::coordFromName (move.substr (0, 2));
-  std::cout << "cord 1" << std::endl;
+  pipe->d("cord 1");
   std::vector<int> moveEndField = CPos::coordFromName (move.substr (2, 2));
-  std::cout << "cord 2" << std::endl;
+  pipe->d("cord 2");
 
-  std::cout << "declaring vars" << moveStartField[0] << moveStartField[1] << std::endl;
+  pipe->d("declaring vars " + str(moveStartField[0]) + " " + str(moveStartField[1]));
   CSquare* startSquare = position->getSquarePointer (moveStartField [0], moveStartField[1]);
-  std::cout << "declared variable 1!" << moveStartField[0] << moveStartField[1] << std::endl;
+  pipe->d("declared variable 1! " + str(moveStartField[0]) + " " + str(moveStartField[1]));
   CSquare* endSquare = position -> getSquarePointer (moveEndField[0], moveEndField[1]);
-  std::cout << "declared variables!" << std::endl;
+  pipe->d("declared variables!");
 
   if (startSquare->containsPiece() == false)  {return false;} // if there is no piece in the start square, return an error
 
-  std::cout << "to play: " << this -> colorOnTurn << startSquare->getPiecePointer()->getColor() << std::endl;
+  pipe->d("to play: " + str(this->colorOnTurn) + " " + str(startSquare->getPiecePointer()->getColor()));
   if (startSquare->getPiecePointer()->getColor() == this-> colorOnTurn) {
-      std::cout << "pointer is correct" << std::endl;
+      pipe->d("pointer is correct");
       if (endSquare -> containsPiece()){ //if the piece is taking another piece or even passing on a piece of its own color
-          std::cout << "contains piece" << std::endl;
+          pipe->d("contains piece");
           if (endSquare->getPiecePointer()->getColor() == this-> colorOnTurn) { //checks if the piece is of the same color
               return false;
-              std::cout << "error" << std::endl;
+              pipe->d("error");
           } else {
-              std::cout << "taking enemy piece" << std::endl;
+              pipe->d("taking enemy piece");
               endSquare->takePiece();
               endSquare->setPiecePointer(startSquare->removePiece());
               endSquare->getPiecePointer () -> setCoordinates (moveEndField [0], moveEndField[1]);
