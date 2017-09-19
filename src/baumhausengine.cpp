@@ -123,6 +123,9 @@ void CBaumhausengine::startRoutine() {
         else if("go" == message) {
           go();
         }
+        else if ("playOther" == message) {
+          playOther();
+        }
         else if("white" == message) {
           this->color = false; // opponent is white, so engine is black
           // TODO stop clocks
@@ -189,6 +192,12 @@ bool CBaumhausengine::movePointers (std::string move) {
 }
 
 void CBaumhausengine::go() {
-  // TODO: once force-mode is implemented, exit force mode here
+  // TODO: once force-mode is implemented, exit force mode here, start clock
   this->color = this->colorOnTurn;
+}
+
+void CBaumhausengine::playOther() {
+  // TODO: similar to go(). exit force mode, enter pondering, and start opponent's clock.
+  this->color = !this->colorOnTurn;
+
 }

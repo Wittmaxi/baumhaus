@@ -66,6 +66,8 @@ class CBaumhausengine
 		void makeMove(std::string move);
     // go command routine
     void go();
+    // plyOther command routine
+    void CBaumhausengine::playOther();
 
 
         /// needed to assess the position

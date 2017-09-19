@@ -63,8 +63,8 @@ class CPipe {
 		void force();
 		// exit force mode and play current color
 		void go();
-		//// similar to go(). exit force mode, play opposite color. enter pondering, and start opponent's clock.
-		//void playOther();
+		// similar to go(). exit force mode, play opposite color. enter pondering, and start opponent's clock.
+		void playOther();
 		// [LEGACY] opponent is white, engine is black, stop clocks
 		void white();
 		// [LEGACY] opponent is black, engine is white, stop clocks

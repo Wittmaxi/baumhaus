@@ -146,6 +146,11 @@ void CPipe::go() {
   queueInputMessage("go");
 }
 
+void CPipe::playOther() {
+  d("playOther - begin playing for color NOT on move. Begin pondering");
+  queueInputMessage("playOther");
+}
+
 void CPipe::white() {
 	d("opponent: white | engine: black");
   queueInputMessage("white");
@@ -297,6 +302,9 @@ void CPipe::startInput() {
 		else if ("go" == cmd) {
 			go();
 		}
+    else if ("playOther" == cmd) {
+      playOther();
+    }
 		else if ("white" == cmd) {
 			white();
 		}
