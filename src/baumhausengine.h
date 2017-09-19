@@ -64,6 +64,8 @@ class CBaumhausengine
 		void pong(std::string val);
 		// make move and update internal board. Both user moves and engines moves should pass thorugh here.
 		void makeMove(std::string move);
+    // go command routine
+    void go();
 
 
         /// needed to assess the position

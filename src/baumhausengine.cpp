@@ -96,12 +96,16 @@ void CBaumhausengine::startRoutine() {
     		else if("random" == message) {
     			this->random = !this->random;
     		}
-    		else if ("usermove" == message) { //quick and dirty way. needs to be made better
+    		else if("usermove" == message) { //quick and dirty way. needs to be made better
 			    
           auto move = pipe->dequeueInputMessage(true);
           
+          // TODO: validate move before determining that this should happen.
+          // If not a valid move, we must throw an error and not do anything.
+
           movePointers(move);
 			    analyzePos();
+
 			    this->colorOnTurn != this->colorOnTurn;
     			//std::string move = pipe->dequeueInputMessage(true);
     			// validate move
@@ -116,6 +120,17 @@ void CBaumhausengine::startRoutine() {
     			// if validation checks out. make the move.
     			//makeMove(move);
   		  }
+        else if("go" == message) {
+          go();
+        }
+        else if("white" == message) {
+          this->color = false; // opponent is white, so engine is black
+          // TODO stop clocks
+        }
+        else if ("black" == message) {
+          this->color = true; // opponent is black, so engine is white
+          // TODO stop clocks
+        }
 	}
 
 	pipe->d("Goodbye!");
@@ -171,4 +186,9 @@ bool CBaumhausengine::movePointers (std::string move) {
     } else {
       return false;
     }
+}
+
+void CBaumhausengine::go() {
+  // TODO: once force-mode is implemented, exit force mode here
+  this->color = this->colorOnTurn;
 }
