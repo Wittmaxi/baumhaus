@@ -34,14 +34,13 @@ CPos::CPos()
 
 CPos::~CPos()
 {
-    //dtor
-    int x = 1;
-      for (int y=1; y <= 8; y++) {
-          for (int x=1; x <= 8; x++) { //loops through the entire board
-            CSquare* currentSquare = squares [x-1][y-1];
-            delete currentSquare;
-          }
-      }
+  for (auto rank : this->squares) {
+    for (auto square : rank) {
+      delete square;
+    }
+    rank.clear(); // delete the, now, "nullptr"s
+  }
+  this->squares.clear(); // clear the ranks
 }
 
 CPos::CPos(const CPos& other) {

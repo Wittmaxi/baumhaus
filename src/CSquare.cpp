@@ -25,10 +25,10 @@ CSquare::CSquare(int iX, int iY)
 
 CSquare::~CSquare()
 {
-    //dtor
-    if (hasPiece) { //delete the pointed piece
-      delete contained;
-    }
+  //dtor
+  if (contained) {
+    delete contained;
+  }
 }
 
 CSquare::CSquare(const CSquare& other) {
