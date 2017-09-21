@@ -22,18 +22,14 @@ This code comes with no warranty at all; not even the warranty to work properly 
 
 CPos::CPos()
 {
-
-  std::vector<CSquare*> row;
-  int x = 1;
-  for (x=1; x <= 8; x++) {
-      squares.push_back (row);
+  this->toPlay = true; // by default we assume white to play
+  for (int r = 0; r < 8; ++r) { // r = rank
+    std::vector<CSquare*> rank;
+    for (int f = 0; f < 8; ++f) { // f = file
+      rank.push_back (new CSquare(r+1, f+1));
     }
-    for (int y=1; y <= 8; y++) {
-        for (int x=1; x <= 8; x++) { //loops through the entire board
-          squares[y-1]. push_back (new CSquare(x, y));
-        }
-    }
-
+    this->squares.push_back(rank);
+  }
 }
 
 CPos::~CPos()
@@ -46,6 +42,17 @@ CPos::~CPos()
             delete currentSquare;
           }
       }
+}
+
+CPos::CPos(const CPos& other) {
+  this->toPlay = other.toPlay;
+  for(auto otherRank : other.squares) {
+    std::vector<CSquare*> rank;
+    for(auto otherSquare : otherRank) {
+      rank.push_back(new CSquare(*otherSquare));
+    }
+    this->squares.push_back(rank);
+  }
 }
 
 void CPos::setPiece (char fenName, CSquare *currentSquarePointer) { //ONLY!!! at startup or to reset the position/setting a FEN. If there is no piece, fenName = "V"

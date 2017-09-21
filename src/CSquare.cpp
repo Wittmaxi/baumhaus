@@ -31,6 +31,17 @@ CSquare::~CSquare()
     }
 }
 
+CSquare::CSquare(const CSquare& other) {
+  this->hasPiece = other.hasPiece;
+  this->protection = other.protection;
+  this->x = other.x;
+  this->y = other.y;
+  // if there is a piece on this square, clone it.
+  if(other.contained) {
+    this->contained = other.contained->clone();
+  }
+}
+
 CPiece* CSquare::removePiece() { //gives back a pointer to the piece so the engine can put it on another CSquare
   hasPiece = false;
   return contained;

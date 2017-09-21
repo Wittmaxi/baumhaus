@@ -20,6 +20,7 @@ class CSquare
     public:
         CSquare(int iX, int iY);
         virtual ~CSquare();
+        CSquare(const CSquare& other);
         CPiece* removePiece();
         void takePiece();
         void setPiecePointer (CPiece* input);

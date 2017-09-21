@@ -21,6 +21,7 @@ class CPos
 		public:
 				CPos();
 				virtual ~CPos();
+        CPos(const CPos& other);
 				static std::string getSquareName(int a, int b); //gets the two indexes of the board
 				static std::vector <int> coordFromName (std::string squareName);
 				CSquare *getSquareWithName();
