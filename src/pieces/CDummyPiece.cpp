@@ -14,6 +14,16 @@ CDp::~CDp()
     //dtor
 }
 
+CDp::CDp(const CDp& other) {
+  this->color = other.color;
+  this->cordX = other.cordX;
+  this->cordY = other.cordY;
+}
+
+CPiece* CDp::clone() {
+  return new CDp(*this);
+}
+
 std::vector<std::string> CDp::getMoves() {
   std::vector <std::string> tempMoves;
   pipe->d("dummymovesCalled");

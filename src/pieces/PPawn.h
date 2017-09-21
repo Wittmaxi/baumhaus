@@ -13,10 +13,12 @@ class PPawn: public CPiece
     public:
         PPawn(bool colorI, CPos* currentPosition);
         virtual ~PPawn();
+        PPawn(const PPawn& other);
         std::vector<int> getSquareOn();
         virtual std::vector<std::string> getMoves();
         bool squareAvailable (int cordXI, int cordYI);
         bool cordsInBounds (int cordXI, int cordYI);
+        CPiece* clone();
     protected:
       std::vector <std::string> tempMoves;
     private:

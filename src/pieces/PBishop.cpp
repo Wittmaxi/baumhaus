@@ -14,6 +14,15 @@ PBishop::~PBishop()
     //dtor
 }
 
+PBishop::PBishop(const PBishop& other) {
+  this->color = other.color;
+  this->cordX = other.cordX;
+  this->cordY = other.cordY;
+}
+
+CPiece* PBishop::clone() {
+  return new PBishop(*this);
+}
 
 
 std::vector<std::string> PBishop::getMoves() {

@@ -14,6 +14,15 @@ PPawn::~PPawn()
     //dtor
 }
 
+PPawn::PPawn(const PPawn& other) {
+  this->color = other.color;
+  this->cordX = other.cordX;
+  this->cordY = other.cordY;
+}
+
+CPiece* PPawn::clone() {
+  return new PPawn(*this);
+}
 
 std::vector<std::string> PPawn::getMoves() {
   tempMoves.clear();

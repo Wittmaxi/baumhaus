@@ -12,6 +12,7 @@ class CPiece {
 		virtual void setCoordinates (int cordXI, int cordYI);
 		bool getColor();
 		virtual std::vector<std::string> getMoves() =0;
+    virtual CPiece* clone() = 0;
 
 	protected:
 		int cordX; //the coordinates of the piece.

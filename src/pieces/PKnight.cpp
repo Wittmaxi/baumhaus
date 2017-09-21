@@ -14,6 +14,15 @@ PKnight::~PKnight()
     //dtor
 }
 
+PKnight::PKnight(const PKnight& other) {
+  this->color = other.color;
+  this->cordX = other.cordX;
+  this->cordY = other.cordY;
+}
+
+CPiece* PKnight::clone() {
+  return new PKnight(*this);
+}
 
 std::vector<std::string> PKnight::getMoves() {
   tempMoves.clear();

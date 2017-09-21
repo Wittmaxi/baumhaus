@@ -14,6 +14,15 @@ PKing::~PKing()
     //dtor
 }
 
+PKing::PKing(const PKing& other) {
+  this->color = other.color;
+  this->cordX = other.cordX;
+  this->cordY = other.cordY;
+}
+
+CPiece* PKing::clone() {
+  return new PKing(*this);
+}
 
 std::vector<std::string> PKing::getMoves() {
   pipe->d("getMovesDebug 1");

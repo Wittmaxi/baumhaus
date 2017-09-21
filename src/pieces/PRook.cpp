@@ -14,7 +14,15 @@ PRook::~PRook()
     //dtor
 }
 
+PRook::PRook(const PRook& other) {
+  this->color = other.color;
+  this->cordX = other.cordX;
+  this->cordY = other.cordY;
+}
 
+CPiece* PRook::clone() {
+  return new PRook(*this);
+}
 
 std::vector<std::string> PRook::getMoves() {
   tempMoves.clear();
