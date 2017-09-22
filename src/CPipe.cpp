@@ -23,6 +23,7 @@ CPipe* pipe = CPipe::getInstance();
 
 
 const std::string NEWLINE_CMD = " ";
+const std::string DEBUG_TAG = "[DEBUG] ";
 
 // Must explicitly refrence self here
 
@@ -119,10 +120,10 @@ void CPipe::xboard() {
 
 void CPipe::protover(std::string version) {
 	//d("protocol version " + version);
-	queueOutputMessage("feature done=0");
+	queueOutputMessage("feature done=0"); // let XBorad know we are not done with the feature commands
 	queueOutputMessage("feature ping=1");
 	queueOutputMessage("feature usermove=1");
-	queueOutputMessage("feature done=1");
+	queueOutputMessage("feature done=1"); // let XBoard know we are done with the feature commands
 }
 
 void CPipe::featureResponse(bool accepted, std::string featureName) {
@@ -132,14 +133,6 @@ void CPipe::featureResponse(bool accepted, std::string featureName) {
 
 void CPipe::newGame() {
 	d("new game.");
-	// TODO NOW
-	// enter 'force' mode
-	// associate clock's: black -> engine : white -> opponent
-	// stop clocks
-	// reset time controls
-	// reset depth limits
-	// use wall clock
-	// send "new command to engine, so it stops pondering.
 	queueInputMessage("new");
 }
 
@@ -157,14 +150,17 @@ void CPipe::force() {
 
 void CPipe::go() {
 	d("go - begin playing for color on move");
+  queueInputMessage("go");
 }
 
 void CPipe::white() {
 	d("opponent: white | engine: black");
+  queueInputMessage("white");
 }
 
 void CPipe::black() {
 	d("opponent: black | engine: white");
+  queueInputMessage("black");
 }
 
 void CPipe::setLevel(std::string movesPerTimeControl, std::string base, std::string increment) {
@@ -172,7 +168,7 @@ void CPipe::setLevel(std::string movesPerTimeControl, std::string base, std::str
 	// split min and sec parts
 	std::string minStr = delimiterPos == std::string::npos ? base : base.substr(0, delimiterPos);
 	std::string secStr = delimiterPos == std::string::npos ? "0" : base.substr(delimiterPos + 1);
-	// convert min and sec to centiseconds immediately
+	// base time = min + seconds
 	int totalSeconds = std::stoi(minStr) * 60 + std::stoi(secStr);
 	// base time. convert to centiseconds immediately
 	std::string centStr = std::to_string(totalSeconds*100);
@@ -253,7 +249,7 @@ void CPipe::startOutput() {
 	std::string cmd;
 	do {
 		if("" != (cmd = dequeueOutputMessage(false))) {
-			std::cout << (debugMode ? "" : "" ) << cmd << std::endl;
+			std::cout << cmd << std::endl;
 		}
 	} while(isRunning);
 }
@@ -406,14 +402,12 @@ void CPipe::d(const bool message, bool newLine, bool writeDebug) {
 
 std::string CPipe::readNext(bool readToEnd) {
 	std::string str;
-
-	// skip any whitespace at the beginning of the input
-	std::cin >> std::skipws;
-
+	
 	if(readToEnd) {
 		std::getline(std::cin, str);
+		str = ltrim(str);
 	} else {
-		std::cin >> str;
+		std::cin >> std::skipws >> str;
 	}
 
 	return str;
@@ -446,4 +440,7 @@ std::string str(double value) {
 }
 std::string str(long double value) {
 	return std::to_string(value);
+}
+std::string ltrim(std::string str) {
+	return str.erase(0, str.find_first_not_of(' '));
 }

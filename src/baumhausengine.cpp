@@ -30,6 +30,12 @@ CBaumhausengine::~CBaumhausengine()
 }
 
 void CBaumhausengine::init() {
+  // TODO NOW
+  // enter 'force' mode
+  // stop clocks
+  // reset time controls
+  // reset depth limits
+  // use wall clock
 	this->random = false; // by default random is off
 	this->colorOnTurn = true; // white starts the match
   this->color = false; //what color the engine has to play

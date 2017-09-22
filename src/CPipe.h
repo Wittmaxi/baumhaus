@@ -21,10 +21,11 @@ This code comes with no warranty at all; not even the warranty to work properly 
 // connects to xboard and evaluates the inputs
 
 extern const std::string NEWLINE_CMD;
+extern const std::string DEBUG_TAG;
 
 class CPipe {
-    public:
 
+  public:
 		static CPipe* getInstance();
 		void init(bool debugMode);
 
@@ -49,7 +50,6 @@ class CPipe {
 		void startOutput();
 
   protected:
-
 		std::string readNext(bool readToEnd = false);
 		/*
 		XBoard Commands
@@ -128,7 +128,7 @@ class CPipe {
 		void resume();
 
 
-    private:
+  private:
 		bool isRunning;
 		// debug flag
 		bool debugMode;
@@ -168,5 +168,6 @@ std::string str(unsigned long long value);
 std::string str(float value);
 std::string str(double value);
 std::string str(long double value);
+std::string ltrim(std::string str);
 
 #endif // CPIPE_H
