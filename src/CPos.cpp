@@ -48,7 +48,7 @@ CPos::CPos (CPos* copy) { //copy constructor. Creates the vector of Squares
 
   for (int y=1; y <= 8; y++) {
     for (int x=1; x <= 8; x++) { //loops through the entire board
-      squares[y-1]. push_back (new CSquare(copy->getSquarePointer(x, y))); //creates square in the rows
+      squares[y-1]. push_back (new CSquare(copy->getSquarePointer(x, y), this)); //creates square in the rows
     }
   }
 
@@ -284,14 +284,17 @@ bool CPos::movePointers (std::string move) { //move the piece pointers, after a 
 
   pipe->d("got the fields");
 
+  this->writeBitBoard();
   CSquare* startSquare = this-> getSquarePointer (moveStartField[0], moveStartField[1]); //the square-pointer where the piece starts
+  this->writeBitBoard();
   CSquare* endSquare = this-> getSquarePointer (moveEndField[0], moveEndField[1]); //the square where the piece ends
 
   pipe->d("got the square");
 
   endSquare->takePiece(); //if the ending-square contains a piece, take it and replace it by the moved piece
+  writeBitBoard();
+  pipe->d(startSquare->containsPiece());
   endSquare->setPiecePointer(startSquare->removePiece());  //set the piece Pointer of the removed piece on startsquare
-
   pipe->d("movedPointers!!! ");
 }
 

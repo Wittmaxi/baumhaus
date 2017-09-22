@@ -2,8 +2,8 @@
 #include "../CPipe.h"
 #include "../CPos.h"
 
-CPiece* PBishop::clone(CPos *position) {
-  CPiece* clone = new PBishop(this->color, position);
+CPiece* PBishop::clone(CPos *positionI) {
+  CPiece* clone = new PBishop(this->color, positionI);
 
   return clone;
 }

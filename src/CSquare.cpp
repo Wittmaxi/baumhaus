@@ -5,6 +5,7 @@
 
 #include "pieces/PKing.h"
 
+
 /*
 
 Baumhaus Engine 2017
@@ -23,12 +24,12 @@ CSquare::CSquare(int iX, int iY)
     y = iY;
 }
 
-CSquare::CSquare(CSquare* copy) {
+CSquare::CSquare(CSquare* copy, CPos* positionI) {
   this->x = copy->x;
   this->y = copy->y;
   this->hasPiece = copy->hasPiece;
   pipe->d("almost finished");
-  this->contained = &*copy->contained;
+  this->contained = copy->contained->clone(positionI);
   pipe->d("finished!");
 }
 
@@ -42,6 +43,7 @@ CSquare::~CSquare()
 
 CPiece* CSquare::removePiece() { //gives back a pointer to the piece so the engine can put it on another CSquare
   hasPiece = false;
+  contained->getMoves();
   return contained;
 }
 
@@ -52,10 +54,13 @@ void CSquare::takePiece() {
   }
 }
 
-void CSquare::setPiecePointer (CPiece* input) { //gets the piece pointer as input and the type of the piece.
+void CSquare::setPiecePointer (CPiece* input) { //gets the piece pointer as input
   contained = input;
+  pipe->d("1");
   hasPiece = true;
-  contained -> setCoordinates(x, y);
+  pipe->d(2);
+  contained -> setCoordinates(this->x, this->y);
+  pipe->d(3);
 }
 
 

@@ -13,7 +13,7 @@ class PBishop: public CPiece
 {
     public:
         PBishop(bool colorI, CPos *currentPosition);
-        virtual ~PBishop();
+        ~PBishop();
         std::vector<int> getSquareOn();
         std::vector<std::string> getMoves();
         bool squareAvailable (int cordX, int cordY);

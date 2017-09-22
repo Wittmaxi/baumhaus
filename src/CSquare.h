@@ -15,11 +15,13 @@ This code comes with no warranty at all; not even the warranty to work properly 
 */
 
 
+class CPos;
+
 class CSquare
 {
     public:
         CSquare(int iX, int iY);
-        CSquare(CSquare* copy);
+        CSquare(CSquare* copy, CPos* positionI);
         virtual ~CSquare();
         CPiece *getPiecePointer();
         CPiece* removePiece();
