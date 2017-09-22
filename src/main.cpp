@@ -31,9 +31,10 @@ int main (int argc, char** argv) {
 	// initialize the CPipe now, and set debugMode.
 	pipe->init(debugMode);
 	// now start up the engine
-    CBaumhausengine *engine = new CBaumhausengine();
-
+  CBaumhausengine *engine = new CBaumhausengine();
 	engine->startRoutine();
+
+	return 0;
 }
 
 bool evaluateArgs(int argc, char** argv) {

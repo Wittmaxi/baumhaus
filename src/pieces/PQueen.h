@@ -1,5 +1,5 @@
-#ifndef PPAWN_H
-#define PPAWN_H
+#ifndef PQUEEN_H
+#define PQUEEN_H
 
 #include "../CPos.h"
 #include "CPiece.h"
@@ -8,15 +8,15 @@
 #include <string>
 #include <iostream>
 
-class PPawn: public CPiece
+
+class PQueen: public CPiece
 {
     public:
-        PPawn(bool colorI, CPos* currentPosition);
-        virtual ~PPawn();
+        PQueen(bool colorI, CPos *currentPosition);
+        virtual ~PQueen();
         std::vector<int> getSquareOn();
-        virtual std::vector<std::string> getMoves();
-        bool squareAvailable (int cordXI, int cordYI);
-        bool cordsInBounds (int cordXI, int cordYI);
+        std::vector<std::string> getMoves();
+        bool squareAvailable (int cordX, int cordY);
         CPiece* clone(CPos* position);
     protected:
       std::vector <std::string> tempMoves;

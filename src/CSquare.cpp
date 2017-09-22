@@ -5,6 +5,7 @@
 
 #include "pieces/PKing.h"
 
+
 /*
 
 Baumhaus Engine 2017
@@ -23,6 +24,15 @@ CSquare::CSquare(int iX, int iY)
     y = iY;
 }
 
+CSquare::CSquare(CSquare* copy, CPos* positionI) {
+  this->x = copy->x;
+  this->y = copy->y;
+  this->hasPiece = copy->hasPiece;
+  pipe->d("almost finished");
+  this->contained = copy->contained->clone(positionI);
+  pipe->d("finished!");
+}
+
 CSquare::~CSquare()
 {
     //dtor
@@ -33,33 +43,26 @@ CSquare::~CSquare()
 
 CPiece* CSquare::removePiece() { //gives back a pointer to the piece so the engine can put it on another CSquare
   hasPiece = false;
+  contained->getMoves();
   return contained;
 }
 
 void CSquare::takePiece() {
-  delete contained; // deletes the instance of that piece.
-  hasPiece = false;
+  if (hasPiece) { //if there is a piece, THEN ONLY delete the current piece
+    delete contained; // deletes the instance of that piece.
+    hasPiece = false;
+  }
 }
 
-void CSquare::setPiecePointer (CPiece* input) {
+void CSquare::setPiecePointer (CPiece* input) { //gets the piece pointer as input
   contained = input;
+  pipe->d("1");
   hasPiece = true;
-  contained -> setCoordinates(x, y);
+  pipe->d(2);
+  contained -> setCoordinates(this->x, this->y);
+  pipe->d(3);
 }
 
-
-//attack state
-void CSquare::addBlackAttacker () {
-    protection -= 1;
-}
-
-void CSquare::addWhiteAttacker() {
-   protection += 1;
-}
-
-int CSquare::returnAttackState() {
-  return protection;
-}
 
 bool CSquare::containsPiece() {
   return hasPiece;
@@ -72,3 +75,4 @@ CPiece *CSquare::getPiecePointer() {
       return (contained);
   }
 }
+

@@ -16,6 +16,7 @@ class PKnight: public CPiece
         std::vector<int> getSquareOn();
         virtual std::vector<std::string> getMoves();
         bool squareAvailable (int cordX, int cordY);
+        CPiece* clone(CPos* position);
     protected:
       std::vector <std::string> tempMoves;
     private:

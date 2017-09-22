@@ -2,11 +2,22 @@
 #include "../CPipe.h"
 #include "../CPos.h"
 
+CPiece* PBishop::clone(CPos *positionI) {
+  CPiece* clone = new PBishop(this->color, positionI);
+
+  return clone;
+}
+
 PBishop::PBishop(bool colorI, CPos *currentPosition)
 {
     //ctor
     color = colorI;
     pos = currentPosition;
+    if (color) { //if the piece is white, give it a white FEN-Name
+      fenType = 'B';
+    } else {
+      fenType = 'b';
+    }
 }
 
 PBishop::~PBishop()
@@ -30,7 +41,7 @@ std::vector<std::string> PBishop::getMoves() {
     if (squareAvailable (relPosX, relPosY)) {
       tempMoves.push_back (CPos::getSquareName (cordX, cordY) + CPos::getSquareName(relPosX, relPosY));
     } else {
-      collided = true; // just trying to go out the way of ANOTHER break xD
+      collided = true; // just trying to go out the way of ANOTHER break
     }
   }
   collided = false;
@@ -85,11 +96,8 @@ bool PBishop::squareAvailable (int cordXI,int cordYI) {
   }else { //checks if there is a piece of the own type.
     currentSquare = pos -> getSquarePointer (cordXI, cordYI);
     if (currentSquare -> containsPiece() == true) {
-      pipe->d("found square containing a piece");
       currentPiece = currentSquare -> getPiecePointer();
-      pipe->d(str(currentPiece->getColor()) + ", " + str(this->getColor()));
       if (currentPiece->getColor() == this->getColor()) {
-        pipe->d("returned false");
         result = false;
       } else {
               tempMoves.push_back (CPos::getSquareName (cordX, cordY) + CPos::getSquareName(cordXI, cordYI));

@@ -15,27 +15,26 @@ This code comes with no warranty at all; not even the warranty to work properly 
 */
 
 
+class CPos;
+
 class CSquare
 {
     public:
         CSquare(int iX, int iY);
+        CSquare(CSquare* copy, CPos* positionI);
         virtual ~CSquare();
+        CPiece *getPiecePointer();
         CPiece* removePiece();
         void takePiece();
         void setPiecePointer (CPiece* input);
-        CPiece *getPiecePointer();
-        void addBlackAttacker(); //increases the protection of the square (-1)
-        void addWhiteAttacker(); //increases the protection of the square (+1)
-        int returnAttackState(); //returns the protection state of a square
         bool containsPiece();
 
-    protected:
-        int protection; //how much the square is protected: example: -1 means, black has protected the square one more time as white. When a piece is on the square it doesn't count as protected
-        bool hasPiece; //if a piece is placed on the square.
-        int x, y; // one indexed
-        CPiece *contained; //stores the contained piece.
+      private:
+        int calcTotalAttack(); //calculates the total amount of protection
 
-    private:
+        CPiece *contained; //stores the contained piece.
+        int x, y; // one indexed
+        bool hasPiece; //if a piece is placed on the square.
 };
 
 #endif // CSQUARE_H
