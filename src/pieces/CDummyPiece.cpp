@@ -2,6 +2,12 @@
 #include "../CPipe.h"
 #include "../CPos.h"
 
+CPiece* CDp::clone(CPos* position) {
+  CPiece* clone = new CDp(this->color, position);
+
+  return clone;
+}
+
 CDp::CDp(bool colorI, CPos *currentPosition)
 {
     //ctor
@@ -16,7 +22,6 @@ CDp::~CDp()
 
 std::vector<std::string> CDp::getMoves() {
   std::vector <std::string> tempMoves;
-  pipe->d("dummymovesCalled");
   return tempMoves;
 }
 

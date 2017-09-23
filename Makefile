@@ -10,4 +10,4 @@ bindir:
 	mkdir -p bindir
 
 clean:
-	rm -Rf bin/*
+	rm -Rf bindir/*

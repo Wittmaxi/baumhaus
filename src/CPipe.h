@@ -21,9 +21,11 @@ This code comes with no warranty at all; not even the warranty to work properly 
 // connects to xboard and evaluates the inputs
 
 extern const std::string NEWLINE_CMD;
+extern const std::string DEBUG_TAG;
 
 class CPipe {
-    public:
+
+  public:
 		static CPipe* getInstance();
 		void init(bool debugMode);
 
@@ -34,14 +36,20 @@ class CPipe {
 
 
 		// debugging output
-		void d(const char* message);
-		void d(const std::string message);
+		void d(const char* message, bool newLine = true, bool writeDebug = true);
+		void d(const std::string message, bool newLine = true, bool writeDebug = true);
+		void d(const int message, bool newLine = true, bool writeDebug = true);
+		void d(const float message, bool newLine = true, bool writeDebug = true);
+		void d(const double message, bool newLine = true, bool writeDebug = true);
+		void d(const bool message, bool newLine = true, bool writeDebug = true);
+
+
 
 		// IO loops
 		void startInput();
 		void startOutput();
 
-    protected:
+  protected:
 		std::string readNext(bool readToEnd = false);
 		/*
 		XBoard Commands
@@ -120,7 +128,7 @@ class CPipe {
 		void resume();
 
 
-    private:
+  private:
 		bool isRunning;
 		// debug flag
 		bool debugMode;
@@ -139,6 +147,7 @@ class CPipe {
 		// mutex's to make sure we don't have any funny threading issues
 		std::mutex inputMutex;
 		std::mutex outputMutex;
+
 
 		// enforcing singleton pattern
 		CPipe();
@@ -159,5 +168,6 @@ std::string str(unsigned long long value);
 std::string str(float value);
 std::string str(double value);
 std::string str(long double value);
+std::string ltrim(std::string str);
 
 #endif // CPIPE_H
