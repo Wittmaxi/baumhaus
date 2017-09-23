@@ -9,3 +9,5 @@ bindir/*.exe
 
 # for us VS users, ignore .vs/
 .vs/
+
+bindir/
