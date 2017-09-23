@@ -7,6 +7,7 @@
 #include "CSquare.h"
 #include <vector>
 #include "analysis/BruteForce.h"
+#include "analysis/AssessPosition.h"
 
 /*
 
@@ -31,7 +32,8 @@ class CBaumhausengine
 
     private: //members
 
-        BruteForce *bfEngine; 
+        BruteForce *bfEngine; //the evaluation and calculation engines
+        AssessPositions *asEngine;
 
         pthread_t routineThread;
 

@@ -5,6 +5,8 @@
 #include <cstdlib>
 #include <time.h>
 
+#include "analysis/BruteForce.h"
+
 
 /*
 
@@ -19,7 +21,6 @@ This code comes with no warranty at all; not even the warranty to work properly 
 CBaumhausengine::CBaumhausengine()
 {
     this->position = new CPos();
-    this->bfEngine = new BruteForce();
     this->init(); //might be not used... If so remove it. Initially used for debug
     //ctor
 }
@@ -124,6 +125,7 @@ void CBaumhausengine::makeMove(std::string move) {
     pipe->queueOutputMessage("move " + move); //output the current move
     this->colorOnTurn = !this->colorOnTurn; //change the player color
     pipe->d("color on turn: " + std::to_string(colorOnTurn)); //output whose turn it is
+
 }
 
 bool CBaumhausengine::movePointers (std::string move) {
