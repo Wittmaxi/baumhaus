@@ -19,6 +19,7 @@ This code comes with no warranty at all; not even the warranty to work properly 
 CBaumhausengine::CBaumhausengine()
 {
     this->position = new CPos();
+    this->bfEngine = new BruteForce();
     this->init(); //might be not used... If so remove it. Initially used for debug
     //ctor
 }

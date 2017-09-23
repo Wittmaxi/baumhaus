@@ -6,6 +6,8 @@
 #include <string>
 #include "CSquare.h"
 #include <vector>
+#include "analysis/BruteForce.h"
+
 /*
 
 Baumhaus Engine 2017
@@ -28,6 +30,8 @@ class CBaumhausengine
     protected:
 
     private: //members
+
+        BruteForce *bfEngine; 
 
         pthread_t routineThread;
 
