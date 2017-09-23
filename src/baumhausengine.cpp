@@ -96,11 +96,25 @@ void CBaumhausengine::pong(std::string val) { //if the engine gets pinged, pong 
 
 void CBaumhausengine::makeMove(std::string move) {
   //remove the old piece pointer and set it otherwhere.
-    position -> movePointers (move);
     // update position to reflect move
     if (this->colorOnTurn == color) { //if its the engines turn, else, only move the piece pointers
       pipe->queueOutputMessage("move " + move);
-    } //output the current move
+    } else {//output the current move 
+      //check, that the gotten move is valid
+      std::vector<std::string> possibleMoves;
+      possibleMoves = position->getPossibleMoves(this->colorOnTurn);
+      bool moveFound = false;
+      for (int i = 0; i < possibleMoves.size(); i++) {
+        if (possibleMoves[i] == move) {
+          moveFound = true;
+        }
+      }
+      if (!(moveFound)) {
+        pipe->d("THE MOVE GOTTEN BY THE USER INTERFACE IS INVALID! STOPPING EXECUTION");
+        abort();
+      }
+    }
+    position -> movePointers (move);
     this->colorOnTurn = !this->colorOnTurn; //change the player color
     position -> setColor(colorOnTurn);
 }
