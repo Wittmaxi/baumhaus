@@ -3,6 +3,8 @@
 Chess engine using neural networking and revolutionary Pattern recognition paired with a candidate Move Ideology
 </br>
 
+OFFICIAL DISCORD SERVER: https://discord.gg/swTEcQW
+
 ## Dependencies
 
 This engine uses C++ only and is aimed to work on any operating system without any external libraries. </br>
