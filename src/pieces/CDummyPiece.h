@@ -13,11 +13,11 @@
 class CDp: public CPiece
 {
     public:
-        CDp(bool colorI, CPos *currentPosition);
-        virtual ~CDp();
+        CDp(bool colorI);
+        ~CDp();
         CDp(const CDp& other);
         std::vector<int> getSquareOn();
-        std::vector<std::string> getMoves();
+        std::vector<std::string> getMoves(CPos* currentPos);
         bool squareAvailable (int cordX, int cordY);
         CPiece* clone();
     protected:

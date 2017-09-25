@@ -2,11 +2,10 @@
 #include "../CPipe.h"
 #include "../CPos.h"
 
-PBishop::PBishop(bool colorI, CPos *currentPosition)
+PBishop::PBishop(bool colorI)
 {
     //ctor
     color = colorI;
-    pos = currentPosition;
 }
 
 PBishop::~PBishop()
@@ -25,7 +24,8 @@ CPiece* PBishop::clone() {
 }
 
 
-std::vector<std::string> PBishop::getMoves() {
+std::vector<std::string> PBishop::getMoves(CPos* currentPos) {
+  this->pos = currentPos;
   tempMoves.clear();
 
   bool collided = false;

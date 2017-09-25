@@ -47,7 +47,7 @@ CPos::CPos(const CPos& other) {
   this->toPlay = other.toPlay;
   for(auto otherRank : other.squares) {
     std::vector<CSquare*> rank;
-    for(auto otherSquare : otherRank) {
+    for(auto otherSquare : otherRank) { //foreach
       rank.push_back(new CSquare(*otherSquare));
     }
     this->squares.push_back(rank);

@@ -12,11 +12,11 @@
 class PBishop: public CPiece
 {
     public:
-        PBishop(bool colorI, CPos *currentPosition);
+        PBishop(bool colorI);
         PBishop(const PBishop& other);
-        virtual ~PBishop();
+        ~PBishop();
         std::vector<int> getSquareOn();
-        std::vector<std::string> getMoves();
+        std::vector<std::string> getMoves(CPos* currentPos);
         bool squareAvailable (int cordX, int cordY);
         CPiece* clone();
     protected:

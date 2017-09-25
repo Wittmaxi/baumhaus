@@ -10,8 +10,8 @@
 class CPiece {
 	public:
 		virtual void setCoordinates (int cordXI, int cordYI);
-		bool getColor();
-		virtual std::vector<std::string> getMoves() =0;
+		virtual bool getColor();
+		virtual std::vector<std::string> getMoves(CPos* currentPos) =0;
     virtual CPiece* clone() = 0;
 
 	protected:

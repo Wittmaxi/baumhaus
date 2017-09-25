@@ -13,7 +13,7 @@ class PRook: public CPiece
 {
     public:
         PRook(bool colorI, CPos *currentPosition);
-        virtual ~PRook();
+        ~PRook();
         PRook(const PRook& other);
         std::vector<int> getSquareOn();
         std::vector<std::string> getMoves();

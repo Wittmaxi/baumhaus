@@ -2,7 +2,7 @@
 #include "../CPipe.h"
 #include "../CPos.h"
 
-PKing::PKing(bool colorI, CPos* currentPosition)
+PKing::PKing(bool colorI)
 {
     //ctor
     color = colorI;
@@ -24,7 +24,8 @@ CPiece* PKing::clone() {
   return new PKing(*this);
 }
 
-std::vector<std::string> PKing::getMoves() {
+std::vector<std::string> PKing::getMoves(CPos* currentPos) {
+  this->pos = currentPos;
   pipe->d("getMovesDebug 1");
   pipe->d("coordX= " + str(cordX) + "\tcoordY= " + str(cordY));
   std::vector <std::string> tempMoves;

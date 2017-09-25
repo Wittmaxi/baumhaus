@@ -11,11 +11,11 @@
 class PKing: public CPiece
 {
     public:
-        PKing(bool colorI, CPos* currentPosition);
-        virtual ~PKing();
+        PKing(bool colorI);
+        ~PKing();
         PKing(const PKing& other);
         std::vector<int> getSquareOn();
-        virtual std::vector<std::string> getMoves();
+        std::vector<std::string> getMoves(CPos* currentPos);
         bool squareAvailable (int cordX, int cordY);
         CPiece* clone();
     protected:
