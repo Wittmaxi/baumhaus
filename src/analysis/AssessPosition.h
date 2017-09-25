@@ -1,8 +1,11 @@
 #ifndef AssessPosition
 #define AssessPosition 
 
-#include "../CPos.h"
 #include <vector>
+#include <string>
+#include "../CPipe.h"
+
+class CPos;
 
 class AssessPositions
 { //engine that assesses the position after Jeremy silmans Criteria
@@ -10,7 +13,7 @@ class AssessPositions
   AssessPositions ();
   ~AssessPositions ();
 
-  void setPrecision ();
+  void setPrecision (int precisionI);
  
   void startAssessing (CPos* position, std::vector<std::string> movesI);
  		void findOpenFiles(CPos* position);

@@ -1,4 +1,4 @@
-                                 Apache License
+                            Edited Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -122,9 +122,9 @@
           
        (e) You arent allowed to sell parts or the complete Work for money; and
        
-       (f) You must state the name of the programmers of the Work; and
+       (f) You must state the name of the creators of the Work; and
        
-       (g) You must contact the programmers before redistributing.
+       (g) You must contact the creators before redistributing.
 
       You may add Your own copyright statement but only to Your modifications and
       may provide additional or different license terms and conditions
@@ -194,7 +194,7 @@
 
    Copyright {yyyy} {name of copyright owner}
 
-   Licensed under the Apache License, Version 2.0 (the "License");
+   Licensed under a modified version of the Apache License;
    you may not use this file except in compliance with the License.
    You may obtain a copy of the License at
 

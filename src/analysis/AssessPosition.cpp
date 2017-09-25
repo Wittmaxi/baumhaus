@@ -1,16 +1,21 @@
-#include "AssesPosition.h"
+#include "AssessPosition.h"
+#include "../CPos.h"
 
-AssessPositions::AssessPosition () {
-
-}
-
-AssessPositions::~Assessposition() {
+AssessPositions::AssessPositions () {
 
 }
-void AssessPositions::startAssessing (CPos* position) {
+
+AssessPositions::~AssessPositions() {
+
+}
+void AssessPositions::startAssessing (CPos* position, std::vector<std::string> movesI) {
   //all these functions later will only be called on a specific precision level
-	findOpenFiles();
+	findOpenFiles(position);
 }
+
+void AssessPositions::setPrecision(int precisionI) {
+	this->precision = precisionI;
+}	
 
 void AssessPositions::findOpenFiles(CPos* position) {
 	for (int x = 0; x < 8; x++) { //loop trough every file

@@ -6,7 +6,7 @@
 #include <time.h>
 
 #include "analysis/BruteForce.h"
-
+#include "analysis/AssessPosition.h"
 
 /*
 
@@ -21,8 +21,11 @@ This code comes with no warranty at all; not even the warranty to work properly 
 CBaumhausengine::CBaumhausengine()
 {
     this->position = new CPos(); //creates a new position
+    this->asEngine = new AssessPositions();
     this->init(); //might be not used... If so remove it. Initially used for debug @awais you knwo the XBoard protocol better
     //ctor
+    std::vector<std::string> h;
+    this->asEngine->startAssessing(this->position, h);
 }
 
 CBaumhausengine::~CBaumhausengine()
@@ -99,6 +102,7 @@ void CBaumhausengine::pong(std::string val) { //if the engine gets pinged, pong 
 void CBaumhausengine::makeMove(std::string move) {
   //remove the old piece pointer and set it otherwhere.
     position -> movePointers (move);
+    asEngine -> startAssessing(this->position, position->getPossibleMoves(false));
     // update position to reflect move
     if (this->colorOnTurn == color) { //if its the engines turn, else, only move the piece pointers
       pipe->queueOutputMessage("move " + move);

@@ -4,7 +4,7 @@ CFLAGS=-std=c++11 -pthread
 TARGET=bindir/baumhaus
 
 baumhausmake: bindir
-	$(CC)  $(CFLAGS) src/*.cpp src/pieces/*.cpp -o $(TARGET)
+	$(CC)  $(CFLAGS) src/*.cpp src/pieces/*.cpp src/analysis/*.cpp src/util/*.cpp -o $(TARGET)
 
 bindir:
 	mkdir -p bindir

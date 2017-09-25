@@ -13,7 +13,7 @@ void MoveTree::resetTree() {
 MoveTreeNode* MoveTree::insertRoot(CPos* position, bool colorToPlay) {
   if(nullptr != root) {
     // TODO throw an error or something . . .
-    return;
+    return NULL;
   }
 
   root = new MoveTreeNode;
@@ -30,7 +30,7 @@ MoveTreeNode* MoveTree::insertRoot(CPos* position, bool colorToPlay) {
 MoveTreeNode* MoveTree::insertNode(MoveTreeNode* parent, std::string move) {
   if(nullptr == parent || move.empty()) {
     // TODO throw an error or something . . .
-    return;
+    return NULL;
   }
 
   auto newNode = new MoveTreeNode;
