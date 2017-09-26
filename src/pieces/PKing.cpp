@@ -6,7 +6,6 @@ PKing::PKing(bool colorI)
 {
     //ctor
     color = colorI;
-    pos = currentPosition;
 }
 
 PKing::~PKing()

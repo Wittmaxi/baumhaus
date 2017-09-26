@@ -3,7 +3,6 @@
 
 #include "../CPos.h"
 #include "CPiece.h"
-#include "../CSquare.h"
 #include <vector>
 #include <string>
 #include <iostream>
@@ -16,7 +15,6 @@ class CDp: public CPiece
         CDp(bool colorI);
         ~CDp();
         CDp(const CDp& other);
-        std::vector<int> getSquareOn();
         std::vector<std::string> getMoves(CPos* currentPos);
         bool squareAvailable (int cordX, int cordY);
         CPiece* clone();

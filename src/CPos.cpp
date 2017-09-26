@@ -58,22 +58,22 @@ void CPos::setPiece (char fenName, CSquare *currentSquarePointer) { //ONLY!!! at
 
   switch (fenName) {
     //white pieces
-      case 'K': currentSquarePointer -> setPiecePointer(new PKing(true, this)); break;//king
-      case 'N': currentSquarePointer -> setPiecePointer(new PKnight(true, this)); break; //knight
-      case 'R': currentSquarePointer -> setPiecePointer (new PRook(true, this)); break; //rook
-      case 'B': currentSquarePointer -> setPiecePointer (new PBishop(true, this)); break; //bishop
-      case 'P': currentSquarePointer -> setPiecePointer (new PPawn(true, this));break; //pawn
+      case 'K': currentSquarePointer -> setPiecePointer(new PKing(true)); break;//king
+      case 'N': currentSquarePointer -> setPiecePointer(new PKnight(true)); break; //knight
+      case 'R': currentSquarePointer -> setPiecePointer (new PRook(true)); break; //rook
+      case 'B': currentSquarePointer -> setPiecePointer (new PBishop(true)); break; //bishop
+      case 'P': currentSquarePointer -> setPiecePointer (new PPawn(true));break; //pawn
       case 'Q': break; //queen
-      case 'D': currentSquarePointer -> setPiecePointer (new CDp(true, this)); break;
+      case 'D': currentSquarePointer -> setPiecePointer (new CDp(true)); break;
     //black pieces
-      case 'k': currentSquarePointer -> setPiecePointer(new PKing(false, this)); break; //king
-      case 'r': currentSquarePointer -> setPiecePointer (new PRook(false, this));break; //rook
-      case 'n': currentSquarePointer -> setPiecePointer(new PKnight(false, this)); break; //knight
-      case 'b': currentSquarePointer -> setPiecePointer (new PBishop(false, this)); break; //bishop
-      case 'p': currentSquarePointer -> setPiecePointer (new PPawn(false, this));break; //pawn
+      case 'k': currentSquarePointer -> setPiecePointer(new PKing(false)); break; //king
+      case 'r': currentSquarePointer -> setPiecePointer (new PRook(false));break; //rook
+      case 'n': currentSquarePointer -> setPiecePointer(new PKnight(false)); break; //knight
+      case 'b': currentSquarePointer -> setPiecePointer (new PBishop(false)); break; //bishop
+      case 'p': currentSquarePointer -> setPiecePointer (new PPawn(false));break; //pawn
       case 'q': break; //queen
 
-      case 'd': currentSquarePointer -> setPiecePointer (new CDp(false, this)); break;
+      case 'd': currentSquarePointer -> setPiecePointer (new CDp(false)); break;
   }
 }
 
@@ -164,13 +164,13 @@ void CPos::loopPieces(){
 				currentPiece = currentSquare->getPiecePointer();
 				if (toPlay == true) { //white to play
 					if (currentPiece->getColor() == true) { //if the piece is white and white is to play
-            appendMoves(currentPiece -> getMoves());
+            appendMoves(currentPiece -> getMoves(this));
 					}
 				}
 				else { //black to play
 					pipe->d("color: " + str(currentPiece->getColor()));
 					if (currentPiece -> getColor() == false) { //if the piece is black and black is to play
-            appendMoves(currentPiece -> getMoves());
+            appendMoves(currentPiece -> getMoves(this));
 					}
 				}
 			}

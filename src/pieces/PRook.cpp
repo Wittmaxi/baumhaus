@@ -2,11 +2,10 @@
 #include "../CPipe.h"
 #include "../CPos.h"
 
-PRook::PRook(bool colorI, CPos *currentPosition)
+PRook::PRook(bool colorI)
 {
     //ctor
     color = colorI;
-    pos = currentPosition;
 }
 
 PRook::~PRook()
@@ -24,7 +23,8 @@ CPiece* PRook::clone() {
   return new PRook(*this);
 }
 
-std::vector<std::string> PRook::getMoves() {
+std::vector<std::string> PRook::getMoves(CPos* currentPos) {
+  this->pos = currentPos;
   tempMoves.clear();
   pipe->d("Rook getMoves");
   bool collided = false;
@@ -36,8 +36,10 @@ std::vector<std::string> PRook::getMoves() {
     relPosY +=1;
     pipe->d("top-left");
     if (squareAvailable (relPosX, relPosY)) {
+      pipe->d("if");
       tempMoves.push_back (CPos::getSquareName (cordX, cordY) + CPos::getSquareName(relPosX, relPosY));
     } else {
+      pipe->d("else");
       collided = true; // just trying to go out the way of ANOTHER break xD
     }
   }

@@ -2,11 +2,10 @@
 #include "../CPipe.h"
 #include "../CPos.h"
 
-PKnight::PKnight(bool colorI, CPos* currentPosition)
+PKnight::PKnight(bool colorI)
 {
     //ctor
     color = colorI;
-    pos = currentPosition;
 }
 
 PKnight::~PKnight()
@@ -24,7 +23,8 @@ CPiece* PKnight::clone() {
   return new PKnight(*this);
 }
 
-std::vector<std::string> PKnight::getMoves() {
+std::vector<std::string> PKnight::getMoves(CPos* currentPos) {
+  this->pos = currentPos;
   tempMoves.clear();
   //The moves are hardcoded, as they are constant for a King. PLEASE FORGIVE ME FOR THIS MADNESS!!!
   if (squareAvailable (cordX -2, cordY+1)) {

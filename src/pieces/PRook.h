@@ -3,7 +3,6 @@
 
 #include "../CPos.h"
 #include "CPiece.h"
-#include "../CSquare.h"
 #include <vector>
 #include <string>
 #include <iostream>
@@ -12,11 +11,10 @@
 class PRook: public CPiece
 {
     public:
-        PRook(bool colorI, CPos *currentPosition);
+        PRook(bool colorI);
         ~PRook();
         PRook(const PRook& other);
-        std::vector<int> getSquareOn();
-        std::vector<std::string> getMoves();
+        std::vector<std::string> getMoves(CPos* currentPos);
         bool squareAvailable (int cordX, int cordY);
         CPiece* clone();
     protected:

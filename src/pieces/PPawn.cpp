@@ -2,11 +2,10 @@
 #include "../CPipe.h"
 #include "../CPos.h"
 
-PPawn::PPawn(bool colorI, CPos* currentPosition)
+PPawn::PPawn(bool colorI)
 {
     //ctor
     color = colorI;
-    pos = currentPosition;
 }
 
 PPawn::~PPawn()
@@ -24,7 +23,8 @@ CPiece* PPawn::clone() {
   return new PPawn(*this);
 }
 
-std::vector<std::string> PPawn::getMoves() {
+std::vector<std::string> PPawn::getMoves(CPos* currentPos) {
+  this->pos = currentPos;
   tempMoves.clear();
   //The moves are hardcoded, as they are constant for a King. PLEASE FORGIVE ME FOR THIS MADNESS!!!
   if (pos->getPlayerColor() == false) { //black
