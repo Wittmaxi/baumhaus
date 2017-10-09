@@ -289,7 +289,7 @@ void CPos::writeBitBoard() { //write true or false to check the states of the Ch
     for (int x = 0; x < 8; x++) {
       pipe -> d(getSquarePointer(x+1, y+1)->containsPiece(), false, false); //gets wether the square contains a piece
     }
-    pipe->d("");
+    pipe->d("", true, false);
   }
 }
 
