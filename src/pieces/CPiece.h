@@ -8,6 +8,8 @@ class CPos;
 #include <vector>
 #include <iostream>
 
+class CPos;
+
 //virtual class no instances
 class CPiece {
 	public:
@@ -15,10 +17,12 @@ class CPiece {
 		bool getColor();
 		virtual std::vector<std::string> getMoves(CPos* currentPos) = 0;
     virtual CPiece* clone() = 0;
+		char getPieceType();
 
 	protected:
 		int cordX; //the coordinates of the piece.
 		int cordY;
+		char fenType; //what fen-character the piece is.
 		bool color; //the figurine color. True means white. LOL.
 };
 

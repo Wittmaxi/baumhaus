@@ -6,6 +6,11 @@ PRook::PRook(bool colorI)
 {
     //ctor
     color = colorI;
+    if (color) { //if the piece is white, give it a white FEN-Name
+      fenType = 'R';
+    } else {
+      fenType = 'r';
+    }
 }
 
 PRook::~PRook()
@@ -17,6 +22,7 @@ PRook::PRook(const PRook& other) {
   this->color = other.color;
   this->cordX = other.cordX;
   this->cordY = other.cordY;
+  this->fenType = other.fenType;
 }
 
 CPiece* PRook::clone() {
@@ -26,7 +32,6 @@ CPiece* PRook::clone() {
 std::vector<std::string> PRook::getMoves(CPos* currentPos) {
   this->pos = currentPos;
   tempMoves.clear();
-  pipe->d("Rook getMoves");
   bool collided = false;
   int relPosX = cordX; // where the move generator currently is.
   int relPosY = cordY;
@@ -34,7 +39,6 @@ std::vector<std::string> PRook::getMoves(CPos* currentPos) {
   //top:
   while (collided == false) {
     relPosY +=1;
-    pipe->d("top-left");
     if (squareAvailable (relPosX, relPosY)) {
       pipe->d("if");
       tempMoves.push_back (CPos::getSquareName (cordX, cordY) + CPos::getSquareName(relPosX, relPosY));
@@ -91,11 +95,8 @@ bool PRook::squareAvailable (int cordXI,int cordYI) {
   }else { //checks if there is a piece of the own type.
     currentSquare = pos -> getSquarePointer (cordXI, cordYI);
     if (currentSquare -> containsPiece() == true) {
-      pipe->d("found square containing a piece");
       currentPiece = currentSquare -> getPiecePointer();
-      pipe->d(str(currentPiece->getColor()) + ", " + str(this->getColor()));
       if (currentPiece->getColor() == this->getColor()) {
-        pipe->d("returned false");
         result = false;
       } else {
               tempMoves.push_back (CPos::getSquareName (cordX, cordY) + CPos::getSquareName(cordXI, cordYI));

@@ -2,10 +2,17 @@
 #include "../CPipe.h"
 #include "../CPos.h"
 
+
 CDp::CDp(bool colorI)
 {
     //ctor
-    color = colorI;
+    color = colorI; 
+    if (color) { //if the piece is white, give it a white FEN-Name
+      fenType = 'D';
+    }
+    else {
+      fenType = 'd';
+    }
 }
 
 CDp::~CDp()
@@ -17,6 +24,7 @@ CDp::CDp(const CDp& other) {
   this->color = other.color;
   this->cordX = other.cordX;
   this->cordY = other.cordY;
+  this->fenType = other.fenType;
 }
 
 CPiece* CDp::clone() {
@@ -26,7 +34,6 @@ CPiece* CDp::clone() {
 std::vector<std::string> CDp::getMoves(CPos* currentPos) {
   this->pos = currentPos;
   std::vector <std::string> tempMoves;
-  pipe->d("dummymovesCalled");
   return tempMoves;
 }
 

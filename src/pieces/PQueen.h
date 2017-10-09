@@ -1,5 +1,5 @@
-#ifndef PBISHOP_H
-#define PBISHOP_H
+#ifndef PQUEEN_H
+#define PQUEEN_H
 
 #include "../CPos.h"
 #include "CPiece.h"
@@ -7,21 +7,19 @@
 #include <string>
 #include <iostream>
 
-
-class PBishop: public CPiece
+class PQueen: public CPiece
 {
     public:
-        PBishop(bool colorI);
-        PBishop(const PBishop& other);
-        ~PBishop();
+        PQueen(bool colorI);
+        ~PQueen();
+        PQueen(const PQueen& other);
         std::vector<std::string> getMoves(CPos* currentPos);
         bool squareAvailable (int cordX, int cordY);
         CPiece* clone();
-        std::vector<int> getSquareOn();
     protected:
       std::vector <std::string> tempMoves;
     private:
       CPos *pos;
 };
 
-#endif
+#endif // PQUEEN_H

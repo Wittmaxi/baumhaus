@@ -6,6 +6,11 @@ PKnight::PKnight(bool colorI)
 {
     //ctor
     color = colorI;
+    if (color) { //if the piece is white, give it a white FEN-Name
+      fenType = 'N';
+    } else {
+      fenType = 'n';
+    }
 }
 
 PKnight::~PKnight()
@@ -17,6 +22,7 @@ PKnight::PKnight(const PKnight& other) {
   this->color = other.color;
   this->cordX = other.cordX;
   this->cordY = other.cordY;
+  this->fenType = other.fenType;
 }
 
 CPiece* PKnight::clone() {

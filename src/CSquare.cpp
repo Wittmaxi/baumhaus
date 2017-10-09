@@ -5,6 +5,7 @@
 
 #include "pieces/PKing.h"
 
+
 /*
 
 Baumhaus Engine 2017
@@ -48,29 +49,21 @@ CPiece* CSquare::removePiece() { //gives back a pointer to the piece so the engi
 }
 
 void CSquare::takePiece() {
-  delete contained; // deletes the instance of that piece.
-  hasPiece = false;
+  if (hasPiece) { //if there is a piece, THEN ONLY delete the current piece
+    delete contained; // deletes the instance of that piece.
+    hasPiece = false;
+  }
 }
 
-void CSquare::setPiecePointer (CPiece* input) {
+void CSquare::setPiecePointer (CPiece* input) { //gets the piece pointer as input
   contained = input;
+  pipe->d("1");
   hasPiece = true;
-  contained -> setCoordinates(x, y);
+  pipe->d(2);
+  contained -> setCoordinates(this->x, this->y);
+  pipe->d(3);
 }
 
-
-//attack state
-void CSquare::addBlackAttacker () {
-    protection -= 1;
-}
-
-void CSquare::addWhiteAttacker() {
-   protection += 1;
-}
-
-int CSquare::returnAttackState() {
-  return protection;
-}
 
 bool CSquare::containsPiece() {
   return hasPiece;
@@ -83,3 +76,4 @@ CPiece *CSquare::getPiecePointer() {
       return (contained);
   }
 }
+
