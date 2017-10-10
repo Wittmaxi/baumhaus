@@ -136,7 +136,7 @@ std::vector <std::string> CPos::getPossibleMoves (bool colorI) { //returns the p
 
 
   for (int i = 0; i<moves.size(); i++) {
-    std::cout << moves[i] << std::endl;
+    pipe->d(moves[i]);
   }
 
   return moves; //return the generated moves
