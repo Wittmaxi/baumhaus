@@ -27,7 +27,7 @@ CSquare::CSquare(int iX, int iY)
 CSquare::~CSquare()
 {
   //dtor
-  if (contained) {
+  if (hasPiece) {
     delete contained;
   }
 }
@@ -38,7 +38,7 @@ CSquare::CSquare(const CSquare& other) {
   this->x = other.x;
   this->y = other.y;
   // if there is a piece on this square, clone it.
-  if(other.contained) {
+  if(other.hasPiece) {
     this->contained = other.contained->clone();
   }
 }
