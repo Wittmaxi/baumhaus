@@ -3,7 +3,6 @@
 
 #include "../CPos.h"
 #include "CPiece.h"
-#include "../CSquare.h"
 #include <vector>
 #include <string>
 #include <iostream>
@@ -11,12 +10,12 @@
 class PKnight: public CPiece
 {
     public:
-        PKnight(bool colorI, CPos* currentPosition);
-        virtual ~PKnight();
-        std::vector<int> getSquareOn();
-        virtual std::vector<std::string> getMoves();
+        PKnight(bool colorI);
+        ~PKnight();
+        PKnight(const PKnight& other);
+        std::vector<std::string> getMoves(CPos* currentPos);
         bool squareAvailable (int cordX, int cordY);
-        CPiece* clone(CPos* position);
+        CPiece* clone();
     protected:
       std::vector <std::string> tempMoves;
     private:

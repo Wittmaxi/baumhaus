@@ -2,17 +2,10 @@
 #include "../CPipe.h"
 #include "../CPos.h"
 
-CPiece* PKing::clone(CPos* position) {
-  CPiece* clone = new PKing(this->color, position);
-
-  return clone;
-}
-
-PKing::PKing(bool colorI, CPos* currentPosition)
+PKing::PKing(bool colorI)
 {
     //ctor
     color = colorI;
-    pos = currentPosition;
     if (color) { //if the piece is white, give it a white FEN-Name
       fenType = 'K';
     } else {
@@ -25,8 +18,21 @@ PKing::~PKing()
     //dtor
 }
 
+PKing::PKing(const PKing& other) {
+  this->color = other.color;
+  this->cordX = other.cordX;
+  this->cordY = other.cordY;
+  this->fenType = other.fenType;
+}
 
-std::vector<std::string> PKing::getMoves() {
+CPiece* PKing::clone() {
+  return new PKing(*this);
+}
+
+std::vector<std::string> PKing::getMoves(CPos* currentPos) {
+  this->pos = currentPos;
+  pipe->d("getMovesDebug 1");
+  pipe->d("coordX= " + str(cordX) + "\tcoordY= " + str(cordY));
   std::vector <std::string> tempMoves;
   //The moves are hardcoded, as they are constant for a King. PLEASE FORGIVE ME FOR THIS MADNESS!!!
   if (squareAvailable (cordX +1, cordY+1)) {

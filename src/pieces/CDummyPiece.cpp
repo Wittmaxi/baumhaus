@@ -2,17 +2,17 @@
 #include "../CPipe.h"
 #include "../CPos.h"
 
-CPiece* CDp::clone(CPos* position) {
-  CPiece* clone = new CDp(this->color, position);
 
-  return clone;
-}
-
-CDp::CDp(bool colorI, CPos *currentPosition)
+CDp::CDp(bool colorI)
 {
     //ctor
-    color = colorI;
-    pos = currentPosition;
+    color = colorI; 
+    if (color) { //if the piece is white, give it a white FEN-Name
+      fenType = 'D';
+    }
+    else {
+      fenType = 'd';
+    }
 }
 
 CDp::~CDp()
@@ -20,7 +20,19 @@ CDp::~CDp()
     //dtor
 }
 
-std::vector<std::string> CDp::getMoves() {
+CDp::CDp(const CDp& other) {
+  this->color = other.color;
+  this->cordX = other.cordX;
+  this->cordY = other.cordY;
+  this->fenType = other.fenType;
+}
+
+CPiece* CDp::clone() {
+  return new CDp(*this);
+}
+
+std::vector<std::string> CDp::getMoves(CPos* currentPos) {
+  this->pos = currentPos;
   std::vector <std::string> tempMoves;
   return tempMoves;
 }

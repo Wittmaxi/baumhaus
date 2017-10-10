@@ -2,17 +2,10 @@
 #include "../CPipe.h"
 #include "../CPos.h"
 
-CPiece* PKnight::clone(CPos* position) {
-  CPiece* clone = new PKnight(this->color, position);
-
-  return clone;
-}
-
-PKnight::PKnight(bool colorI, CPos* currentPosition)
+PKnight::PKnight(bool colorI)
 {
     //ctor
     color = colorI;
-    pos = currentPosition;
     if (color) { //if the piece is white, give it a white FEN-Name
       fenType = 'N';
     } else {
@@ -25,8 +18,19 @@ PKnight::~PKnight()
     //dtor
 }
 
+PKnight::PKnight(const PKnight& other) {
+  this->color = other.color;
+  this->cordX = other.cordX;
+  this->cordY = other.cordY;
+  this->fenType = other.fenType;
+}
 
-std::vector<std::string> PKnight::getMoves() {
+CPiece* PKnight::clone() {
+  return new PKnight(*this);
+}
+
+std::vector<std::string> PKnight::getMoves(CPos* currentPos) {
+  this->pos = currentPos;
   tempMoves.clear();
   //The moves are hardcoded, as they are constant for a King. PLEASE FORGIVE ME FOR THIS MADNESS!!!
   if (squareAvailable (cordX -2, cordY+1)) {

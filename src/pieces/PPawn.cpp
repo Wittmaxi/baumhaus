@@ -2,17 +2,10 @@
 #include "../CPipe.h"
 #include "../CPos.h"
 
-CPiece* PPawn::clone(CPos* position) {
-  CPiece* clone = new PPawn(this->color, position);
-
-  return clone;
-}
-
-PPawn::PPawn(bool colorI, CPos* currentPosition)
+PPawn::PPawn(bool colorI)
 {
     //ctor
     color = colorI;
-    pos = currentPosition;
     if (color) { //if the piece is white, give it a white FEN-Name
       fenType = 'P';
     } else {
@@ -25,8 +18,19 @@ PPawn::~PPawn()
     //dtor
 }
 
+PPawn::PPawn(const PPawn& other) {
+  this->color = other.color;
+  this->cordX = other.cordX;
+  this->cordY = other.cordY;
+  this->fenType = other.fenType;
+}
 
-std::vector<std::string> PPawn::getMoves() {
+CPiece* PPawn::clone() {
+  return new PPawn(*this);
+}
+
+std::vector<std::string> PPawn::getMoves(CPos* currentPos) {
+  this->pos = currentPos;
   tempMoves.clear();
   //the flag "MO" added to is to signal, that the piece cant take to that direction. Is important when generating attack states of
   //squares.

@@ -2,7 +2,6 @@
 #define CPOS_H
 
 #include "CSquare.h"
-#include "pieces/CPiece.h"
 #include <string>
 #include <vector>
 
@@ -20,18 +19,18 @@ class CPos
 {
 		public:
 				CPos();
-				CPos(CPos* original);
 				virtual ~CPos();
+        CPos(const CPos& other);
+				static std::string getSquareName(int a, int b); //gets the two indexes of the board
 				static std::vector <int> coordFromName (std::string squareName);
+				void feedFen (std::string fenI);
+				CSquare *getSquarePointer(int x, int y);
 				CSquare* getSquareWithName();				
-				CSquare* getSquarePointer(int x, int y);
 				std::vector<std::string> getPossibleMoves(bool color); //color: true = white
 				bool getPlayerColor();
 				bool movePointers (std::string move);
 				void writeBitBoard(); //function that simply prints a board of bools with the values of containsPiece()
-				void setColor(bool colorI);				
-				void feedFen (std::string fenI);
-				static std::string getSquareName(int a, int b); //gets the two indexes of the board
+				void setColor(bool colorI);			
 				void emptyCells(); //deletes every piece pointer inside of its square
 
 		private:
@@ -40,7 +39,7 @@ class CPos
 				bool toPlay; //which player is to play
 		private:
 				std::vector <std::string> getOutOfCheck(std::vector <std::string> movesI, bool colorI);
-			    bool kingIsInCheck (std::string move, bool color);
+			  bool kingIsInCheck (std::string move, bool color);
 				std::pair<int, int> getKingCoords(bool color);
 				void parseFen(std::string fen);
 				std::vector <std::string> loopPieces(bool colorI); //goes through every piece to gets its moves.

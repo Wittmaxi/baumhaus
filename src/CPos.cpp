@@ -24,70 +24,56 @@ This code comes with no warranty at all; not even the warranty to work properly 
 
 CPos::CPos() //the constructor of the position. Initializes the array of CSquares.
 {
-
-  std::vector<CSquare*> row; //an empty row that will be pushed back
-  for (int x=1; x <= 8; x++) { //create Rows inside the array of squares
-    squares.push_back (row);
-  }
-
-  for (int y=1; y <= 8; y++) { // loop through the entire array
-    for (int x=1; x <= 8; x++) { //loops through the entire board
-      squares[y-1]. push_back (new CSquare(x, y)); //create squares in those Rows
+  this->toPlay = true; // by default we assume white to play
+  for (int r = 0; r < 8; ++r) { // r = rank
+    std::vector<CSquare*> rank;
+    for (int f = 0; f < 8; ++f) { // f = file
+      rank.push_back (new CSquare(r+1, f+1));
     }
+    this->squares.push_back(rank);
   }
-}
-
-CPos::CPos (CPos* copy) { //copy constructor. Creates the vector of Squares
-  pipe->d("in the copy constructor");
-
-  std::vector<CSquare*> row;  //create an empty row
-
-  for (int x=1; x <= 8; x++) {
-    squares.push_back (row); //create rows inside of the array
-  }
-
-  for (int y=1; y <= 8; y++) {
-    for (int x=1; x <= 8; x++) { //loops through the entire board
-      squares[y-1]. push_back (new CSquare(copy->getSquarePointer(x, y), this)); //creates square in the rows
-    }
-  }
-
-  pipe->d("created squares");
-
-  this->toPlay = copy->toPlay; //copy the player color
-
-  pipe->d("FINISHED");
-
 }
 
 CPos::~CPos() //destructor
 {
-    //dtor
-  for (int y=1; y <= 8; y++) {
-    for (int x=1; x <= 8; x++) { //loops through the entire board
-      delete squares [x-1][y-1];  //delete the instances of CSquare
+  for (auto rank : this->squares) {
+    for (auto square : rank) {
+      delete square;
     }
+    rank.clear(); // delete the, now, "nullptr"s
+  }
+  this->squares.clear(); // clear the ranks
+}
+
+CPos::CPos(const CPos& other) {
+  this->toPlay = other.toPlay;
+  for(auto otherRank : other.squares) {
+    std::vector<CSquare*> rank;
+    for(auto otherSquare : otherRank) { //foreach
+      rank.push_back(new CSquare(*otherSquare));
+    }
+    this->squares.push_back(rank);
   }
 }
 
 void CPos::setPiece (char fenName, CSquare *currentSquarePointer) { //ONLY!!! at startup or to reset the position/setting a FEN. If there is no piece, fenName = "V"
   switch (fenName) {
     //white pieces
-      case 'K': currentSquarePointer -> setPiecePointer (new PKing(true, this)); break;//king
-      case 'N': currentSquarePointer -> setPiecePointer (new PKnight(true, this)); break; //knight
-      case 'R': currentSquarePointer -> setPiecePointer (new PRook(true, this)); break; //rook
-      case 'B': currentSquarePointer -> setPiecePointer (new PBishop(true, this)); break; //bishop
-      case 'P': currentSquarePointer -> setPiecePointer (new PPawn(true, this));break; //pawn
-      case 'Q': currentSquarePointer -> setPiecePointer (new PQueen(true, this)); break; //queen
-      case 'D': currentSquarePointer -> setPiecePointer (new CDp(true, this)); break; //dummy piece
+      case 'K': currentSquarePointer -> setPiecePointer(new PKing(true)); break;//king
+      case 'N': currentSquarePointer -> setPiecePointer(new PKnight(true)); break; //knight
+      case 'R': currentSquarePointer -> setPiecePointer (new PRook(true)); break; //rook
+      case 'B': currentSquarePointer -> setPiecePointer (new PBishop(true)); break; //bishop
+      case 'P': currentSquarePointer -> setPiecePointer (new PPawn(true));break; //pawn
+      case 'Q': currentSquarePointer->setPiecePointer(new PQueen(true)); break; //queen
+      case 'D': currentSquarePointer -> setPiecePointer (new CDp(true)); break;
     //black pieces
-      case 'k': currentSquarePointer -> setPiecePointer (new PKing(false, this)); break; //king
-      case 'r': currentSquarePointer -> setPiecePointer (new PRook(false, this));break; //rook
-      case 'n': currentSquarePointer -> setPiecePointer (new PKnight(false, this)); break; //knight
-      case 'b': currentSquarePointer -> setPiecePointer (new PBishop(false, this)); break; //bishop
-      case 'p': currentSquarePointer -> setPiecePointer (new PPawn(false, this));break; //pawn
-      case 'q': currentSquarePointer -> setPiecePointer (new PQueen(false, this)); break; //queen
-      case 'd': currentSquarePointer -> setPiecePointer (new CDp(false, this)); break; //dummy piece
+      case 'k': currentSquarePointer -> setPiecePointer(new PKing(false)); break; //king
+      case 'r': currentSquarePointer -> setPiecePointer (new PRook(false));break; //rook
+      case 'n': currentSquarePointer -> setPiecePointer(new PKnight(false)); break; //knight
+      case 'b': currentSquarePointer -> setPiecePointer (new PBishop(false)); break; //bishop
+      case 'p': currentSquarePointer -> setPiecePointer (new PPawn(false));break; //pawn
+      case 'q': currentSquarePointer->setPiecePointer(new PQueen(false)); break; //queen
+      case 'd': currentSquarePointer -> setPiecePointer (new CDp(false)); break;
   }
 }
 
@@ -136,7 +122,7 @@ void CPos::parseFen (std::string fen) { //parses a fen and sets pieces onto the 
 }
 
 CSquare* CPos::getSquarePointer (int x, int y) { //returns the pointer of the square on x, y
-  return squares[y-1][x-1];
+  return squares[x-1][y-1];
 }
 
 std::vector <std::string> CPos::getPossibleMoves (bool colorI) { //returns the possible moves for the side colorI
@@ -150,7 +136,7 @@ std::vector <std::string> CPos::getPossibleMoves (bool colorI) { //returns the p
 
 
   for (int i = 0; i<moves.size(); i++) {
-    std::cout << moves[i] << std::endl;
+    pipe->d(moves[i]);
   }
 
   return moves; //return the generated moves
@@ -176,14 +162,14 @@ std::vector<std::string> CPos::loopPieces(bool colorI){ //returns every legal mo
 
 				if (colorI && currentPiece->getColor() == true) { //white to play
           pipe->d("getting moves from a white piece");
-					newMoves = currentPiece -> getMoves(); //gets every legal move of the currentPiece and 
+					newMoves = currentPiece -> getMoves(this); //gets every legal move of the currentPiece and 
           tempMoves.insert(tempMoves.end(), newMoves.begin(), newMoves.end());
 
 				} else if (!(colorI) && currentPiece->getColor() == false) { //black to play
 					  //if the piece is black and black is to play
             pipe->d("Getting move from a black piece");
             pipe->d(currentPiece->getColor());
-            newMoves = currentPiece -> getMoves();
+            newMoves = currentPiece -> getMoves(this);
             tempMoves.insert(tempMoves.end(), newMoves.begin(), newMoves.end());
 				}
 			}
@@ -206,7 +192,7 @@ bool CPos::kingIsInCheck(std::string move, bool colorI) { //returns, wether the 
 
   pipe->d("king is in check?");
 
-  CPos* newPos = new CPos(this);
+  CPos* newPos = new CPos(*this);
 
   pipe->d("created new position");
 
@@ -303,7 +289,7 @@ void CPos::writeBitBoard() { //write true or false to check the states of the Ch
     for (int x = 0; x < 8; x++) {
       pipe -> d(getSquarePointer(x+1, y+1)->containsPiece(), false, false); //gets wether the square contains a piece
     }
-    pipe->d("");
+    pipe->d("", true, false);
   }
 }
 

@@ -2,17 +2,10 @@
 #include "../CPipe.h"
 #include "../CPos.h"
 
-CPiece* PQueen::clone(CPos* position) {
-  CPiece* clone = new PQueen(this->color, position);
-
-  return clone;
-}
-
-PQueen::PQueen(bool colorI, CPos *currentPosition)
+PQueen::PQueen(bool colorI)
 {
     //ctor
     color = colorI;
-    pos = currentPosition;
     if (color) { //if the piece is white, give it a white FEN-Name
       fenType = 'Q';
     } else {
@@ -25,10 +18,21 @@ PQueen::~PQueen()
     //dtor
 }
 
+PQueen::PQueen(const PQueen& other) {
+  this->color = other.color;
+  this->cordX = other.cordX;
+  this->cordY = other.cordY;
+  this->fenType = other.fenType;
+}
 
+CPiece* PQueen::clone() {
+  return new PQueen(*this);
+}
 
-std::vector<std::string> PQueen::getMoves() {
+std::vector<std::string> PQueen::getMoves(CPos* currentPos) {
   tempMoves.clear();
+
+  this->pos = currentPos;
 
   bool collided = false;
   int relPosX = cordX; // where the move generator currently is.

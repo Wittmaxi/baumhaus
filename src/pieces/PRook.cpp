@@ -2,17 +2,10 @@
 #include "../CPipe.h"
 #include "../CPos.h"
 
-CPiece* PRook::clone(CPos* position) {
-  CPiece* clone = new PRook(this->color, position);
-
-  return clone;
-}
-
-PRook::PRook(bool colorI, CPos *currentPosition)
+PRook::PRook(bool colorI)
 {
     //ctor
     color = colorI;
-    pos = currentPosition;
     if (color) { //if the piece is white, give it a white FEN-Name
       fenType = 'R';
     } else {
@@ -25,9 +18,19 @@ PRook::~PRook()
     //dtor
 }
 
+PRook::PRook(const PRook& other) {
+  this->color = other.color;
+  this->cordX = other.cordX;
+  this->cordY = other.cordY;
+  this->fenType = other.fenType;
+}
 
+CPiece* PRook::clone() {
+  return new PRook(*this);
+}
 
-std::vector<std::string> PRook::getMoves() {
+std::vector<std::string> PRook::getMoves(CPos* currentPos) {
+  this->pos = currentPos;
   tempMoves.clear();
   bool collided = false;
   int relPosX = cordX; // where the move generator currently is.
@@ -37,8 +40,10 @@ std::vector<std::string> PRook::getMoves() {
   while (collided == false) {
     relPosY +=1;
     if (squareAvailable (relPosX, relPosY)) {
+      pipe->d("if");
       tempMoves.push_back (CPos::getSquareName (cordX, cordY) + CPos::getSquareName(relPosX, relPosY));
     } else {
+      pipe->d("else");
       collided = true; // just trying to go out the way of ANOTHER break xD
     }
   }

@@ -2,17 +2,10 @@
 #include "../CPipe.h"
 #include "../CPos.h"
 
-CPiece* PBishop::clone(CPos *positionI) {
-  CPiece* clone = new PBishop(this->color, positionI);
-
-  return clone;
-}
-
-PBishop::PBishop(bool colorI, CPos *currentPosition)
+PBishop::PBishop(bool colorI)
 {
     //ctor
     color = colorI;
-    pos = currentPosition;
     if (color) { //if the piece is white, give it a white FEN-Name
       fenType = 'B';
     } else {
@@ -25,9 +18,20 @@ PBishop::~PBishop()
     //dtor
 }
 
+PBishop::PBishop(const PBishop& other) {
+  this->color = other.color;
+  this->cordX = other.cordX;
+  this->cordY = other.cordY;
+  this->fenType = other.fenType;
+}
+
+CPiece* PBishop::clone() {
+  return new PBishop(*this);
+}
 
 
-std::vector<std::string> PBishop::getMoves() {
+std::vector<std::string> PBishop::getMoves(CPos* currentPos) {
+  this->pos = currentPos;
   tempMoves.clear();
 
   bool collided = false;

@@ -369,10 +369,12 @@ void CPipe::d(const char* message, bool newLine, bool writeDebug) {
 	// TODO: use globally defined param to determine whether to print.
 	if(this->debugMode) {
 		if (writeDebug) {
-			std::cout << "[DEBUG]";
-		} else;
-		std::cout << message;
-		if (newLine == true) {
+			std::cout << DEBUG_TAG;
+		}
+		
+    std::cout << message;
+		
+    if (newLine == true) {
 			std::cout << std::endl; // this way, the user can choose, wether he wants to output a new line or not
 		}
 	}

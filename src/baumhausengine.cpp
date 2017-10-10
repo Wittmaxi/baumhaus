@@ -83,7 +83,7 @@ void CBaumhausengine::startRoutine() {
     			this->random = !this->random;
     		}
     		else if ("usermove" == message) { //quick and dirty way. needs to be made better
-          makeMove (pipe->dequeueInputMessage(true).substr(1, 4));
+          makeMove (pipe->dequeueInputMessage(true));
           analyzePos();
   		  }
 	}

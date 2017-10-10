@@ -21,8 +21,8 @@ class CSquare
 {
     public:
         CSquare(int iX, int iY);
-        CSquare(CSquare* copy, CPos* positionI);
         virtual ~CSquare();
+        CSquare(const CSquare& other);
         CPiece *getPiecePointer();
         CPiece* removePiece();
         void takePiece();
@@ -31,7 +31,7 @@ class CSquare
 
       private:
         int calcTotalAttack(); //calculates the total amount of protection
-
+        int protection;
         CPiece *contained; //stores the contained piece.
         int x, y; // one indexed
         bool hasPiece; //if a piece is placed on the square.

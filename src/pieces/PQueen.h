@@ -3,25 +3,23 @@
 
 #include "../CPos.h"
 #include "CPiece.h"
-#include "../CSquare.h"
 #include <vector>
 #include <string>
 #include <iostream>
 
-
 class PQueen: public CPiece
 {
     public:
-        PQueen(bool colorI, CPos *currentPosition);
-        virtual ~PQueen();
-        std::vector<int> getSquareOn();
-        std::vector<std::string> getMoves();
+        PQueen(bool colorI);
+        ~PQueen();
+        PQueen(const PQueen& other);
+        std::vector<std::string> getMoves(CPos* currentPos);
         bool squareAvailable (int cordX, int cordY);
-        CPiece* clone(CPos* position);
+        CPiece* clone();
     protected:
       std::vector <std::string> tempMoves;
     private:
       CPos *pos;
 };
 
-#endif
+#endif // PQUEEN_H

@@ -3,7 +3,6 @@
 
 #include "../CPos.h"
 #include "CPiece.h"
-#include "../CSquare.h"
 #include <vector>
 #include <string>
 #include <iostream>
@@ -12,12 +11,13 @@
 class PBishop: public CPiece
 {
     public:
-        PBishop(bool colorI, CPos *currentPosition);
+        PBishop(bool colorI);
+        PBishop(const PBishop& other);
         ~PBishop();
-        std::vector<int> getSquareOn();
-        std::vector<std::string> getMoves();
+        std::vector<std::string> getMoves(CPos* currentPos);
         bool squareAvailable (int cordX, int cordY);
-        CPiece* clone(CPos* position);
+        CPiece* clone();
+        std::vector<int> getSquareOn();
     protected:
       std::vector <std::string> tempMoves;
     private:

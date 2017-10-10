@@ -1,6 +1,9 @@
 #ifndef CPIECE_H
 #define CPIECE_H
 
+// forward declaration to resolve circular dependancy
+class CPos;
+
 #include <string>
 #include <vector>
 #include <iostream>
@@ -8,14 +11,13 @@
 class CPos;
 
 //virtual class no instances
-
 class CPiece {
 	public:
 		void setCoordinates (int cordXI, int cordYI);
 		bool getColor();
-		virtual std::vector<std::string> getMoves() =0;
+		virtual std::vector<std::string> getMoves(CPos* currentPos) = 0;
+    virtual CPiece* clone() = 0;
 		char getPieceType();
-		virtual CPiece* clone(CPos* position) = 0; 
 
 	protected:
 		int cordX; //the coordinates of the piece.
